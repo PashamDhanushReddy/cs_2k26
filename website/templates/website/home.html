@@ -200,8 +200,16 @@
                     Tracks
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
                 </a>
+                <a href="#steps" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
+                    Idea Submission Guide
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
+                </a>
                 <a href="#timeline" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
                     Timeline
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#event-schedule" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
+                    Event Schedule
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
                 </a>
                 <a href="#facilities" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
@@ -220,26 +228,7 @@
             <button class="lg:hidden text-white focus:outline-none" onclick="toggleMobileMenu()">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="lg:hidden fixed top-0 right-0 h-full w-64 bg-darker shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50">
-                <div class="p-6">
-                    <button onclick="toggleMobileMenu()" class="text-white text-2xl mb-8">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="flex flex-col space-y-6">
-                        <a href="#about" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition text-lg">About</a>
-                        <a href="#tracks" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition text-lg">Tracks</a>
-                        <a href="#schedule" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition text-lg">Schedule</a>
-                        <a href="#prizes" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition text-lg">Prizes</a>
-                        <a href="#team" onclick="toggleMobileMenu()" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition text-lg">Team</a>
-                        <a href="https://forms.gle/T6jVfTHaRir8iz3B9" target="_blank" onclick="toggleMobileMenu()" class="bg-amber-500 text-black font-bold py-3 px-6 rounded-sm text-center transition hover:bg-amber-400 font-orbitron">
-                            SUBMIT YOUR IDEA
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Mobile Menu Overlay -->
-            <div id="mobile-overlay" class="lg:hidden fixed inset-0 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-40" onclick="toggleMobileMenu()"></div>
+
         </div>
     </nav>
     <section class="min-h-screen flex items-center justify-center hero-bg relative overflow-hidden pt-20">
@@ -477,6 +466,102 @@
             </div>
         </div>
     </section>
+    <!-- Steps to Follow Section -->
+    <section id="steps" class="py-24 bg-gradient-to-b from-[#050b1d] to-darker relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold font-orbitron text-white mb-16 text-center" data-aos="fade-down">Steps to <span class="text-amber-500">Follow</span></h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="grid gap-8">
+                    <!-- Step 1 -->
+                    <div class="glass-panel p-8 rounded-xl border-l-4 border-amber-500 hover:bg-white/5 transition" data-aos="fade-right">
+                        <div class="flex items-start gap-6">
+                            <div class="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-black font-bold text-xl">1</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-white mb-2">STEP 1: SUBMIT YOUR IDEA</h3>
+                                <p class="text-gray-400 mb-3">Submit your idea online. Registration opens on 15 JAN 2026. No fee is collected at this stage.</p>
+                                <div class="bg-gray-900/50 p-3 rounded-lg">
+                                    <p class="text-amber-400 text-sm font-medium mb-1">📅 Registration opens on 15 JAN 2026</p>
+                                    <p class="text-gray-400 text-xs mt-1">Ensure you have the following ready:</p>
+                                    <p class="text-gray-400 text-xs mt-1">• Team names and mobile numbers (Team Size: 4–6 members)</p>
+                                    <p class="text-gray-400 text-xs mt-1">
+                                        • A PPT report as per the given template
+                                        (<a href="{% static 'ppt/CodeStorm_2026_PPT_Template.pptx' %}" class="text-amber-400 underline">Download PPT Template</a>)
+                                    </p>
+                                    <p class="text-gray-400 text-xs mt-1">• A 3-minute YouTube video link of your idea</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="glass-panel p-8 rounded-xl border-l-4 border-purple-500 hover:bg-white/5 transition" data-aos="fade-left">
+                        <div class="flex items-start gap-6">
+                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-black font-bold text-xl">2</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-white mb-2">STEP 2: EVALUATION AND SHORTLISTING</h3>
+                                <p class="text-gray-400 mb-3">All submitted ideas will be evaluated by our expert panel, and shortlisted teams will be finalized based on innovation and feasibility.</p>
+                                <div class="bg-gray-900/50 p-3 rounded-lg">
+                                    <p class="text-purple-400 text-sm font-medium">📅 Shortlisting results: 20 JAN 2026</p>
+                                    <p class="text-gray-400 text-xs mt-1">Keep checking your registered email inbox (and spam folder) for the acceptance notification.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="glass-panel p-8 rounded-xl border-l-4 border-emerald-500 hover:bg-white/5 transition" data-aos="fade-right">
+                        <div class="flex items-start gap-6">
+                            <div class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-black font-bold text-xl">3</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-white mb-2">STEP 3: REGISTRATION FOR SHORTLISTED TEAMS</h3>
+                                <p class="text-gray-400 mb-3">Shortlisted teams must confirm their participation by completing the registration process and paying the applicable fee.</p>
+                                <div class="bg-gray-900/50 p-3 rounded-lg">
+                                    <p class="text-emerald-400 text-sm font-medium">📅 Complete registration before 31 JAN 2026 (before the hackathon begins)</p>
+                                    <p class="text-gray-400 text-xs mt-1">Registration Fee: ₹600 per student</p>
+                                    <p class="text-gray-400 text-xs mt-1">Fee covers T-shirts and food arrangements (lunch, dinner, tea, and snacks during hackathon days).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="glass-panel p-8 rounded-xl border-l-4 border-red-500 hover:bg-white/5 transition" data-aos="fade-left">
+                        <div class="flex items-start gap-6">
+                            <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-black font-bold text-xl">4</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-white mb-2">STEP 4: HACKATHON IMPLEMENTATION</h3>
+                                <p class="text-gray-400 mb-3">Implement and present your idea during the 36-hour on-campus hackathon. Be ready to showcase your project and compete for top prizes!</p>
+                                <div class="bg-gray-900/50 p-3 rounded-lg">
+                                    <p class="text-red-400 text-sm font-medium">📅 Hackathon: 31 JAN 2026 – 01 FEB 2026</p>
+                                    <p class="text-gray-400 text-xs mt-1">36 hours of coding, mentoring, demos, and the grand finale on 01 FEB 2026 at 7:00 PM.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Call to Action -->
+                <div class="text-center mt-12" data-aos="fade-up">
+                    <div class="bg-amber-500/10 p-6 rounded-xl border border-amber-500/30">
+                        <h4 class="text-amber-400 font-bold mb-2">Ready to Start?</h4>
+                        <p class="text-gray-300 mb-4">Follow these steps and join CodeStorm 2026 - Where Innovation Meets Opportunity!</p>
+                        <a href="https://forms.gle/T6jVfTHaRir8iz3B9" target="_blank" class="inline-flex items-center bg-amber-500 hover:bg-amber-400 text-black font-bold py-3 px-6 rounded-lg transition duration-300">
+                            <i class="fas fa-rocket mr-2"></i>
+                            Start Your Journey
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section id="timeline" class="py-24 bg-darker relative overflow-hidden">
         <div class="container mx-auto px-6 relative z-10">
             <h2 class="text-4xl md:text-5xl font-bold font-orbitron text-white mb-16 text-center" data-aos="fade-down">Event <span class="text-amber-500">Timeline</span></h2>
@@ -541,6 +626,21 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="event-schedule" class="py-24 bg-[#050b1d]">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-4xl md:text-5xl font-bold font-orbitron text-white mb-4">Event <span class="text-amber-500">Schedule</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">The detailed event schedule for CodeStorm 2026 will be published soon.</p>
+            </div>
+            <div class="max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="150">
+                <div class="glass-panel rounded-2xl border border-dashed border-amber-500/60 px-8 py-10 text-center">
+                    <p class="text-2xl md:text-3xl font-orbitron text-amber-500 mb-4">Coming Soon</p>
+                    <p class="text-gray-300 mb-4">Stay tuned for the full session-wise schedule, reporting times, and detailed agenda.</p>
+                    <p class="text-gray-500 text-sm">Follow this space for updates as we finalize the program flow for all participants.</p>
                 </div>
             </div>
         </div>
@@ -797,6 +897,29 @@
             </div>
         </div>
     </footer>
+    <!-- Mobile Menu (Moved outside nav) -->
+    <div id="mobile-menu" class="lg:hidden fixed top-0 right-0 h-full w-64 bg-black border-l border-white/10 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-[100]">
+        <div class="p-6">
+            <button onclick="toggleMobileMenu()" class="text-white text-2xl mb-8 hover:text-amber-500 transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="flex flex-col space-y-6">
+                <a href="#about" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">About</a>
+                <a href="#tracks" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Tracks</a>
+                <a href="#steps" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Idea Submission Guide</a>
+                <a href="#timeline" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Timeline</a>
+                <a href="#event-schedule" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Event Schedule</a>
+                <a href="#facilities" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Facilities</a>
+                <a href="#team" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Team</a>
+                <a href="https://forms.gle/T6jVfTHaRir8iz3B9" target="_blank" onclick="toggleMobileMenu()" class="bg-amber-500 text-black font-bold py-3 px-6 rounded-sm text-center transition hover:bg-amber-400 font-orbitron mt-4">
+                    SUBMIT YOUR IDEA
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-overlay" class="lg:hidden fixed inset-0 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-40" onclick="toggleMobileMenu()"></div>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
