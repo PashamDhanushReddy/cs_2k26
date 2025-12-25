@@ -184,7 +184,7 @@
     <div id="particles-js" class="fixed inset-0 pointer-events-none z-0"></div>
     <nav class="fixed w-full z-50 transition-all duration-300 border-b border-white/5 bg-darker/80 backdrop-blur-md" id="navbar">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-2 group">
+            <a href="#" class="flex items-center gap-2 group flex-shrink-0">
                 <img src="{% static 'images/logo.jpg' %}" alt="CodeStorm Logo" class="w-10 h-10 rounded-lg object-cover transform group-hover:scale-110 transition duration-300">
                 <div class="flex flex-col">
                     <span class="text-xl font-bold font-orbitron text-white tracking-wider group-hover:text-amber-400 transition">CODESTORM</span>
@@ -225,7 +225,7 @@
                 <span>SUBMIT YOUR IDEA</span>
                 <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition"></i>
             </a>
-            <button class="md:hidden text-white focus:outline-none" onclick="toggleMobileMenu()">
+            <button class="md:hidden text-white focus:outline-none flex-shrink-0 ml-auto" onclick="toggleMobileMenu()">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
 
