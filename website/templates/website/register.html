@@ -1,0 +1,700 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - CodeStorm 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#f59e0b',
+                        secondary: '#8b5cf6',
+                        dark: '#0f172a',
+                        darker: '#020617',
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(245, 158, 11, 0.5)' },
+                            '50%': { opacity: .8, boxShadow: '0 0 40px rgba(245, 158, 11, 0.8)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #020617;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .form-input {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+            outline: none;
+        }
+        .form-input.error {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        .btn-neon {
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+            z-index: 1;
+        }
+        .btn-neon::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        .btn-neon:hover::before {
+            left: 100%;
+        }
+        .progress-step {
+            transition: all 0.3s ease;
+        }
+        .progress-step.active {
+            background: #f59e0b;
+            color: #000;
+        }
+        .progress-step.completed {
+            background: #10b981;
+            color: #fff;
+        }
+        .file-upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .file-upload-area:hover {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.05);
+        }
+        .file-upload-area.dragover {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <nav class="fixed w-full z-50 bg-darker/80 backdrop-blur-md border-b border-white/5">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="{% url 'home' %}" class="flex items-center gap-2 group">
+                <img src="{% static 'images/logo.jpg' %}" alt="CodeStorm Logo" class="w-10 h-10 rounded-lg object-cover transform group-hover:scale-110 transition duration-300">
+                <div class="flex flex-col">
+                    <span class="text-xl font-bold font-orbitron text-white tracking-wider group-hover:text-amber-400 transition">CODESTORM</span>
+                    <span class="text-xs text-amber-500 font-rajdhani tracking-[0.2em]">2K26 EDITION</span>
+                </div>
+            </a>
+            <a href="{% url 'home' %}" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <div class="min-h-screen pt-20 pb-12">
+        <div class="container mx-auto px-4">
+            <!-- Progress Indicator -->
+            <div class="max-w-4xl mx-auto mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="progress-step active w-10 h-10 rounded-full flex items-center justify-center font-bold" data-step="1">1</div>
+                    <div class="flex-1 h-1 bg-gray-600 mx-2">
+                        <div class="progress-bar h-full bg-amber-500 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-step w-10 h-10 rounded-full flex items-center justify-center font-bold bg-gray-600" data-step="2">2</div>
+                    <div class="flex-1 h-1 bg-gray-600 mx-2">
+                        <div class="progress-bar h-full bg-amber-500 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-step w-10 h-10 rounded-full flex items-center justify-center font-bold bg-gray-600" data-step="3">3</div>
+                </div>
+                <div class="flex justify-between text-sm text-gray-400">
+                    <span>Team Details</span>
+                    <span>Member Details</span>
+                    <span>Submit</span>
+                </div>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="glass-panel rounded-2xl p-8">
+                    <h1 class="text-3xl font-bold font-orbitron text-white mb-2">Register Your Team</h1>
+                    <p class="text-gray-400 mb-8">Fill in the details below to register for CodeStorm 2026</p>
+
+                    <form id="registrationForm" class="space-y-8">
+                        {% csrf_token %}
+                        
+                        <!-- Step 1: Team and Idea Details -->
+                        <div class="form-step" data-step="1">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Team Name *</label>
+                                    <input type="text" name="team_name" required class="form-input w-full px-4 py-3 rounded-lg">
+                                    <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">College *</label>
+                                    <input type="text" name="college" required class="form-input w-full px-4 py-3 rounded-lg">
+                                    <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Branch</label>
+                                    <input type="text" name="branch" class="form-input w-full px-4 py-3 rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year of Study</label>
+                                    <select name="year_of_study" class="form-input w-full px-4 py-3 rounded-lg">
+                                        <option value="">Select Year</option>
+                                        <option value="1st Year">1st Year</option>
+                                        <option value="2nd Year">2nd Year</option>
+                                        <option value="3rd Year">3rd Year</option>
+                                        <option value="4th Year">4th Year</option>
+                                        <option value="Final Year">Final Year</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mt-6">
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Idea Title *</label>
+                                <input type="text" name="idea_title" required class="form-input w-full px-4 py-3 rounded-lg">
+                                <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                            </div>
+
+                            <div class="mt-6">
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Idea Theme *</label>
+                                <select name="idea_theme" required class="form-input w-full px-4 py-3 rounded-lg">
+                                    <option value="">Select Theme</option>
+                                    <option value="AI/ML">AI/ML</option>
+                                    <option value="Blockchain">Blockchain</option>
+                                    <option value="IoT">IoT</option>
+                                    <option value="Web3">Web3</option>
+                                    <option value="Cybersecurity">Cybersecurity</option>
+                                    <option value="HealthTech">HealthTech</option>
+                                    <option value="FinTech">FinTech</option>
+                                    <option value="EdTech">EdTech</option>
+                                    <option value="GreenTech">GreenTech</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                            </div>
+
+                            <div class="mt-6">
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Upload PPT *</label>
+                                <div class="file-upload-area rounded-lg p-6 text-center cursor-pointer" id="pptUploadArea">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                                    <p class="text-gray-400 mb-2">Drag and drop your PPT file here or click to browse</p>
+                                    <p class="text-sm text-gray-500">Only .ppt and .pptx files, max 10MB</p>
+                                    <input type="file" name="ppt_file" id="pptFile" accept=".ppt,.pptx" class="hidden" required>
+                                </div>
+                                <div id="pptFileName" class="mt-2 text-sm text-green-400 hidden"></div>
+                                <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                            </div>
+
+                            <div class="mt-6">
+                                <label class="block text-sm font-medium text-gray-300 mb-2">YouTube Link (Optional)</label>
+                                <input type="url" name="youtube_link" placeholder="https://youtube.com/..." class="form-input w-full px-4 py-3 rounded-lg">
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Member Details -->
+                        <div class="form-step hidden" data-step="2">
+                            <h3 class="text-xl font-bold text-white mb-6">Team Members</h3>
+                            
+                            <!-- Member 1 -->
+                            <div class="glass-card p-6 rounded-lg mb-6">
+                                <h4 class="text-lg font-bold text-amber-400 mb-4">Member 1 (Required) *</h4>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <input type="text" name="member1_name" placeholder="Full Name *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="email" name="member1_email" placeholder="Email *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="tel" name="member1_phone" placeholder="Phone *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="text" name="member1_roll" placeholder="Roll Number *" required class="form-input px-4 py-3 rounded-lg">
+                                </div>
+                                <label class="flex items-center mt-4">
+                                    <input type="radio" name="team_leader" value="1" required class="mr-2">
+                                    <span class="text-gray-300">Team Leader</span>
+                                </label>
+                            </div>
+
+                            <!-- Member 2 -->
+                            <div class="glass-card p-6 rounded-lg mb-6">
+                                <h4 class="text-lg font-bold text-amber-400 mb-4">Member 2 (Required) *</h4>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <input type="text" name="member2_name" placeholder="Full Name *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="email" name="member2_email" placeholder="Email *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="tel" name="member2_phone" placeholder="Phone *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="text" name="member2_roll" placeholder="Roll Number *" required class="form-input px-4 py-3 rounded-lg">
+                                </div>
+                                <label class="flex items-center mt-4">
+                                    <input type="radio" name="team_leader" value="2" required class="mr-2">
+                                    <span class="text-gray-300">Team Leader</span>
+                                </label>
+                            </div>
+
+                            <!-- Member 3 -->
+                            <div class="glass-card p-6 rounded-lg mb-6">
+                                <h4 class="text-lg font-bold text-amber-400 mb-4">Member 3 (Required) *</h4>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <input type="text" name="member3_name" placeholder="Full Name *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="email" name="member3_email" placeholder="Email *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="tel" name="member3_phone" placeholder="Phone *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="text" name="member3_roll" placeholder="Roll Number *" required class="form-input px-4 py-3 rounded-lg">
+                                </div>
+                                <label class="flex items-center mt-4">
+                                    <input type="radio" name="team_leader" value="3" required class="mr-2">
+                                    <span class="text-gray-300">Team Leader</span>
+                                </label>
+                            </div>
+
+                            <!-- Member 4 -->
+                            <div class="glass-card p-6 rounded-lg mb-6">
+                                <h4 class="text-lg font-bold text-amber-400 mb-4">Member 4 (Required) *</h4>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <input type="text" name="member4_name" placeholder="Full Name *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="email" name="member4_email" placeholder="Email *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="tel" name="member4_phone" placeholder="Phone *" required class="form-input px-4 py-3 rounded-lg">
+                                    <input type="text" name="member4_roll" placeholder="Roll Number *" required class="form-input px-4 py-3 rounded-lg">
+                                </div>
+                                <label class="flex items-center mt-4">
+                                    <input type="radio" name="team_leader" value="4" required class="mr-2">
+                                    <span class="text-gray-300">Team Leader</span>
+                                </label>
+                            </div>
+
+                            <!-- Member 5 (Optional) -->
+                            <div class="glass-card p-6 rounded-lg mb-6 border-dashed border-2 border-gray-600">
+                                <h4 class="text-lg font-bold text-gray-400 mb-4">Member 5 (Optional)</h4>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <input type="text" name="member5_name" placeholder="Full Name" class="form-input px-4 py-3 rounded-lg">
+                                    <input type="email" name="member5_email" placeholder="Email" class="form-input px-4 py-3 rounded-lg">
+                                    <input type="tel" name="member5_phone" placeholder="Phone" class="form-input px-4 py-3 rounded-lg">
+                                    <input type="text" name="member5_roll" placeholder="Roll Number" class="form-input px-4 py-3 rounded-lg">
+                                </div>
+                                <label class="flex items-center mt-4">
+                                    <input type="radio" name="team_leader" value="5" class="mr-2">
+                                    <span class="text-gray-300">Team Leader</span>
+                                </label>
+                            </div>
+
+                            <!-- Member 6 (Optional) -->
+                            <div class="glass-card p-6 rounded-lg border-dashed border-2 border-gray-600">
+                                <h4 class="text-lg font-bold text-gray-400 mb-4">Member 6 (Optional)</h4>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <input type="text" name="member6_name" placeholder="Full Name" class="form-input px-4 py-3 rounded-lg">
+                                    <input type="email" name="member6_email" placeholder="Email" class="form-input px-4 py-3 rounded-lg">
+                                    <input type="tel" name="member6_phone" placeholder="Phone" class="form-input px-4 py-3 rounded-lg">
+                                    <input type="text" name="member6_roll" placeholder="Roll Number" class="form-input px-4 py-3 rounded-lg">
+                                </div>
+                                <label class="flex items-center mt-4">
+                                    <input type="radio" name="team_leader" value="6" class="mr-2">
+                                    <span class="text-gray-300">Team Leader</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Review and Submit -->
+                        <div class="form-step hidden" data-step="3">
+                            <h3 class="text-xl font-bold text-white mb-6">Review Your Registration</h3>
+                            <div id="reviewContent" class="glass-card p-6 rounded-lg">
+                                <!-- Review content will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Navigation Buttons -->
+                        <div class="flex justify-between pt-8">
+                            <button type="button" id="prevBtn" class="px-6 py-3 rounded-lg border border-gray-600 text-gray-400 hover:border-amber-500 hover:text-amber-500 transition duration-300 hidden">
+                                <i class="fas fa-arrow-left mr-2"></i>Previous
+                            </button>
+                            <button type="button" id="nextBtn" class="btn-neon bg-amber-500 text-black font-bold py-3 px-8 rounded-lg hover:bg-amber-400 transition duration-300 ml-auto">
+                                Next<i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                            <button type="submit" id="submitBtn" class="btn-neon bg-green-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-400 transition duration-300 ml-auto hidden">
+                                <i class="fas fa-check mr-2"></i>Submit Registration
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden">
+        <div class="flex items-center justify-center h-full">
+            <div class="text-center">
+                <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-500 mx-auto mb-4"></div>
+                <p class="text-white text-lg">Submitting your registration...</p>
+                <p class="text-gray-400 text-sm mt-2" id="loadingText">Please wait while we process your request.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init();
+
+        // Form state
+        let currentStep = 1;
+        const totalSteps = 3;
+        const formData = new FormData();
+
+        // DOM elements
+        const form = document.getElementById('registrationForm');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+
+        // File upload handling
+        const pptUploadArea = document.getElementById('pptUploadArea');
+        const pptFileInput = document.getElementById('pptFile');
+        const pptFileName = document.getElementById('pptFileName');
+
+        pptUploadArea.addEventListener('click', () => pptFileInput.click());
+        
+        pptUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            pptUploadArea.classList.add('dragover');
+        });
+
+        pptUploadArea.addEventListener('dragleave', () => {
+            pptUploadArea.classList.remove('dragover');
+        });
+
+        pptUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            pptUploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handlePPTFile(files[0]);
+            }
+        });
+
+        pptFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handlePPTFile(e.target.files[0]);
+            }
+        });
+
+        function handlePPTFile(file) {
+            const validTypes = ['application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+            const maxSize = 10 * 1024 * 1024; // 10MB
+
+            if (!validTypes.includes(file.type)) {
+                showError('ppt_file', 'Please upload a valid PPT file (.ppt or .pptx)');
+                return;
+            }
+
+            if (file.size > maxSize) {
+                showError('ppt_file', 'File size must be less than 10MB');
+                return;
+            }
+
+            formData.set('ppt_file', file);
+            pptFileName.textContent = `Selected: ${file.name}`;
+            pptFileName.classList.remove('hidden');
+            hideError('ppt_file');
+        }
+
+        // Step navigation
+        function showStep(step) {
+            document.querySelectorAll('.form-step').forEach(s => s.classList.add('hidden'));
+            document.querySelector(`[data-step="${step}"]`).classList.remove('hidden');
+            
+            // Update progress
+            document.querySelectorAll('.progress-step').forEach((p, index) => {
+                if (index + 1 < step) {
+                    p.classList.add('completed');
+                    p.classList.remove('active');
+                } else if (index + 1 === step) {
+                    p.classList.add('active');
+                    p.classList.remove('completed');
+                } else {
+                    p.classList.remove('active', 'completed');
+                }
+            });
+
+            // Update progress bars
+            document.querySelectorAll('.progress-bar').forEach((bar, index) => {
+                if (index + 1 < step) {
+                    bar.style.width = '100%';
+                } else {
+                    bar.style.width = '0%';
+                }
+            });
+
+            // Update buttons
+            prevBtn.classList.toggle('hidden', step === 1);
+            nextBtn.classList.toggle('hidden', step === totalSteps);
+            submitBtn.classList.toggle('hidden', step !== totalSteps);
+
+            if (step === totalSteps) {
+                populateReview();
+            }
+        }
+
+        function validateStep(step) {
+            const currentStepElement = document.querySelector(`[data-step="${step}"]`);
+            const requiredFields = currentStepElement.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    showError(field.name, 'This field is required');
+                    isValid = false;
+                } else {
+                    hideError(field.name);
+                }
+            });
+
+            // Special validations
+            if (step === 1) {
+                const pptFile = formData.get('ppt_file');
+                if (!pptFile) {
+                    showError('ppt_file', 'Please upload a PPT file');
+                    isValid = false;
+                }
+            }
+
+            if (step === 2) {
+                const teamLeader = document.querySelector('input[name="team_leader"]:checked');
+                if (!teamLeader) {
+                    alert('Please select a team leader');
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        function showError(fieldName, message) {
+            const field = form.querySelector(`[name="${fieldName}"]`);
+            if (field) {
+                field.classList.add('error');
+                const errorDiv = field.parentNode.querySelector('.error-message');
+                if (errorDiv) {
+                    errorDiv.textContent = message;
+                    errorDiv.classList.remove('hidden');
+                }
+            }
+        }
+
+        function hideError(fieldName) {
+            const field = form.querySelector(`[name="${fieldName}"]`);
+            if (field) {
+                field.classList.remove('error');
+                const errorDiv = field.parentNode.querySelector('.error-message');
+                if (errorDiv) {
+                    errorDiv.classList.add('hidden');
+                }
+            }
+        }
+
+        function populateReview() {
+            const reviewContent = document.getElementById('reviewContent');
+            const formElements = form.elements;
+            
+            let reviewHTML = '<div class="space-y-6">';
+            
+            // Team Details
+            reviewHTML += '<div><h4 class="text-lg font-bold text-amber-400 mb-3">Team Details</h4>';
+            reviewHTML += `<p><strong>Team Name:</strong> ${formElements.team_name.value}</p>`;
+            reviewHTML += `<p><strong>College:</strong> ${formElements.college.value}</p>`;
+            reviewHTML += `<p><strong>Idea Title:</strong> ${formElements.idea_title.value}</p>`;
+            reviewHTML += `<p><strong>Idea Theme:</strong> ${formElements.idea_theme.value}</p>`;
+            const pptFile = formData.get('ppt_file');
+            reviewHTML += `<p><strong>PPT File:</strong> ${pptFile ? pptFile.name : 'Not uploaded'}</p>`;
+            if (formElements.youtube_link.value) {
+                reviewHTML += `<p><strong>YouTube Link:</strong> ${formElements.youtube_link.value}</p>`;
+            }
+            reviewHTML += '</div>';
+            
+            // Team Members
+            reviewHTML += '<div><h4 class="text-lg font-bold text-amber-400 mb-3">Team Members</h4>';
+            const teamLeader = document.querySelector('input[name="team_leader"]:checked').value;
+            
+            for (let i = 1; i <= 6; i++) {
+                const name = formElements[`member${i}_name`].value;
+                if (name || i <= 4) { // Show required members and any optional members with data
+                    reviewHTML += `<div class="mb-4 ${i > 4 && !name ? 'hidden' : ''}">`;
+                    reviewHTML += `<p><strong>Member ${i}:</strong> ${name || 'Not provided'}</p>`;
+                    if (name) {
+                        reviewHTML += `<p class="text-sm text-gray-400">Email: ${formElements[`member${i}_email`].value || 'N/A'}</p>`;
+                        reviewHTML += `<p class="text-sm text-gray-400">Phone: ${formElements[`member${i}_phone`].value || 'N/A'}</p>`;
+                        if (teamLeader == i) {
+                            reviewHTML += '<p class="text-sm text-green-400">⭐ Team Leader</p>';
+                        }
+                    }
+                    reviewHTML += '</div>';
+                }
+            }
+            reviewHTML += '</div>';
+            
+            reviewHTML += '</div>';
+            reviewContent.innerHTML = reviewHTML;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            }
+        });
+
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!validateStep(currentStep)) {
+                return;
+            }
+
+            // Collect all form data
+            const formElements = form.elements;
+            for (let i = 0; i < formElements.length; i++) {
+                const element = formElements[i];
+                if (element.name && element.value && element.type !== 'file') {
+                    formData.set(element.name, element.value);
+                }
+            }
+
+            // Show loading
+            loadingOverlay.classList.remove('hidden');
+            loadingText.textContent = 'Uploading PPT file...';
+
+            try {
+                // Step 1: Upload PPT file to Supabase Storage
+                const pptFile = formData.get('ppt_file');
+                const fileName = `${Date.now()}_${pptFile.name}`;
+                
+                const uploadResponse = await fetch('/api/upload-ppt/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        file_name: fileName,
+                        file_type: pptFile.type
+                    })
+                });
+
+                if (!uploadResponse.ok) {
+                    throw new Error('Failed to get upload URL');
+                }
+
+                const { upload_url, public_url } = await uploadResponse.json();
+                
+                // Upload file directly to Supabase
+                const uploadResult = await fetch(upload_url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': pptFile.type,
+                    },
+                    body: pptFile
+                });
+
+                if (!uploadResult.ok) {
+                    throw new Error('Failed to upload PPT file');
+                }
+
+                // Update form data with the file path
+                formData.set('ppt_file_path', public_url);
+                formData.delete('ppt_file'); // Remove the actual file from form data
+
+                loadingText.textContent = 'Saving registration data...';
+
+                // Step 2: Submit registration data to Supabase
+                const registrationData = {};
+                for (let [key, value] of formData.entries()) {
+                    registrationData[key] = value;
+                }
+
+                const submitResponse = await fetch('/api/submit-registration/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(registrationData)
+                });
+
+                if (!submitResponse.ok) {
+                    const error = await submitResponse.json();
+                    throw new Error(error.message || 'Registration failed');
+                }
+
+                const result = await submitResponse.json();
+                
+                // Success
+                loadingOverlay.classList.add('hidden');
+                alert('Registration successful! Your team has been registered for CodeStorm 2026.');
+                window.location.href = '{% url "home" %}';
+
+            } catch (error) {
+                loadingOverlay.classList.add('hidden');
+                alert(`Registration failed: ${error.message}`);
+                console.error('Registration error:', error);
+            }
+        });
+
+        // Initialize
+        showStep(currentStep);
+    </script>
+</body>
+</html>
