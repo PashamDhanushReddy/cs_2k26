@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSRF Debug</title>
+</head>
+<body>
+    <h1>CSRF Token Debug</h1>
+    <p>CSRF Token Present: {{ csrf_present }}</p>
+    <p>CSRF Token Value: {{ csrf_token|slice:":10" }}...</p>
+    <p>Cookie Token: {{ cookie_token|slice:":10" }}...</p>
+    <p>Request Method: {{ request_method }}</p>
+    <p>Origin: {{ origin }}</p>
+    <p>Referer: {{ referer }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Test CSRF</button>
+    </form>
+</body>
+</html>

@@ -15,8 +15,34 @@ except ImportError:
 def home(request):
     return render(request, 'website/home.html')
 
+def csrf_debug(request):
+    """Debug view to help troubleshoot CSRF issues"""
+    from django.middleware.csrf import get_token
+    
+    # Force CSRF token generation
+    csrf_token = get_token(request)
+    
+    context = {
+        'csrf_present': bool(request.POST.get('csrfmiddlewaretoken', '')),
+        'csrf_token': request.POST.get('csrfmiddlewaretoken', csrf_token),
+        'request_method': request.method,
+        'origin': request.META.get('HTTP_ORIGIN', 'Not set'),
+        'referer': request.META.get('HTTP_REFERER', 'Not set'),
+        'cookie_token': request.COOKIES.get('csrftoken', 'Not found'),
+    }
+    return render(request, 'website/csrf_debug.html', context)
+
 def idea_register(request):
     if request.method == 'POST':
+        # Debug CSRF token
+        csrf_token = request.POST.get('csrfmiddlewaretoken', '')
+        if not csrf_token:
+            return render(
+                request,
+                'website/register.html',
+                {'errors': ['CSRF token missing. Please refresh the page and try again.'], 'form_data': request.POST},
+            )
+        
         # Check if database is available
         if not psycopg2:
             return render(

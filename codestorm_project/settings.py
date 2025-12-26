@@ -86,3 +86,38 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CSRF settings for production
+CSRF_COOKIE_SECURE = not DEBUG  # Use secure cookies in production
+CSRF_COOKIE_HTTPONLY = False   # Allow JavaScript access to CSRF token
+CSRF_USE_SESSIONS = False      # Use cookie-based CSRF tokens (not session-based)
+
+# Add CSRF trusted origins for production
+# This should be updated with your actual domain
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',  # Render domains
+    'https://*.vercel.app',    # Vercel domains (if used)
+    'http://localhost:8000',   # Local development
+    'http://127.0.0.1:8000',   # Local development
+]
+
+# Get the actual hostname from environment
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
+
+# Session settings for security
+SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_HTTPONLY = True
+
+# CSRF cookie settings
+CSRF_COOKIE_DOMAIN = None  # Let Django auto-detect
+CSRF_COOKIE_SAMESITE = 'Lax'  # Allow cross-origin requests
+CSRF_FAILURE_VIEW = 'website.csrf_views.custom_csrf_failure'  # Custom CSRF failure view
+
+# Ensure CSRF token is always available
+CSRF_COOKIE_AGE = 86400  # 24 hours
+CSRF_COOKIE_NAME = 'csrftoken'
+
+# For production deployment - add your actual domain here
+# CSRF_TRUSTED_ORIGINS should include your deployed domain
+# Example: CSRF_TRUSTED_ORIGINS.append('https://your-app.onrender.com')
