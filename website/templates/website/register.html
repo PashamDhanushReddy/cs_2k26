@@ -42,7 +42,14 @@
 
         {% if success %}
             <div class="mb-6 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
-                <p>Your idea has been submitted successfully. Please check your email for further updates.</p>
+                <p>Your idea has been submitted successfully. 
+                {% if file_saved %}
+                    Your submission has been saved as file: {{ filename }}. 
+                    <br><small class="text-emerald-300">Note: Database is currently unavailable, so your submission was saved to a file instead.</small>
+                {% else %}
+                    Please check your email for further updates.
+                {% endif %}
+                </p>
             </div>
         {% endif %}
 

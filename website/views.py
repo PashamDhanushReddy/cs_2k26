@@ -1,14 +1,30 @@
 from django.shortcuts import render
 import os
-import psycopg2
-from psycopg2 import IntegrityError
 import uuid
+from datetime import datetime
+
+# Handle psycopg2 import with fallback for different environments
+try:
+    import psycopg2
+    from psycopg2.errors import IntegrityError as Psycopg2IntegrityError
+except ImportError:
+    # If psycopg2 is not available, we'll handle it gracefully
+    psycopg2 = None
+    Psycopg2IntegrityError = Exception
 
 def home(request):
     return render(request, 'website/home.html')
 
 def idea_register(request):
     if request.method == 'POST':
+        # Check if database is available
+        if not psycopg2:
+            return render(
+                request,
+                'website/register.html',
+                {'errors': ['Database connection is not available. Please contact the organizer.'], 'form_data': request.POST},
+            )
+        
         form_data = request.POST
         errors = []
         
@@ -151,8 +167,57 @@ def idea_register(request):
         
         # Database insertion
         conn_str = os.environ.get('NEON_DATABASE_URL')
-        if not conn_str:
-            errors.append('Database configuration is missing. Please contact the organizer.')
+        
+        # If no database connection is available, save to local file for testing
+        if not conn_str or not psycopg2:
+            try:
+                # Create submissions directory
+                submissions_dir = os.path.join('submissions')
+                os.makedirs(submissions_dir, exist_ok=True)
+                
+                # Generate unique filename
+                timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+                filename = f"submission_{team_name.replace(' ', '_')}_{timestamp}.txt"
+                filepath = os.path.join(submissions_dir, filename)
+                
+                # Save form data to file
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(f"Team Name: {team_name}\n")
+                    f.write(f"College: {college}\n")
+                    f.write(f"Branch: {branch}\n")
+                    f.write(f"Year: {year_of_study}\n")
+                    f.write(f"Idea Title: {idea_title}\n")
+                    f.write(f"Idea Theme: {idea_theme}\n")
+                    f.write(f"PPT URL: {ppt_upload_url}\n")
+                    f.write(f"YouTube Link: {youtube_link or 'N/A'}\n")
+                    f.write(f"Leader: Member {leader_index}\n")
+                    f.write("\nTeam Members:\n")
+                    f.write(f"Member 1: {member1_name} ({member1_email}) - Roll: {member1_roll} {'(Leader)' if is_leader1 else ''}\n")
+                    f.write(f"Member 2: {member2_name} ({member2_email}) - Roll: {member2_roll} {'(Leader)' if is_leader2 else ''}\n")
+                    f.write(f"Member 3: {member3_name} ({member3_email}) - Roll: {member3_roll} {'(Leader)' if is_leader3 else ''}\n")
+                    f.write(f"Member 4: {member4_name} ({member4_email}) - Roll: {member4_roll} {'(Leader)' if is_leader4 else ''}\n")
+                    if member5_name:
+                        f.write(f"Member 5: {member5_name} ({member5_email or 'N/A'}) - Roll: {member5_roll or 'N/A'} {'(Leader)' if is_leader5 else ''}\n")
+                    if member6_name:
+                        f.write(f"Member 6: {member6_name} ({member6_email or 'N/A'}) - Roll: {member6_roll or 'N/A'} {'(Leader)' if is_leader6 else ''}\n")
+                
+                return render(
+                    request,
+                    'website/register.html',
+                    {'success': True, 'file_saved': True, 'filename': filename},
+                )
+                
+            except Exception as e:
+                errors.append(f'Could not save submission: {str(e)}')
+                return render(
+                    request,
+                    'website/register.html',
+                    {'errors': errors, 'form_data': form_data},
+                )
+        
+        # Check if psycopg2 is available before trying to connect
+        if not psycopg2:
+            errors.append('Database connection is not available. This might be a temporary issue. Please contact the organizer.')
             return render(
                 request,
                 'website/register.html',
@@ -160,6 +225,7 @@ def idea_register(request):
             )
         
         try:
+            # Connect to database using psycopg2-binary
             conn = psycopg2.connect(conn_str)
             cur = conn.cursor()
             cur.execute(
@@ -260,7 +326,7 @@ def idea_register(request):
             cur.close()
             conn.close()
             
-        except IntegrityError:
+        except Psycopg2IntegrityError:
             errors.append('A team with this name has already registered.')
             return render(
                 request,
