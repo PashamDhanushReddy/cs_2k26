@@ -62,7 +62,7 @@ def idea_register(request):
         idea_theme = form_data.get('idea_theme', '').strip()
         youtube_link = form_data.get('youtube_link', '').strip() or None
         
-        # Handle file upload
+        # Handle file upload to S3 and store URL
         ppt_upload_url = None
         if 'ppt_file' in request.FILES:
             uploaded_file = request.FILES['ppt_file']
@@ -71,24 +71,55 @@ def idea_register(request):
             if uploaded_file.size > 10 * 1024 * 1024:
                 errors.append('PPT file size must not exceed 10MB.')
             else:
-                # For now, we'll store the file locally and create a local URL
-                # In production, you'd upload to S3 or similar service
-                upload_dir = os.path.join('media', 'codestorm_ppts')
-                os.makedirs(upload_dir, exist_ok=True)
-                
-                # Generate unique filename
-                file_extension = os.path.splitext(uploaded_file.name)[1]
-                unique_filename = f"{uuid.uuid4()}{file_extension}"
-                file_path = os.path.join(upload_dir, unique_filename)
-                
                 try:
-                    with open(file_path, 'wb+') as destination:
-                        for chunk in uploaded_file.chunks():
-                            destination.write(chunk)
+                    import boto3
+                    from botocore.exceptions import ClientError
                     
-                    # Create URL for the uploaded file
-                    ppt_upload_url = f"/media/codestorm_ppts/{unique_filename}"
+                    # Check if AWS credentials are available
+                    aws_access_key = os.environ.get('AWS_ACCESS_KEY_ID')
+                    aws_secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+                    bucket_name = os.environ.get('AWS_STORAGE_BUCKET_NAME', 'codestorm2026-ppts')
                     
+                    if aws_access_key and aws_secret_key and bucket_name:
+                        # Initialize S3 client
+                        s3_client = boto3.client(
+                            's3',
+                            aws_access_key_id=aws_access_key,
+                            aws_secret_access_key=aws_secret_key,
+                            region_name=os.environ.get('AWS_REGION', 'us-east-1')
+                        )
+                        
+                        # Generate unique filename
+                        file_extension = os.path.splitext(uploaded_file.name)[1]
+                        unique_filename = f"codestorm_ppts/{uuid.uuid4()}{file_extension}"
+                        s3_key = unique_filename
+                        
+                        # Upload file to S3
+                        s3_client.upload_fileobj(
+                            uploaded_file,
+                            bucket_name,
+                            s3_key,
+                            ExtraArgs={
+                                'ContentType': uploaded_file.content_type,
+                                'ACL': 'public-read'  # Make file publicly accessible
+                            }
+                        )
+                        
+                        # Generate public URL
+                        s3_domain = os.environ.get('AWS_S3_CUSTOM_DOMAIN', f"{bucket_name}.s3.amazonaws.com")
+                        ppt_upload_url = f"https://{s3_domain}/{s3_key}"
+                        
+                        # Store PPT metadata - URL is already set in ppt_upload_url variable
+                        # No separate metadata table needed since we're using ppt_upload_url field
+                        print(f"Successfully uploaded to S3: {ppt_upload_url}")
+                            
+                    else:
+                        errors.append('AWS S3 credentials not configured. Please contact the organizer.')
+                        
+                except ImportError:
+                    errors.append('AWS S3 library not available. Please contact the organizer.')
+                except ClientError as e:
+                    errors.append(f'Error uploading to S3: {str(e)}')
                 except Exception as e:
                     errors.append(f'Error uploading PPT file: {str(e)}')
         else:
@@ -298,15 +329,15 @@ def idea_register(request):
                 )
                 VALUES (
                     %s, %s, %s, %s,
-                    %s, %s, %s, %s,
                     %s, %s, %s, %s, %s,
                     %s, %s, %s, %s, %s,
                     %s, %s, %s, %s, %s,
                     %s, %s, %s, %s, %s,
                     %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s, %s
                 )
-                """,
+                """",
                 [
                     team_name,
                     college,
