@@ -1,0 +1,379 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeStorm 2026 - Idea Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen bg-[#020617] text-slate-100">
+    <div class="max-w-5xl mx-auto px-4 py-8 md:py-12">
+        <div class="flex items-center justify-between mb-8">
+            <a href="{% url 'home' %}" class="inline-flex items-center text-sm text-gray-400 hover:text-amber-400 transition">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back to Home
+            </a>
+            <div class="flex items-center gap-3">
+                <img src="{% static 'images/logo.jpg' %}" alt="CodeStorm Logo" class="w-10 h-10 rounded-lg object-cover">
+                <div>
+                    <p class="text-xs text-amber-500 tracking-[0.2em]">CODESTORM</p>
+                    <p class="text-sm text-gray-400">Idea Registration</p>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-bold mb-2 font-orbitron text-white">Submit Your Idea</h1>
+        <p class="text-gray-400 mb-6 text-sm md:text-base">
+            Fill in the details below to register your team and submit your idea for CodeStorm 2026.
+        </p>
+
+        {% if errors %}
+            <div class="mb-6 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                <ul class="list-disc pl-5 space-y-1">
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if success %}
+            <div class="mb-6 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+                <p>Your idea has been submitted successfully. Please check your email for further updates.</p>
+            </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" class="space-y-8 bg-slate-900/60 border border-slate-700 rounded-xl p-4 md:p-8">
+            {% csrf_token %}
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label for="team_name" class="block text-sm font-medium text-gray-200">
+                        Team Name
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <input id="team_name" name="team_name" type="text" required
+                           value="{{ form_data.team_name|default_if_none:'' }}"
+                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="space-y-2">
+                    <label for="college" class="block text-sm font-medium text-gray-200">
+                        College
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <input id="college" name="college" type="text" required
+                           value="{{ form_data.college|default_if_none:'' }}"
+                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                <div class="space-y-2">
+                    <label for="branch" class="block text-sm font-medium text-gray-200">
+                        Branch
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <select id="branch" name="branch" required
+                            class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                        <option value="">Select Branch</option>
+                        <option value="CSE" {% if form_data.branch == 'CSE' %}selected{% endif %}>CSE</option>
+                        <option value="CSE(CS)" {% if form_data.branch == 'CSE(CS)' %}selected{% endif %}>CSE(CS)</option>
+                        <option value="CSE(AIML)" {% if form_data.branch == 'CSE(AIML)' %}selected{% endif %}>CSE(AIML)</option>
+                        <option value="CSE(DS)" {% if form_data.branch == 'CSE(DS)' %}selected{% endif %}>CSE(DS)</option>
+                        <option value="IT" {% if form_data.branch == 'IT' %}selected{% endif %}>IT</option>
+                        <option value="ECE" {% if form_data.branch == 'ECE' %}selected{% endif %}>ECE</option>
+                        <option value="EEE" {% if form_data.branch == 'EEE' %}selected{% endif %}>EEE</option>
+                        <option value="ME" {% if form_data.branch == 'ME' %}selected{% endif %}>ME</option>
+                        <option value="CIVIL" {% if form_data.branch == 'CIVIL' %}selected{% endif %}>CIVIL</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label for="year_of_study" class="block text-sm font-medium text-gray-200">
+                        Year of Study
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <input id="year_of_study" name="year_of_study" type="text" required
+                           placeholder="e.g., II B.Tech, III B.Tech"
+                           value="{{ form_data.year_of_study|default_if_none:'' }}"
+                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h2 class="text-lg font-semibold text-white">Idea Details</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="idea_title" class="block text-sm font-medium text-gray-200">
+                            Idea Title
+                            <span class="text-red-500">*</span>
+                        </label>
+                        <input id="idea_title" name="idea_title" type="text" required
+                               value="{{ form_data.idea_title|default_if_none:'' }}"
+                               class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                    </div>
+                    <div class="space-y-2">
+                        <label for="idea_theme" class="block text-sm font-medium text-gray-200">
+                            Idea Theme
+                            <span class="text-red-500">*</span>
+                        </label>
+                        <select id="idea_theme" name="idea_theme" required
+                                class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                            <option value="">Select Theme</option>
+                            <option value="Generative AI & LLM Applications" {% if form_data.idea_theme == 'Generative AI & LLM Applications' %}selected{% endif %}>Generative AI & LLM Applications</option>
+                            <option value="Smart Cities, IoT & Edge Computing" {% if form_data.idea_theme == 'Smart Cities, IoT & Edge Computing' %}selected{% endif %}>Smart Cities, IoT & Edge Computing</option>
+                            <option value="Robotics, Drones & Autonomous Systems" {% if form_data.idea_theme == 'Robotics, Drones & Autonomous Systems' %}selected{% endif %}>Robotics, Drones & Autonomous Systems</option>
+                            <option value="Green Tech & Energy Optimization" {% if form_data.idea_theme == 'Green Tech & Energy Optimization' %}selected{% endif %}>Green Tech & Energy Optimization</option>
+                            <option value="Cybersecurity & Threat Intelligence" {% if form_data.idea_theme == 'Cybersecurity & Threat Intelligence' %}selected{% endif %}>Cybersecurity & Threat Intelligence</option>
+                            <option value="Agritech & Rural Innovation" {% if form_data.idea_theme == 'Agritech & Rural Innovation' %}selected{% endif %}>Agritech & Rural Innovation</option>
+                            <option value="HealthTech, MedAI & Diagnostics" {% if form_data.idea_theme == 'HealthTech, MedAI & Diagnostics' %}selected{% endif %}>HealthTech, MedAI & Diagnostics</option>
+                            <option value="Transportation & Logistics (AI-Driven)" {% if form_data.idea_theme == 'Transportation & Logistics (AI-Driven)' %}selected{% endif %}>Transportation & Logistics (AI-Driven)</option>
+                            <option value="FinTech, Blockchain & Digital Trust" {% if form_data.idea_theme == 'FinTech, Blockchain & Digital Trust' %}selected{% endif %}>FinTech, Blockchain & Digital Trust</option>
+                            <option value="Open Innovation Challenge (Wildcard Track)" {% if form_data.idea_theme == 'Open Innovation Challenge (Wildcard Track)' %}selected{% endif %}>Open Innovation Challenge (Wildcard Track)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h2 class="text-lg font-semibold text-white">Submission Links</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="ppt_file" class="block text-sm font-medium text-gray-200">
+                            PPT Upload
+                            <span class="text-red-500">*</span>
+                        </label>
+                        <input id="ppt_file" name="ppt_file" type="file" accept=".ppt,.pptx,.pdf" required
+                               class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-amber-500 file:text-black hover:file:bg-amber-400">
+                        <p class="text-xs text-gray-400 mt-1">Upload your PPT/PPTX/PDF file (max 10MB)</p>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="youtube_link" class="block text-sm font-medium text-gray-200">
+                            YouTube Link
+                        </label>
+                        <input id="youtube_link" name="youtube_link" type="url"
+                               placeholder="3-minute video of your idea (optional)"
+                               value="{{ form_data.youtube_link|default_if_none:'' }}"
+                               class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-white">Team Members</h2>
+                    <p class="text-xs text-gray-400">
+                        Select exactly one team leader.
+                    </p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm text-left border border-slate-700 rounded-lg overflow-hidden">
+                        <thead class="bg-slate-800/80 text-gray-300">
+                            <tr>
+                                <th class="px-3 py-2 border-b border-slate-700">Member</th>
+                                <th class="px-3 py-2 border-b border-slate-700">Name</th>
+                                <th class="px-3 py-2 border-b border-slate-700">Email</th>
+                                <th class="px-3 py-2 border-b border-slate-700">Phone</th>
+                                <th class="px-3 py-2 border-b border-slate-700">Roll No</th>
+                                <th class="px-3 py-2 border-b border-slate-700 text-center">Leader</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700">
+                            <tr class="bg-slate-900/60">
+                                <td class="px-3 py-2 text-gray-300">
+                                    Member 1<span class="text-red-500">*</span>
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member1_name" type="text" required
+                                           value="{{ form_data.member1_name|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member1_email" type="email" required
+                                           value="{{ form_data.member1_email|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member1_phone" type="tel" required
+                                           value="{{ form_data.member1_phone|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member1_roll" type="text" required
+                                           placeholder="Roll No"
+                                           value="{{ form_data.member1_roll|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2 text-center">
+                                    <input type="radio" name="leader" value="1" required
+                                           class="h-4 w-4 text-amber-500 border-slate-600 bg-slate-800/70">
+                                </td>
+                            </tr>
+                            <tr class="bg-slate-900/60">
+                                <td class="px-3 py-2 text-gray-300">
+                                    Member 2<span class="text-red-500">*</span>
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member2_name" type="text" required
+                                           value="{{ form_data.member2_name|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member2_email" type="email" required
+                                           value="{{ form_data.member2_email|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member2_phone" type="tel" required
+                                           value="{{ form_data.member2_phone|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member2_roll" type="text" required
+                                           placeholder="Roll No"
+                                           value="{{ form_data.member2_roll|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2 text-center">
+                                    <input type="radio" name="leader" value="2" required
+                                           class="h-4 w-4 text-amber-500 border-slate-600 bg-slate-800/70">
+                                </td>
+                            </tr>
+                            <tr class="bg-slate-900/60">
+                                <td class="px-3 py-2 text-gray-300">
+                                    Member 3<span class="text-red-500">*</span>
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member3_name" type="text" required
+                                           value="{{ form_data.member3_name|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member3_email" type="email" required
+                                           value="{{ form_data.member3_email|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member3_phone" type="tel" required
+                                           value="{{ form_data.member3_phone|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member3_roll" type="text" required
+                                           placeholder="Roll No"
+                                           value="{{ form_data.member3_roll|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2 text-center">
+                                    <input type="radio" name="leader" value="3" required
+                                           class="h-4 w-4 text-amber-500 border-slate-600 bg-slate-800/70">
+                                </td>
+                            </tr>
+                            <tr class="bg-slate-900/60">
+                                <td class="px-3 py-2 text-gray-300">
+                                    Member 4<span class="text-red-500">*</span>
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member4_name" type="text" required
+                                           value="{{ form_data.member4_name|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member4_email" type="email" required
+                                           value="{{ form_data.member4_email|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member4_phone" type="tel" required
+                                           value="{{ form_data.member4_phone|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member4_roll" type="text" required
+                                           placeholder="Roll No"
+                                           value="{{ form_data.member4_roll|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2 text-center">
+                                    <input type="radio" name="leader" value="4" required
+                                           class="h-4 w-4 text-amber-500 border-slate-600 bg-slate-800/70">
+                                </td>
+                            </tr>
+
+                            <tr class="bg-slate-900/40">
+                                <td class="px-3 py-2 text-gray-300">
+                                    Member 5
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member5_name" type="text"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member5_email" type="email"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member5_phone" type="tel"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member5_roll" type="text"
+                                           placeholder="Roll No (Optional)"
+                                           value="{{ form_data.member5_roll|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2 text-center">
+                                    <input type="radio" name="leader" value="5"
+                                           class="h-4 w-4 text-amber-500 border-slate-600 bg-slate-800/70">
+                                </td>
+                            </tr>
+                            <tr class="bg-slate-900/40">
+                                <td class="px-3 py-2 text-gray-300">
+                                    Member 6
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member6_name" type="text"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member6_email" type="email"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member6_phone" type="tel"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input name="member6_roll" type="text"
+                                           placeholder="Roll No (Optional)"
+                                           value="{{ form_data.member6_roll|default_if_none:'' }}"
+                                           class="w-full rounded-md border border-slate-600 bg-slate-800/70 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                </td>
+                                <td class="px-3 py-2 text-center">
+                                    <input type="radio" name="leader" value="6"
+                                           class="h-4 w-4 text-amber-500 border-slate-600 bg-slate-800/70">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-4 pt-2">
+                <a href="{% url 'home' %}" class="px-4 py-2 text-sm rounded-md border border-slate-600 text-gray-300 hover:bg-slate-800 transition">
+                    Cancel
+                </a>
+                <button type="submit" class="inline-flex items-center px-6 py-2.5 rounded-md bg-amber-500 text-black text-sm font-semibold hover:bg-amber-400 transition shadow-lg shadow-amber-500/30">
+                    <i class="fas fa-paper-plane mr-2"></i>
+                    Submit Idea
+                </button>
+            </div>
+        </form>
+
+        <p class="mt-6 text-xs text-gray-500">
+            Note: After submission, any communication will be sent to the registered email IDs of the team.
+        </p>
+    </div>
+</body>
+</html>
+
