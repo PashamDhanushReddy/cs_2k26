@@ -2,11 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .supabase_client import get_supabase_client
 from django.conf import settings
 import base64
 import urllib.parse
+import csv
+import json
+from datetime import datetime
+import pandas as pd
+from io import BytesIO
 
 def login_view(request):
     if request.method == 'POST':
@@ -30,7 +35,6 @@ def update_selection_status_view(request):
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
     
     try:
-        import json
         data = json.loads(request.body)
         registration_id = data.get('registration_id')
         selection_status = data.get('selection_status')
@@ -64,10 +68,6 @@ def update_selection_status_view(request):
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     except Exception as e:
         return JsonResponse({'error': f'Server error: {str(e)}'}, status=500)
-
-    else:
-        messages.error(request, 'Invalid username or password')
-    return render(request, 'dashboard/login.html')
 
 def logout_view(request):
     logout(request)
@@ -154,7 +154,6 @@ def dashboard_view(request):
     if date_filter:
         try:
             # Parse the date and convert to ISO format for Supabase
-            from datetime import datetime
             filter_date = datetime.strptime(date_filter, '%Y-%m-%d')
             # Filter for the entire day (from 00:00:00 to 23:59:59)
             start_datetime = filter_date.replace(hour=0, minute=0, second=0)
@@ -179,6 +178,33 @@ def dashboard_view(request):
         print("=== END FIELD ANALYSIS ===")
     else:
         print("No registrations found")
+    
+    # Get all unique values for filter dropdowns from unfiltered data
+    # First, get all registrations without filters to populate dropdowns
+    all_query = supabase.table('codestorm_registrations').select("*")
+    all_response = all_query.execute()
+    all_registrations = all_response.data
+    
+    # Process all registrations to get unique dropdown values
+    all_processed = []
+    for reg in all_registrations:
+        # Count team members (excluding empty ones)
+        team_size = 0
+        for i in range(1, 7):
+            member_name = reg.get(f'member{i}_name')
+            if member_name:
+                team_size += 1
+        
+        all_processed.append({
+            'college_code': reg.get('college_code', 'N/A'),
+            'team_size': team_size,
+            'idea_theme': reg.get('idea_theme', 'N/A'),
+        })
+    
+    # Get unique values for dropdowns from all data
+    all_college_codes = sorted(set(reg['college_code'] for reg in all_processed if reg['college_code'] != 'N/A'))
+    all_team_sizes = sorted(set(str(reg['team_size']) for reg in all_processed if reg['team_size'] > 0))
+    all_idea_themes = sorted(set(reg['idea_theme'] for reg in all_processed if reg['idea_theme'] != 'N/A'))
     
     # Process registrations to generate download links and essential data
     processed_registrations = []
@@ -230,7 +256,6 @@ def dashboard_view(request):
         registration_date = reg.get('registration_date', 'N/A')
         if registration_date != 'N/A' and registration_date:
             try:
-                from datetime import datetime
                 # Parse the ISO format date string
                 registration_date = datetime.fromisoformat(registration_date.replace('Z', '+00:00'))
             except (ValueError, AttributeError):
@@ -271,17 +296,8 @@ def dashboard_view(request):
                 essential_data['download_error'] = str(e)
         else:
             essential_data['download_error'] = "No PPT file uploaded"
-        
+            
         processed_registrations.append(essential_data)
-
-    # Apply team size filter after data processing (since it's calculated dynamically)
-    if team_size_filter:
-        processed_registrations = [reg for reg in processed_registrations if str(reg['team_size']) == team_size_filter]
-    
-    # Get unique values for filter dropdowns
-    college_codes = sorted(set(reg['college_code'] for reg in processed_registrations if reg['college_code'] != 'N/A'))
-    team_sizes = sorted(set(reg['team_size'] for reg in processed_registrations if reg['team_size'] > 0))
-    idea_themes = sorted(set(reg['idea_theme'] for reg in processed_registrations if reg['idea_theme'] != 'N/A'))
     
     context = {
         'registrations': processed_registrations,
@@ -293,41 +309,158 @@ def dashboard_view(request):
             'idea_theme': idea_theme_filter,
             'selection_status': selection_status_filter,
         },
-        'college_codes': college_codes,
-        'team_sizes': team_sizes,
-        'idea_themes': idea_themes,
+        'college_codes': all_college_codes,
+        'team_sizes': all_team_sizes,
+        'idea_themes': all_idea_themes,
         'total_registrations': len(processed_registrations),
     }
-
+    
     return render(request, 'dashboard/dashboard.html', context)
 
 @login_required(login_url='login')
 def download_ppt_view(request, ppt_path):
-    """
-    View to download a PPT file from Supabase storage.
-    ppt_path is expected to be base64 encoded to handle special characters.
-    """
+    supabase = get_supabase_client()
+    try:
+        # Generate a short-lived signed URL (60 seconds)
+        res = supabase.storage.from_(settings.SUPABASE_BUCKET_NAME).create_signed_url(ppt_path, 60)
+        if res and 'signedURL' in res:
+            return redirect(res['signedURL'])
+    except Exception:
+        pass
+    return HttpResponse("File not found or error generating link", status=404)
+
+@login_required(login_url='login')
+def export_registrations_view(request):
     supabase = get_supabase_client()
     
-    try:
-        # Decode the base64 encoded path
-        decoded_path = base64.b64decode(ppt_path.encode()).decode()
-        
-        print(f"Attempting to download file: {decoded_path}")
-        
-        # Generate a signed URL valid for 1 hour (3600 seconds)
-        res = supabase.storage.from_(settings.SUPABASE_BUCKET_NAME).create_signed_url(decoded_path, 3600)
-        if res and 'signedURL' in res:
-            signed_url = res['signedURL']
-            print(f"Generated signed URL: {signed_url}")
-            # Redirect to the signed URL
-            return redirect(signed_url)
-        else:
-            print(f"Failed to generate signed URL. Response: {res}")
-            messages.error(request, f'Failed to generate download URL for: {decoded_path}')
+    # Get filter parameters
+    college_code_filter = request.GET.get('college_code', '')
+    team_size_filter = request.GET.get('team_size', '')
+    has_ppt_filter = request.GET.get('has_ppt', '')
+    date_filter = request.GET.get('date', '')
+    idea_theme_filter = request.GET.get('idea_theme', '')
+    selection_status_filter = request.GET.get('selection_status', '')
     
-    except Exception as e:
-        print(f"Error downloading PPT: {str(e)}")
-        messages.error(request, f'Error downloading PPT: {str(e)}')
+    # Build query
+    query = supabase.table('codestorm_registrations').select("*")
     
-    return redirect('dashboard')
+    if college_code_filter:
+        query = query.ilike('college_code', f'%{college_code_filter}%')
+    
+    if idea_theme_filter:
+        query = query.ilike('idea_theme', f'%{idea_theme_filter}%')
+        
+    if selection_status_filter:
+        query = query.eq('selection_status', selection_status_filter)
+        
+    if date_filter:
+        try:
+            filter_date = datetime.strptime(date_filter, '%Y-%m-%d')
+            start_datetime = filter_date.replace(hour=0, minute=0, second=0)
+            end_datetime = filter_date.replace(hour=23, minute=59, second=59)
+            query = query.gte('registration_date', start_datetime.isoformat()).lte('registration_date', end_datetime.isoformat())
+        except ValueError:
+            pass
+
+    response = query.execute()
+    registrations = response.data
+    
+    # Process data
+    processed_data = []
+    for reg in registrations:
+        ppt_path = reg.get('ppt_file_path')
+        has_ppt = bool(ppt_path)
+        
+        if has_ppt_filter == 'yes' and not has_ppt:
+            continue
+        if has_ppt_filter == 'no' and has_ppt:
+            continue
+            
+        # Find leader
+        team_leader_name = 'N/A'
+        team_leader_email = 'N/A'
+        team_leader_phone = 'N/A'
+        
+        # Calculate team size and members string
+        team_size = 0
+        members_list = []
+        
+        for i in range(1, 7):
+            name = reg.get(f'member{i}_name')
+            email = reg.get(f'member{i}_email')
+            phone = reg.get(f'member{i}_phone')
+            roll = reg.get(f'member{i}_roll')
+            is_leader = reg.get(f'is_leader{i}')
+            
+            if name:
+                team_size += 1
+                member_str = f"{name} ({roll})"
+                if is_leader:
+                    team_leader_name = name
+                    team_leader_email = email
+                    team_leader_phone = phone
+                    member_str += " [LEADER]"
+                members_list.append(member_str)
+        
+        if team_size_filter and str(team_size) != team_size_filter:
+            continue
+            
+        processed_data.append({
+            'Team Name': reg.get('team_name', 'N/A'),
+            'Team Leader': team_leader_name,
+            'Leader Email': team_leader_email,
+            'Leader Phone': team_leader_phone,
+            'College': reg.get('college', 'N/A'),
+            'College Code': reg.get('college_code', 'N/A'),
+            'Team Size': team_size,
+            'Selection Status': reg.get('selection_status', 'pending'),
+            'Team Members': "; ".join(members_list),
+            'Registration Date': reg.get('registration_date', 'N/A'),
+            'Idea Theme': reg.get('idea_theme', 'N/A'),
+            'Idea Title': reg.get('idea_title', 'N/A'),
+            'YouTube Link': reg.get('youtube_link', 'N/A'),
+        })
+
+    # Check export format
+    export_format = request.GET.get('format', 'csv')
+    
+    if export_format == 'excel':
+        # Create DataFrame
+        df = pd.DataFrame(processed_data)
+        
+        # Create Excel file in memory
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name='Registrations')
+            
+            # Auto-adjust column widths
+            worksheet = writer.sheets['Registrations']
+            for column_cells in worksheet.columns:
+                length = max(len(str(cell.value)) for cell in column_cells)
+                worksheet.column_dimensions[column_cells[0].column_letter].width = length + 2
+        
+        output.seek(0)
+        
+        # Return Excel response
+        response = HttpResponse(
+            output.getvalue(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = 'attachment; filename="codestorm_registrations.xlsx"'
+        return response
+    
+    # Default to CSV response
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="codestorm_registrations.csv"'
+
+    writer = csv.DictWriter(response, fieldnames=[
+        'Team Name', 'Team Leader', 'Leader Email', 'Leader Phone', 
+        'College', 'College Code', 'Team Size', 'Selection Status', 
+        'Team Members', 'Registration Date', 'Idea Theme', 'Idea Title', 'YouTube Link'
+    ])
+    
+    writer.writeheader()
+    for row in processed_data:
+        writer.writerow(row)
+        
+    return response

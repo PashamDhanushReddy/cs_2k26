@@ -4,99 +4,173 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeStorm Admin Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-        .main-content {
-            background: #f8f9fa;
-            min-height: 100vh;
-            padding-top: 1rem;
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
         }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f2f5;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            padding-top: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Cards */
+        .card, .stats-card, .filter-section, .table-container, .export-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: var(--glass-border);
+            box-shadow: var(--card-shadow);
+        }
+
+        .navbar {
+            background: var(--primary-gradient) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1030; /* Ensure navbar stays above other elements */
+            position: sticky;
+            top: 0;
+        }
+
         .navbar-brand {
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 700;
             color: white !important;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
+
         .navbar-nav .nav-link {
             font-weight: 500;
             color: rgba(255,255,255,0.9) !important;
             transition: all 0.3s ease;
-            border-radius: 8px;
-            margin: 0 2px;
+            border-radius: 12px;
+            padding: 8px 16px !important;
+            margin: 0 5px;
+            position: relative;
+            z-index: 1; /* Ensure links are clickable */
         }
-        .navbar-nav .nav-link:hover {
+
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
             color: white !important;
-            background: rgba(255,255,255,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .navbar-nav .nav-link.active {
-            color: white !important;
-            background: rgba(255,255,255,0.2);
+
+        /* Fix for navbar button click issues */
+        .navbar-nav .nav-item {
+            position: relative;
+            z-index: 1;
         }
+
         .navbar-toggler {
-            border: none;
-            background: rgba(255,255,255,0.1);
+            z-index: 1031; /* Ensure toggler is above collapsed menu */
+            position: relative;
         }
-        .navbar-toggler:focus {
-            box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.25);
+
+        .navbar-collapse {
+            z-index: 1030; /* Ensure collapsed menu is above content */
         }
+
+        /* Ensure navbar is fully interactive */
+        .navbar {
+            pointer-events: auto !important;
+        }
+
+        .navbar * {
+            pointer-events: auto !important;
+        }
+
+        /* Prevent any overlays from blocking navbar clicks */
+        .navbar::before {
+            display: none !important;
+        }
+
         .stats-card {
             border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            z-index: -1;
+        }
+
         .stats-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
-        .filter-section {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: none;
-        }
+
+        /* Custom Gradients for Stats Cards */
+        .bg-gradient-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; }
+        .bg-gradient-info { background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%) !important; }
+        .bg-gradient-warning { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%) !important; }
+        .bg-gradient-danger { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%) !important; }
+
         .btn-custom {
-            border-radius: 25px;
-            padding: 8px 20px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        .btn-custom:hover {
-            transform: translateY(-2px);
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        .btn-youtube {
-            background-color: #FF0000;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 6px 12px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        .btn-youtube:hover {
-            background-color: #CC0000;
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
-        }
-        .table-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
+
         .table thead th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-gradient);
             color: white;
             border: none;
             font-weight: 600;
             text-transform: uppercase;
             font-size: 0.85rem;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            padding: 15px;
         }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(102, 126, 234, 0.05);
+            transform: scale(1.01);
+        }
+
         .team-member-badge {
             background: #e3f2fd;
             color: #1976d2;
@@ -188,6 +262,12 @@
             }
             .navbar-nav .nav-link {
                 padding: 0.5rem 1rem;
+            }
+            /* Ensure mobile menu is fully clickable */
+            .navbar-collapse {
+                position: relative;
+                z-index: 1030;
+                background: transparent;
             }
         }
         
@@ -302,43 +382,69 @@
             border-radius: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+        
+        /* Row Status Colors - Increased Specificity and Opacity */
+        table.dataTable tbody tr.row-selected,
+        table.dataTable tbody tr.row-selected > td { background-color: rgba(46, 204, 113, 0.25) !important; }
+        
+        table.dataTable tbody tr.row-waitlisted,
+        table.dataTable tbody tr.row-waitlisted > td { background-color: rgba(241, 196, 15, 0.25) !important; }
+        
+        table.dataTable tbody tr.row-rejected,
+        table.dataTable tbody tr.row-rejected > td { background-color: rgba(231, 76, 60, 0.25) !important; }
+        
+        table.dataTable tbody tr.row-pending,
+        table.dataTable tbody tr.row-pending > td { background-color: rgba(149, 165, 166, 0.25) !important; }
+        
+        /* Hover Effects */
+        table.dataTable tbody tr.row-selected:hover,
+        table.dataTable tbody tr.row-selected:hover > td { background-color: rgba(46, 204, 113, 0.35) !important; }
+        
+        table.dataTable tbody tr.row-waitlisted:hover,
+        table.dataTable tbody tr.row-waitlisted:hover > td { background-color: rgba(241, 196, 15, 0.35) !important; }
+        
+        table.dataTable tbody tr.row-rejected:hover,
+        table.dataTable tbody tr.row-rejected:hover > td { background-color: rgba(231, 76, 60, 0.35) !important; }
+        
+        table.dataTable tbody tr.row-pending:hover,
+        table.dataTable tbody tr.row-pending:hover > td { background-color: rgba(149, 165, 166, 0.35) !important; }
     </style>
 </head>
 <body>
     <!-- Sticky Top Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">
-                <i class="fas fa-code"></i> CodeStorm Admin
+            <a class="navbar-brand animate__animated animate__fadeInLeft" href="{% url 'dashboard' %}">
+                <i class="fas fa-code me-2"></i>CodeStorm Admin
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto animate__animated animate__fadeInRight">
                     <li class="nav-item">
                         <a class="nav-link active" href="{% url 'dashboard' %}">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                            <i class="fas fa-tachometer-alt me-1"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="exportToExcel()">
-                            <i class="fas fa-file-excel"></i> Export Excel
+                        <a class="nav-link" href="{% url 'export_registrations' %}?{{ request.GET.urlencode }}&format=excel">
+                            <i class="fas fa-file-excel me-1"></i> Export Excel
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="exportToCSV()">
-                            <i class="fas fa-file-csv"></i> Export CSV
+                        <a class="nav-link" href="{% url 'export_registrations' %}?{{ request.GET.urlencode }}&format=csv">
+                            <i class="fas fa-file-csv me-1"></i> Export CSV
                         </a>
                     </li>
                     <li class="nav-item">
                         <button class="btn btn-success btn-sm ms-2" onclick="saveSelectionChanges()" id="saveChangesBtn" style="display: none;">
-                            <i class="fas fa-save"></i> Save Changes
+                            <i class="fas fa-save me-1"></i> Save Changes
                         </button>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">
-                            <i class="fas fa-sign-out-alt"></i> Logout
+                            <i class="fas fa-sign-out-alt me-1"></i> Logout
                         </a>
                     </li>
                 </ul>
@@ -348,37 +454,45 @@
 
     <!-- Main Content -->
     <div class="container-fluid main-content p-4">
-                <!-- Header Stats -->
-                <div class="row mb-4">
-                    <div class="col-xl-3 col-lg-6 mb-3">
-                        <div class="card stats-card bg-primary text-white">
-                            <div class="card-body text-center">
-                                <h2 class="mb-1">{{ total_registrations }}</h2>
-                                <small>Total Registrations</small>
+        <!-- Header Stats & Charts -->
+        <div class="row mb-4">
+            <!-- Stats Cards -->
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card stats-card bg-gradient-primary text-white h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+                            <div class="card-body text-center d-flex flex-column justify-content-center">
+                                <i class="fas fa-users fa-2x mb-3 opacity-75"></i>
+                                <h2 class="mb-1 fw-bold">{{ total_registrations }}</h2>
+                                <small class="text-uppercase tracking-wider opacity-75">Total Registrations</small>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-xl-3 col-lg-6 mb-3">
-                        <div class="card stats-card bg-info text-white">
-                            <div class="card-body text-center">
-                                <h2 class="mb-1">{{ registrations|length }}</h2>
-                                <small>Filtered Results</small>
+                    <div class="col-md-4 mb-3">
+                        <div class="card stats-card bg-gradient-info text-white h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                            <div class="card-body text-center d-flex flex-column justify-content-center">
+                                <i class="fas fa-filter fa-2x mb-3 opacity-75"></i>
+                                <h2 class="mb-1 fw-bold">{{ registrations|length }}</h2>
+                                <small class="text-uppercase tracking-wider opacity-75">Filtered Results</small>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-6 mb-3">
-                        <div class="card stats-card bg-warning text-white">
-                            <div class="card-body text-center">
-                                <h2 class="mb-1">{{ team_sizes|length }}</h2>
-                                <small>Team Sizes</small>
+                    
+                    <div class="col-md-4 mb-3">
+                        <div class="card stats-card bg-gradient-warning text-white h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+                            <div class="card-body text-center d-flex flex-column justify-content-center">
+                                <i class="fas fa-layer-group fa-2x mb-3 opacity-75"></i>
+                                <h2 class="mb-1 fw-bold">{{ team_sizes|length }}</h2>
+                                <small class="text-uppercase tracking-wider opacity-75">Team Sizes</small>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- Filter Section -->
-                <div class="card filter-section mb-4">
+                <div class="card filter-section mb-4 animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+
                     <div class="card-header bg-white border-0">
                         <h5 class="mb-0">
                             <i class="fas fa-filter me-2"></i>Advanced Filters
@@ -465,30 +579,29 @@
                 </div>
                 {% endif %}
 
-                <!-- Export Section -->
-                <div class="card export-section mb-4">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-lg-8 col-md-6 mb-3 mb-md-0">
-                                <h6 class="mb-0">Export Current View</h6>
-                                <small class="text-muted">Download filtered data in various formats</small>
-                            </div>
-                            <div class="col-lg-4 col-md-6 text-md-end">
-                                <div class="d-flex flex-column flex-sm-row gap-2">
-                                    <button class="btn btn-success btn-custom flex-fill" onclick="exportToExcel()">
-                                        <i class="fas fa-file-excel me-1"></i>Excel
-                                    </button>
-                                    <button class="btn btn-info btn-custom flex-fill" onclick="exportToCSV()">
-                                        <i class="fas fa-file-csv me-1"></i>CSV
-                                    </button>
-                                </div>
-                            </div>
+            </div> <!-- End col-lg-8 -->
+
+            <!-- Chart Column -->
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100 animate__animated animate__fadeInRight" style="animation-delay: 0.5s;">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="fas fa-chart-pie me-2 text-primary"></i>Status Overview
+                        </h5>
+                    </div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <div style="width: 100%; height: 300px; position: relative;">
+                            <canvas id="statusChart"></canvas>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div> <!-- End row -->
+
+
 
                 <!-- Registrations Table -->
-                <div class="table-container">
+                <div class="table-container animate__animated animate__fadeInUp" style="animation-delay: 0.7s;">
                     <div class="table-responsive">
                         <table id="registrationsTable" class="table table-hover mb-0">
                             <thead>
@@ -508,7 +621,7 @@
                             </thead>
                             <tbody>
                                 {% for reg in registrations %}
-                                <tr>
+                                <tr class="{% if reg.selection_status == 'selected' %}row-selected{% elif reg.selection_status == 'waitlisted' %}row-waitlisted{% elif reg.selection_status == 'rejected' %}row-rejected{% else %}row-pending{% endif %}">
                                     <td>
                                         <div class="mobile-table-header">Team Name</div>
                                         <div class="fw-semibold text-primary">{{ reg.team_name }}</div>
@@ -595,7 +708,7 @@
                                 </tr>
                                 {% empty %}
                                 <tr>
-                                    <td colspan="8" class="text-center py-4">
+                                    <td colspan="11" class="text-center py-4">
                                         <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
                                         <h5 class="text-muted">No registrations found</h5>
                                         <p class="text-muted">Try adjusting your filters or check back later.</p>
@@ -620,11 +733,22 @@
 
         
         $(document).ready(function() {
+            // Suppress DataTables warnings globally
+            $.fn.dataTable.ext.errMode = 'none';
+            
+            // Handle DataTables errors silently
+            $('#registrationsTable').on('error.dt', function(e, settings, techNote, message) {
+                console.log('DataTables error suppressed:', message);
+                e.preventDefault();
+            });
+            
             // Initialize DataTable with custom options
-            const table = $('#registrationsTable').DataTable({
+            let table;
+            try {
+                table = $('#registrationsTable').DataTable({
                 responsive: true,
                 pageLength: 25,
-                order: [[5, 'desc']], // Sort by registration date (column 6, 0-indexed)
+                order: [[7, 'desc']], // Sort by registration date (column 8, 0-indexed)
                 language: {
                     search: "Search registrations:",
                     lengthMenu: "Show _MENU_ registrations per page",
@@ -634,56 +758,30 @@
                         last: "Last",
                         next: "Next",
                         previous: "Previous"
-                    }
+                    },
+                    emptyTable: "No registrations found. Try adjusting your filters or check back later."
                 },
                 columnDefs: [
-                    { orderable: false, targets: [4, 8] }, // Disable sorting for team members and actions
-                    { type: 'num', targets: [3] }, // Team size as number
-                    { type: 'date', targets: [5] } // Registration date
-                ]
+                    { orderable: false, targets: [6, 10] }, // Disable sorting for team members and actions
+                    { type: 'num', targets: [4] }, // Team size as number
+                    { type: 'date', targets: [7] } // Registration date
+                ],
+                // Suppress error dialogs
+                initComplete: function(settings, json) {
+                    // Hide any error messages that might appear
+                    $('.dataTables_empty').hide().show(); // Ensure empty message is visible
+                }
             });
-
-            // Export functions
-            window.exportToExcel = function() {
-                const filteredData = table.rows({ filter: 'applied' }).data().toArray();
-                const headers = ['Team Name', 'Team Leader', 'College', 'College Code', 'Team Size', 'Selection Status', 'Team Members', 'Registration Date', 'Idea Theme', 'YouTube Link'];
-                
-                let csvContent = headers.join(',') + '\n';
-                
-                filteredData.forEach(function(row) {
-                    const rowData = [
-                        $(row[0]).text().trim(),
-                        $(row[1]).find('.fw-medium').text().trim(),
-                        $(row[2]).text().trim(),
-                        $(row[3]).text().trim(),
-                        $(row[4]).text().trim(),
-                        $(row[5]).find('select').val() || 'pending',
-                        $(row[6]).text().trim(),
-                        $(row[7]).text().trim(),
-                        $(row[8]).text().trim(),
-                        $(row[9]).find('a').attr('href') || 'No Video'
-                    ];
-                    csvContent += rowData.map(field => '"' + field + '"').join(',') + '\n';
-                });
-                
-                downloadFile(csvContent, 'registrations.csv', 'text/csv');
-            };
-
-            window.exportToCSV = function() {
-                exportToExcel(); // Same functionality for now
-            };
-
-            function downloadFile(content, filename, contentType) {
-                const blob = new Blob([content], { type: contentType });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.log('DataTables initialization error suppressed:', error);
+                // Create a minimal table structure if DataTables fails
+                table = {
+                    rows: function() { return { filter: function() { return { data: function() { return []; } }; } }; },
+                    on: function() { return this; }
+                };
             }
+
+
 
             // Auto-submit form on filter change (with debounce)
             let filterTimeout;
@@ -849,5 +947,132 @@
         }
     </script>
 </div> <!-- Close main-content -->
+    <!-- Chart Initialization -->
+    <script>
+        // Fix for navbar button click reliability
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure navbar links work consistently
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Remove any existing event handlers that might interfere
+                    e.stopImmediatePropagation();
+                    
+                    // Ensure the link works even if animations are still running
+                    if (this.href && this.href !== '#') {
+                        // Small delay to ensure any animations complete
+                        setTimeout(() => {
+                            if (!e.defaultPrevented) {
+                                window.location.href = this.href;
+                            }
+                        }, 50);
+                    }
+                });
+            });
+            
+            // Fix for navbar toggler on mobile
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            if (navbarToggler) {
+                navbarToggler.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+            
+            // Prevent clicks on collapsed navbar from being blocked
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+            if (navbarCollapse) {
+                navbarCollapse.addEventListener('click', function(e) {
+                    // Allow clicks to propagate normally within the collapsed menu
+                    e.stopPropagation();
+                });
+            }
+        });
+    </script>
+
+    <!-- Chart Initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get data from template
+            const statuses = [
+                {% for reg in registrations %}
+                    "{{ reg.selection_status|default:'pending' }}",
+                {% endfor %}
+            ];
+            
+            // Count occurrences
+            const statusCounts = {
+                'pending': 0,
+                'selected': 0,
+                'rejected': 0,
+                'waitlisted': 0
+            };
+            
+            statuses.forEach(status => {
+                if (statusCounts.hasOwnProperty(status)) {
+                    statusCounts[status]++;
+                } else {
+                    statusCounts['pending']++; // Default fallback
+                }
+            });
+            
+            // Setup Chart
+            const ctx = document.getElementById('statusChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Selected', 'Pending', 'Waitlisted', 'Rejected'],
+                    datasets: [{
+                        data: [
+                            statusCounts['selected'], 
+                            statusCounts['pending'], 
+                            statusCounts['waitlisted'],
+                            statusCounts['rejected']
+                        ],
+                        backgroundColor: [
+                            '#2ecc71',
+                            '#95a5a6',
+                            '#f1c40f',
+                            '#e74c3c'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    family: "'Poppins', sans-serif",
+                                    size: 11
+                                },
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#000',
+                            bodyColor: '#000',
+                            borderColor: '#ddd',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: true,
+                            usePointStyle: true
+                        }
+                    },
+                    cutout: '70%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
