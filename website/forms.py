@@ -405,7 +405,11 @@ class TeamRegistrationForm(forms.Form):
         if leader_count != 1:
             raise forms.ValidationError('Exactly one team member must be designated as the leader.')
         
-        # Validate optional members
+        # Validate optional members - if any field is entered, all required fields must be filled
+        self.validate_optional_member(cleaned_data, 'member5', ['name', 'email', 'phone', 'roll'])
+        self.validate_optional_member(cleaned_data, 'member6', ['name', 'email', 'phone', 'roll'])
+        
+        # Validate optional members leader selection
         if cleaned_data.get('is_leader5') and not cleaned_data.get('member5_name'):
             raise forms.ValidationError('Member 5 cannot be leader if not provided.')
         
@@ -413,6 +417,32 @@ class TeamRegistrationForm(forms.Form):
             raise forms.ValidationError('Member 6 cannot be leader if not provided.')
         
         return cleaned_data
+    
+    def validate_optional_member(self, cleaned_data, member_prefix, required_fields):
+        """Validate that if any field of an optional member is entered, all required fields are filled"""
+        member_data = {}
+        
+        # Collect all data for this member
+        for field in required_fields:
+            field_name = f'{member_prefix}_{field}'
+            member_data[field] = cleaned_data.get(field_name, '')
+        
+        # Check if any field has been entered
+        has_any_field = any(member_data[field] for field in required_fields)
+        
+        if has_any_field:
+            # If any field is entered, all fields must be filled
+            missing_fields = []
+            for field, value in member_data.items():
+                if not value or not str(value).strip():
+                    missing_fields.append(field.replace('_', ' ').title())
+            
+            if missing_fields:
+                member_number = member_prefix.replace('member', '')
+                raise forms.ValidationError(
+                    f'Member {member_number}: If you enter any information, you must fill in all required fields. '
+                    f'Missing: {", ".join(missing_fields)}'
+                )
 
     def validate_phone_number(self, phone):
         """Validate Indian phone number format"""
