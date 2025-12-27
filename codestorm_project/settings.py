@@ -8,10 +8,14 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 from pathlib import Path
 import os
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
+# Try to load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    # dotenv not available in production, environment variables should be set directly
+    pass
 import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-9kdoucoa$6p2q#og)c+g8kcou0=9h@$&d6%f-!d#ls-j-hpd&^')
@@ -90,4 +94,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Supabase Configuration
 SUPABASE_URL = os.environ.get('SUPABASE_URL', '')
 SUPABASE_KEY = os.environ.get('SUPABASE_KEY', '')
-SUPABASE_BUCKET_NAME = 'codestorm-ppt'
+SUPABASE_BUCKET_NAME = os.environ.get('SUPABASE_BUCKET_NAME', 'codestorm-ppt')
