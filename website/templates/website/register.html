@@ -1,702 +1,472 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - CodeStorm 2026</title>
-
-    
+    <title>CodeStorm 2026 - Team Registration</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        orbitron: ['Orbitron', 'sans-serif'],
-                        rajdhani: ['Rajdhani', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: '#f59e0b',
-                        secondary: '#8b5cf6',
-                        dark: '#0f172a',
-                        darker: '#020617',
-                    },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        'pulse-glow': {
-                            '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(245, 158, 11, 0.5)' },
-                            '50%': { opacity: .8, boxShadow: '0 0 40px rgba(245, 158, 11, 0.8)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         body {
             font-family: 'Rajdhani', sans-serif;
             background-color: #020617;
             color: #e2e8f0;
-            overflow-x: hidden;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        .form-input {
-            background: rgba(30, 41, 59, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #e2e8f0;
-            transition: all 0.3s ease;
         }
         .form-input:focus {
-            border-color: #f59e0b;
             box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
-            outline: none;
         }
-        .form-input.error {
-            border-color: #ef4444;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-        }
-        .btn-neon {
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s;
-            z-index: 1;
-        }
-        .btn-neon::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-            z-index: -1;
-        }
-        .btn-neon:hover::before {
-            left: 100%;
-        }
-        .progress-step {
-            transition: all 0.3s ease;
-        }
-        .progress-step.active {
-            background: #f59e0b;
-            color: #000;
-        }
-        .progress-step.completed {
-            background: #10b981;
-            color: #fff;
-        }
-        .file-upload-area {
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        .file-upload-area:hover {
+        .leader-checkbox:checked {
+            background-color: #f59e0b;
             border-color: #f59e0b;
-            background: rgba(245, 158, 11, 0.05);
-        }
-        .file-upload-area.dragover {
-            border-color: #f59e0b;
-            background: rgba(245, 158, 11, 0.1);
         }
     </style>
 </head>
-<body class="antialiased">
-    <nav class="fixed w-full z-50 bg-darker/80 backdrop-blur-md border-b border-white/5">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="{% url 'home' %}" class="flex items-center gap-2 group">
-                <img src="{% static 'images/logo.jpg' %}" alt="CodeStorm Logo" class="w-10 h-10 rounded-lg object-cover transform group-hover:scale-110 transition duration-300">
-                <div class="flex flex-col">
-                    <span class="text-xl font-bold font-orbitron text-white tracking-wider group-hover:text-amber-400 transition">CODESTORM</span>
-                    <span class="text-xs text-amber-500 font-rajdhani tracking-[0.2em]">2K26 EDITION</span>
-                </div>
-            </a>
-            <a href="{% url 'home' %}" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition">
-                <i class="fas fa-arrow-left mr-2"></i>Back to Home
-            </a>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-gray-900/90 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="{% url 'home' %}" class="flex items-center gap-3 group">
+                    <img src="{% static 'images/logo.jpg' %}" alt="CodeStorm Logo" class="w-10 h-10 rounded-lg object-cover">
+                    <div>
+                        <span class="text-xl font-bold font-orbitron text-white">CODESTORM</span>
+                        <span class="text-xs text-amber-500 font-rajdhani block">2K26 EDITION</span>
+                    </div>
+                </a>
+                <a href="{% url 'home' %}" class="px-4 py-2 border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black font-bold rounded transition-all duration-300">
+                    Back to Home
+                </a>
+            </div>
         </div>
     </nav>
 
-    <div class="min-h-screen pt-20 pb-12">
-        <div class="container mx-auto px-4">
-            <!-- Progress Indicator -->
-            <div class="max-w-4xl mx-auto mb-8">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="progress-step active w-10 h-10 rounded-full flex items-center justify-center font-bold" data-step="1">1</div>
-                    <div class="flex-1 h-1 bg-gray-600 mx-2">
-                        <div class="progress-bar h-full bg-amber-500 transition-all duration-300" style="width: 0%"></div>
-                    </div>
-                    <div class="progress-step w-10 h-10 rounded-full flex items-center justify-center font-bold bg-gray-600" data-step="2">2</div>
-                    <div class="flex-1 h-1 bg-gray-600 mx-2">
-                        <div class="progress-bar h-full bg-amber-500 transition-all duration-300" style="width: 0%"></div>
-                    </div>
-                    <div class="progress-step w-10 h-10 rounded-full flex items-center justify-center font-bold bg-gray-600" data-step="3">3</div>
-                </div>
-                <div class="flex justify-between text-sm text-gray-400">
-                    <span>Team Details</span>
-                    <span>Member Details</span>
-                    <span>Submit</span>
-                </div>
+    <!-- Registration Form -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold font-orbitron gradient-text mb-4">Team Registration</h1>
+                <p class="text-gray-400 text-lg">Register your team for CodeStorm 2026 - The Ultimate 36-Hour Hackathon</p>
             </div>
 
-            <div class="max-w-4xl mx-auto">
-                <div class="glass-panel rounded-2xl p-8">
-                    <h1 class="text-3xl font-bold font-orbitron text-white mb-2">Register Your Team</h1>
-                    <p class="text-gray-400 mb-8">Fill in the details below to register for CodeStorm 2026</p>
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="mb-6 p-4 rounded-lg {% if message.tags == 'success' %}bg-green-900/50 border border-green-500 text-green-300{% else %}bg-red-900/50 border border-red-500 text-red-300{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
 
-                    <form id="registrationForm" class="space-y-8">
-                        {% csrf_token %}
+            <!-- Form -->
+            <div class="glass-panel rounded-2xl p-8 shadow-2xl">
+                <form method="post" enctype="multipart/form-data" class="space-y-8">
+                    {% csrf_token %}
+                    
+                    <!-- Team Details Section -->
+                    <div class="space-y-6">
+                        <h2 class="text-2xl font-bold font-orbitron text-amber-500 border-b border-gray-600 pb-2">Team Details</h2>
                         
-                        <!-- Step 1: Team and Idea Details -->
-                        <div class="form-step" data-step="1">
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Team Name *</label>
-                                    <input type="text" name="team_name" required class="form-input w-full px-4 py-3 rounded-lg">
-                                    <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">College *</label>
-                                    <input type="text" name="college" required class="form-input w-full px-4 py-3 rounded-lg">
-                                    <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Branch</label>
-                                    <input type="text" name="branch" class="form-input w-full px-4 py-3 rounded-lg">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year of Study</label>
-                                    <select name="year_of_study" class="form-input w-full px-4 py-3 rounded-lg">
-                                        <option value="">Select Year</option>
-                                        <option value="1st Year">1st Year</option>
-                                        <option value="2nd Year">2nd Year</option>
-                                        <option value="3rd Year">3rd Year</option>
-                                        <option value="4th Year">4th Year</option>
-                                        <option value="Final Year">Final Year</option>
-                                    </select>
-                                </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Team Name *</label>
+                                {{ form.team_name }}
+                                {% if form.team_name.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.team_name.errors.0 }}</p>
+                                {% endif %}
                             </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">College Name *</label>
+                                {{ form.college }}
+                                {% if form.college.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.college.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Branch</label>
+                                {{ form.branch }}
+                                {% if form.branch.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.branch.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Year of Study</label>
+                                {{ form.year_of_study }}
+                                {% if form.year_of_study.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.year_of_study.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
 
-                            <div class="mt-6">
+                    <!-- Idea Details Section -->
+                    <div class="space-y-6">
+                        <h2 class="text-2xl font-bold font-orbitron text-amber-500 border-b border-gray-600 pb-2">Idea Details</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
                                 <label class="block text-sm font-medium text-gray-300 mb-2">Idea Title *</label>
-                                <input type="text" name="idea_title" required class="form-input w-full px-4 py-3 rounded-lg">
-                                <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                                {{ form.idea_title }}
+                                {% if form.idea_title.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.idea_title.errors.0 }}</p>
+                                {% endif %}
                             </div>
-
-                            <div class="mt-6">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Idea Theme *</label>
-                                <select name="idea_theme" required class="form-input w-full px-4 py-3 rounded-lg">
-                                    <option value="">Select Theme</option>
-                                    <option value="AI/ML">AI/ML</option>
-                                    <option value="Blockchain">Blockchain</option>
-                                    <option value="IoT">IoT</option>
-                                    <option value="Web3">Web3</option>
-                                    <option value="Cybersecurity">Cybersecurity</option>
-                                    <option value="HealthTech">HealthTech</option>
-                                    <option value="FinTech">FinTech</option>
-                                    <option value="EdTech">EdTech</option>
-                                    <option value="GreenTech">GreenTech</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Idea Theme/Track *</label>
+                                {{ form.idea_theme }}
+                                {% if form.idea_theme.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.idea_theme.errors.0 }}</p>
+                                {% endif %}
                             </div>
-
-                            <div class="mt-6">
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Upload PPT *</label>
-                                <div class="file-upload-area rounded-lg p-6 text-center cursor-pointer" id="pptUploadArea">
-                                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
-                                    <p class="text-gray-400 mb-2">Drag and drop your PPT file here or click to browse</p>
-                                    <p class="text-sm text-gray-500">Only .ppt and .pptx files, max 10MB</p>
-                                    <input type="file" name="ppt_file" id="pptFile" accept=".ppt,.pptx" class="hidden" required>
-                                </div>
-                                <div id="pptFileName" class="mt-2 text-sm text-green-400 hidden"></div>
-                                <div class="error-message text-red-500 text-sm mt-1 hidden"></div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">PPT File * (.ppt, .pptx, .pdf)</label>
+                                {{ form.ppt_file }}
+                                {% if form.ppt_file.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.ppt_file.errors.0 }}</p>
+                                {% endif %}
                             </div>
-
-                            <div class="mt-6">
+                            <div>
                                 <label class="block text-sm font-medium text-gray-300 mb-2">YouTube Link (Optional)</label>
-                                <input type="url" name="youtube_link" placeholder="https://youtube.com/..." class="form-input w-full px-4 py-3 rounded-lg">
+                                {{ form.youtube_link }}
+                                {% if form.youtube_link.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.youtube_link.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Members Section -->
+                    <div class="space-y-6">
+                        <h2 class="text-2xl font-bold font-orbitron text-amber-500 border-b border-gray-600 pb-2">Team Members</h2>
+                        <p class="text-gray-400 text-sm">Select exactly one member as team leader. Members 1-4 are required, 5-6 are optional.</p>
+                        
+                        <!-- Member 1 (Required) -->
+                        <div class="border border-gray-600 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                                Member 1 (Required)
+                                <span class="ml-2 text-amber-500">*</span>
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+                                    {{ form.member1_name }}
+                                    {% if form.member1_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email *</label>
+                                    {{ form.member1_email }}
+                                    {% if form.member1_email.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_email.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
+                                    {{ form.member1_phone }}
+                                    {% if form.member1_phone.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_phone.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number *</label>
+                                    {{ form.member1_roll }}
+                                    {% if form.member1_roll.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_roll.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                {{ form.is_leader1 }}
+                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
                             </div>
                         </div>
 
-                        <!-- Step 2: Member Details -->
-                        <div class="form-step hidden" data-step="2">
-                            <h3 class="text-xl font-bold text-white mb-6">Team Members</h3>
-                            
-                            <!-- Member 1 -->
-                            <div class="glass-card p-6 rounded-lg mb-6">
-                                <h4 class="text-lg font-bold text-amber-400 mb-4">Member 1 (Required) *</h4>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <input type="text" name="member1_name" placeholder="Full Name *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="email" name="member1_email" placeholder="Email *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="tel" name="member1_phone" placeholder="Phone *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="text" name="member1_roll" placeholder="Roll Number *" required class="form-input px-4 py-3 rounded-lg">
+                        <!-- Member 2 (Required) -->
+                        <div class="border border-gray-600 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                                Member 2 (Required)
+                                <span class="ml-2 text-amber-500">*</span>
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+                                    {{ form.member2_name }}
+                                    {% if form.member2_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_name.errors.0 }}</p>
+                                    {% endif %}
                                 </div>
-                                <label class="flex items-center mt-4">
-                                    <input type="radio" name="team_leader" value="1" required class="mr-2">
-                                    <span class="text-gray-300">Team Leader</span>
-                                </label>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email *</label>
+                                    {{ form.member2_email }}
+                                    {% if form.member2_email.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_email.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
                             </div>
-
-                            <!-- Member 2 -->
-                            <div class="glass-card p-6 rounded-lg mb-6">
-                                <h4 class="text-lg font-bold text-amber-400 mb-4">Member 2 (Required) *</h4>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <input type="text" name="member2_name" placeholder="Full Name *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="email" name="member2_email" placeholder="Email *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="tel" name="member2_phone" placeholder="Phone *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="text" name="member2_roll" placeholder="Roll Number *" required class="form-input px-4 py-3 rounded-lg">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
+                                    {{ form.member2_phone }}
+                                    {% if form.member2_phone.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_phone.errors.0 }}</p>
+                                    {% endif %}
                                 </div>
-                                <label class="flex items-center mt-4">
-                                    <input type="radio" name="team_leader" value="2" required class="mr-2">
-                                    <span class="text-gray-300">Team Leader</span>
-                                </label>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number *</label>
+                                    {{ form.member2_roll }}
+                                    {% if form.member2_roll.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_roll.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
                             </div>
-
-                            <!-- Member 3 -->
-                            <div class="glass-card p-6 rounded-lg mb-6">
-                                <h4 class="text-lg font-bold text-amber-400 mb-4">Member 3 (Required) *</h4>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <input type="text" name="member3_name" placeholder="Full Name *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="email" name="member3_email" placeholder="Email *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="tel" name="member3_phone" placeholder="Phone *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="text" name="member3_roll" placeholder="Roll Number *" required class="form-input px-4 py-3 rounded-lg">
-                                </div>
-                                <label class="flex items-center mt-4">
-                                    <input type="radio" name="team_leader" value="3" required class="mr-2">
-                                    <span class="text-gray-300">Team Leader</span>
-                                </label>
-                            </div>
-
-                            <!-- Member 4 -->
-                            <div class="glass-card p-6 rounded-lg mb-6">
-                                <h4 class="text-lg font-bold text-amber-400 mb-4">Member 4 (Required) *</h4>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <input type="text" name="member4_name" placeholder="Full Name *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="email" name="member4_email" placeholder="Email *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="tel" name="member4_phone" placeholder="Phone *" required class="form-input px-4 py-3 rounded-lg">
-                                    <input type="text" name="member4_roll" placeholder="Roll Number *" required class="form-input px-4 py-3 rounded-lg">
-                                </div>
-                                <label class="flex items-center mt-4">
-                                    <input type="radio" name="team_leader" value="4" required class="mr-2">
-                                    <span class="text-gray-300">Team Leader</span>
-                                </label>
-                            </div>
-
-                            <!-- Member 5 (Optional) -->
-                            <div class="glass-card p-6 rounded-lg mb-6 border-dashed border-2 border-gray-600">
-                                <h4 class="text-lg font-bold text-gray-400 mb-4">Member 5 (Optional)</h4>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <input type="text" name="member5_name" placeholder="Full Name" class="form-input px-4 py-3 rounded-lg">
-                                    <input type="email" name="member5_email" placeholder="Email" class="form-input px-4 py-3 rounded-lg">
-                                    <input type="tel" name="member5_phone" placeholder="Phone" class="form-input px-4 py-3 rounded-lg">
-                                    <input type="text" name="member5_roll" placeholder="Roll Number" class="form-input px-4 py-3 rounded-lg">
-                                </div>
-                                <label class="flex items-center mt-4">
-                                    <input type="radio" name="team_leader" value="5" class="mr-2">
-                                    <span class="text-gray-300">Team Leader</span>
-                                </label>
-                            </div>
-
-                            <!-- Member 6 (Optional) -->
-                            <div class="glass-card p-6 rounded-lg border-dashed border-2 border-gray-600">
-                                <h4 class="text-lg font-bold text-gray-400 mb-4">Member 6 (Optional)</h4>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <input type="text" name="member6_name" placeholder="Full Name" class="form-input px-4 py-3 rounded-lg">
-                                    <input type="email" name="member6_email" placeholder="Email" class="form-input px-4 py-3 rounded-lg">
-                                    <input type="tel" name="member6_phone" placeholder="Phone" class="form-input px-4 py-3 rounded-lg">
-                                    <input type="text" name="member6_roll" placeholder="Roll Number" class="form-input px-4 py-3 rounded-lg">
-                                </div>
-                                <label class="flex items-center mt-4">
-                                    <input type="radio" name="team_leader" value="6" class="mr-2">
-                                    <span class="text-gray-300">Team Leader</span>
-                                </label>
+                            <div class="flex items-center">
+                                {{ form.is_leader2 }}
+                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
                             </div>
                         </div>
 
-                        <!-- Step 3: Review and Submit -->
-                        <div class="form-step hidden" data-step="3">
-                            <h3 class="text-xl font-bold text-white mb-6">Review Your Registration</h3>
-                            <div id="reviewContent" class="glass-card p-6 rounded-lg">
-                                <!-- Review content will be populated by JavaScript -->
+                        <!-- Member 3 (Required) -->
+                        <div class="border border-gray-600 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                                Member 3 (Required)
+                                <span class="ml-2 text-amber-500">*</span>
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+                                    {{ form.member3_name }}
+                                    {% if form.member3_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email *</label>
+                                    {{ form.member3_email }}
+                                    {% if form.member3_email.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_email.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
+                                    {{ form.member3_phone }}
+                                    {% if form.member3_phone.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_phone.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number *</label>
+                                    {{ form.member3_roll }}
+                                    {% if form.member3_roll.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_roll.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                {{ form.is_leader3 }}
+                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
                             </div>
                         </div>
 
-                        <!-- Navigation Buttons -->
-                        <div class="flex justify-between pt-8">
-                            <button type="button" id="prevBtn" class="px-6 py-3 rounded-lg border border-gray-600 text-gray-400 hover:border-amber-500 hover:text-amber-500 transition duration-300 hidden">
-                                <i class="fas fa-arrow-left mr-2"></i>Previous
-                            </button>
-                            <button type="button" id="nextBtn" class="btn-neon bg-amber-500 text-black font-bold py-3 px-8 rounded-lg hover:bg-amber-400 transition duration-300 ml-auto">
-                                Next<i class="fas fa-arrow-right ml-2"></i>
-                            </button>
-                            <button type="submit" id="submitBtn" class="btn-neon bg-green-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-400 transition duration-300 ml-auto hidden">
-                                <i class="fas fa-check mr-2"></i>Submit Registration
-                            </button>
+                        <!-- Member 4 (Required) -->
+                        <div class="border border-gray-600 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                                Member 4 (Required)
+                                <span class="ml-2 text-amber-500">*</span>
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+                                    {{ form.member4_name }}
+                                    {% if form.member4_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email *</label>
+                                    {{ form.member4_email }}
+                                    {% if form.member4_email.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_email.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
+                                    {{ form.member4_phone }}
+                                    {% if form.member4_phone.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_phone.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number *</label>
+                                    {{ form.member4_roll }}
+                                    {% if form.member4_roll.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_roll.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                {{ form.is_leader4 }}
+                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
+                            </div>
                         </div>
-                    </form>
-                </div>
+
+                        <!-- Member 5 (Optional) -->
+                        <div class="border border-gray-600 rounded-lg p-6 opacity-75">
+                            <h3 class="text-lg font-semibold text-white mb-4">Member 5 (Optional)</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                                    {{ form.member5_name }}
+                                    {% if form.member5_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                                    {{ form.member5_email }}
+                                    {% if form.member5_email.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_email.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
+                                    {{ form.member5_phone }}
+                                    {% if form.member5_phone.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_phone.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number</label>
+                                    {{ form.member5_roll }}
+                                    {% if form.member5_roll.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_roll.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                {{ form.is_leader5 }}
+                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
+                            </div>
+                        </div>
+
+                        <!-- Member 6 (Optional) -->
+                        <div class="border border-gray-600 rounded-lg p-6 opacity-75">
+                            <h3 class="text-lg font-semibold text-white mb-4">Member 6 (Optional)</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                                    {{ form.member6_name }}
+                                    {% if form.member6_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                                    {{ form.member6_email }}
+                                    {% if form.member6_email.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_email.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
+                                    {{ form.member6_phone }}
+                                    {% if form.member6_phone.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_phone.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number</label>
+                                    {{ form.member6_roll }}
+                                    {% if form.member6_roll.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_roll.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                {{ form.is_leader6 }}
+                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Errors -->
+                    {% if form.non_field_errors %}
+                        <div class="bg-red-900/50 border border-red-500 text-red-300 p-4 rounded-lg">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Submit Button -->
+                    <div class="text-center pt-6">
+                        <button type="submit" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-bold py-4 px-12 rounded-lg text-lg font-orbitron transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-amber-500/25">
+                            SUBMIT REGISTRATION
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden">
-        <div class="flex items-center justify-center h-full">
-            <div class="text-center">
-                <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-500 mx-auto mb-4"></div>
-                <p class="text-white text-lg">Submitting your registration...</p>
-                <p class="text-gray-400 text-sm mt-2" id="loadingText">Please wait while we process your request.</p>
-            </div>
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-700 mt-16">
+        <div class="container mx-auto px-4 py-8 text-center">
+            <p class="text-gray-400">&copy; 2025 CodeStorm 2026. All rights reserved.</p>
         </div>
-    </div>
+    </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS
-        AOS.init();
-
-        // Form state
-        let currentStep = 1;
-        const totalSteps = 3;
-        const formData = new FormData();
-
-        // DOM elements
-        const form = document.getElementById('registrationForm');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const submitBtn = document.getElementById('submitBtn');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const loadingText = document.getElementById('loadingText');
-
-        // File upload handling
-        const pptUploadArea = document.getElementById('pptUploadArea');
-        const pptFileInput = document.getElementById('pptFile');
-        const pptFileName = document.getElementById('pptFileName');
-
-        pptUploadArea.addEventListener('click', () => pptFileInput.click());
-        
-        pptUploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            pptUploadArea.classList.add('dragover');
-        });
-
-        pptUploadArea.addEventListener('dragleave', () => {
-            pptUploadArea.classList.remove('dragover');
-        });
-
-        pptUploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            pptUploadArea.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                handlePPTFile(files[0]);
-            }
-        });
-
-        pptFileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handlePPTFile(e.target.files[0]);
-            }
-        });
-
-        function handlePPTFile(file) {
-            const validTypes = ['application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
-            const maxSize = 10 * 1024 * 1024; // 10MB
-
-            if (!validTypes.includes(file.type)) {
-                showError('ppt_file', 'Please upload a valid PPT file (.ppt or .pptx)');
-                return;
-            }
-
-            if (file.size > maxSize) {
-                showError('ppt_file', 'File size must be less than 10MB');
-                return;
-            }
-
-            formData.set('ppt_file', file);
-            pptFileName.textContent = `Selected: ${file.name}`;
-            pptFileName.classList.remove('hidden');
-            hideError('ppt_file');
-        }
-
-        // Step navigation
-        function showStep(step) {
-            document.querySelectorAll('.form-step').forEach(s => s.classList.add('hidden'));
-            document.querySelector(`[data-step="${step}"]`).classList.remove('hidden');
-            
-            // Update progress
-            document.querySelectorAll('.progress-step').forEach((p, index) => {
-                if (index + 1 < step) {
-                    p.classList.add('completed');
-                    p.classList.remove('active');
-                } else if (index + 1 === step) {
-                    p.classList.add('active');
-                    p.classList.remove('completed');
-                } else {
-                    p.classList.remove('active', 'completed');
-                }
-            });
-
-            // Update progress bars
-            document.querySelectorAll('.progress-bar').forEach((bar, index) => {
-                if (index + 1 < step) {
-                    bar.style.width = '100%';
-                } else {
-                    bar.style.width = '0%';
-                }
-            });
-
-            // Update buttons
-            prevBtn.classList.toggle('hidden', step === 1);
-            nextBtn.classList.toggle('hidden', step === totalSteps);
-            submitBtn.classList.toggle('hidden', step !== totalSteps);
-
-            if (step === totalSteps) {
-                populateReview();
-            }
-        }
-
-        function validateStep(step) {
-            const currentStepElement = document.querySelector(`[data-step="${step}"]`);
-            const requiredFields = currentStepElement.querySelectorAll('[required]');
-            let isValid = true;
-
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    showError(field.name, 'This field is required');
-                    isValid = false;
-                } else {
-                    hideError(field.name);
-                }
-            });
-
-            // Special validations
-            if (step === 1) {
-                const pptFile = formData.get('ppt_file');
-                if (!pptFile) {
-                    showError('ppt_file', 'Please upload a PPT file');
-                    isValid = false;
-                }
-            }
-
-            if (step === 2) {
-                const teamLeader = document.querySelector('input[name="team_leader"]:checked');
-                if (!teamLeader) {
-                    alert('Please select a team leader');
-                    isValid = false;
-                }
-            }
-
-            return isValid;
-        }
-
-        function showError(fieldName, message) {
-            const field = form.querySelector(`[name="${fieldName}"]`);
-            if (field) {
-                field.classList.add('error');
-                const errorDiv = field.parentNode.querySelector('.error-message');
-                if (errorDiv) {
-                    errorDiv.textContent = message;
-                    errorDiv.classList.remove('hidden');
-                }
-            }
-        }
-
-        function hideError(fieldName) {
-            const field = form.querySelector(`[name="${fieldName}"]`);
-            if (field) {
-                field.classList.remove('error');
-                const errorDiv = field.parentNode.querySelector('.error-message');
-                if (errorDiv) {
-                    errorDiv.classList.add('hidden');
-                }
-            }
-        }
-
-        function populateReview() {
-            const reviewContent = document.getElementById('reviewContent');
-            const formElements = form.elements;
-            
-            let reviewHTML = '<div class="space-y-6">';
-            
-            // Team Details
-            reviewHTML += '<div><h4 class="text-lg font-bold text-amber-400 mb-3">Team Details</h4>';
-            reviewHTML += `<p><strong>Team Name:</strong> ${formElements.team_name.value}</p>`;
-            reviewHTML += `<p><strong>College:</strong> ${formElements.college.value}</p>`;
-            reviewHTML += `<p><strong>Idea Title:</strong> ${formElements.idea_title.value}</p>`;
-            reviewHTML += `<p><strong>Idea Theme:</strong> ${formElements.idea_theme.value}</p>`;
-            const pptFile = formData.get('ppt_file');
-            reviewHTML += `<p><strong>PPT File:</strong> ${pptFile ? pptFile.name : 'Not uploaded'}</p>`;
-            if (formElements.youtube_link.value) {
-                reviewHTML += `<p><strong>YouTube Link:</strong> ${formElements.youtube_link.value}</p>`;
-            }
-            reviewHTML += '</div>';
-            
-            // Team Members
-            reviewHTML += '<div><h4 class="text-lg font-bold text-amber-400 mb-3">Team Members</h4>';
-            const teamLeader = document.querySelector('input[name="team_leader"]:checked').value;
-            
+        // Ensure only one leader checkbox is checked at a time
+        function updateLeaderCheckbox(selectedMember) {
+            // Uncheck all other leader checkboxes
             for (let i = 1; i <= 6; i++) {
-                const name = formElements[`member${i}_name`].value;
-                if (name || i <= 4) { // Show required members and any optional members with data
-                    reviewHTML += `<div class="mb-4 ${i > 4 && !name ? 'hidden' : ''}">`;
-                    reviewHTML += `<p><strong>Member ${i}:</strong> ${name || 'Not provided'}</p>`;
-                    if (name) {
-                        reviewHTML += `<p class="text-sm text-gray-400">Email: ${formElements[`member${i}_email`].value || 'N/A'}</p>`;
-                        reviewHTML += `<p class="text-sm text-gray-400">Phone: ${formElements[`member${i}_phone`].value || 'N/A'}</p>`;
-                        if (teamLeader == i) {
-                            reviewHTML += '<p class="text-sm text-green-400">⭐ Team Leader</p>';
-                        }
-                    }
-                    reviewHTML += '</div>';
+                if (i !== selectedMember) {
+                    const checkbox = document.querySelector(`input[name="is_leader${i}"]`);
+                    if (checkbox) checkbox.checked = false;
                 }
             }
-            reviewHTML += '</div>';
-            
-            reviewHTML += '</div>';
-            reviewContent.innerHTML = reviewHTML;
         }
 
-        // Event listeners
-        prevBtn.addEventListener('click', () => {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-            }
-        });
-
-        nextBtn.addEventListener('click', () => {
-            if (validateStep(currentStep)) {
-                if (currentStep < totalSteps) {
-                    currentStep++;
-                    showStep(currentStep);
+        // Add event listeners to all leader checkboxes
+        document.addEventListener('DOMContentLoaded', function() {
+            for (let i = 1; i <= 6; i++) {
+                const checkbox = document.querySelector(`input[name="is_leader${i}"]`);
+                if (checkbox) {
+                    checkbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            updateLeaderCheckbox(i);
+                        }
+                    });
                 }
             }
         });
-
-        // Form submission
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!validateStep(currentStep)) {
-                return;
-            }
-
-            // Collect all form data
-            const formElements = form.elements;
-            for (let i = 0; i < formElements.length; i++) {
-                const element = formElements[i];
-                if (element.name && element.value && element.type !== 'file') {
-                    formData.set(element.name, element.value);
-                }
-            }
-
-            // Show loading
-            loadingOverlay.classList.remove('hidden');
-            loadingText.textContent = 'Uploading PPT file...';
-
-            try {
-                // Step 1: Upload PPT file to Supabase Storage
-                const pptFile = formData.get('ppt_file');
-                const fileName = `${Date.now()}_${pptFile.name}`;
-                
-                const uploadResponse = await fetch('/api/upload-ppt/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        file_name: fileName,
-                        file_type: pptFile.type
-                    })
-                });
-
-                if (!uploadResponse.ok) {
-                    throw new Error('Failed to get upload URL');
-                }
-
-                const { upload_url, public_url } = await uploadResponse.json();
-                
-                // Upload file directly to Supabase
-                const uploadResult = await fetch(upload_url, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': pptFile.type,
-                    },
-                    body: pptFile
-                });
-
-                if (!uploadResult.ok) {
-                    throw new Error('Failed to upload PPT file');
-                }
-
-                // Update form data with the file path
-                formData.set('ppt_file_path', public_url);
-                formData.delete('ppt_file'); // Remove the actual file from form data
-
-                loadingText.textContent = 'Saving registration data...';
-
-                // Step 2: Submit registration data to Supabase
-                const registrationData = {};
-                for (let [key, value] of formData.entries()) {
-                    registrationData[key] = value;
-                }
-
-                const submitResponse = await fetch('/api/submit-registration/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(registrationData)
-                });
-
-                if (!submitResponse.ok) {
-                    const error = await submitResponse.json();
-                    throw new Error(error.message || 'Registration failed');
-                }
-
-                const result = await submitResponse.json();
-                
-                // Success
-                loadingOverlay.classList.add('hidden');
-                alert('Registration successful! Your team has been registered for CodeStorm 2026.');
-                window.location.href = '{% url "home" %}';
-
-            } catch (error) {
-                loadingOverlay.classList.add('hidden');
-                alert(`Registration failed: ${error.message}`);
-                console.error('Registration error:', error);
-            }
-        });
-
-        // Initialize
-        showStep(currentStep);
     </script>
 </body>
 </html>
