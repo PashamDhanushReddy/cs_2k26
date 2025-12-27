@@ -42,6 +42,11 @@ def upload_ppt_to_supabase(ppt_file, team_name):
         print(f"PPT upload response status: {response.status_code}")
         print(f"PPT upload response: {response.text[:200]}")
         
+        # Handle bucket not found error gracefully
+        if response.status_code == 400 and "Bucket not found" in response.text:
+            print("⚠️  Bucket not found - PPT will not be uploaded, but form data will still be saved")
+            return None
+        
         response.raise_for_status()
         
         return file_path
@@ -49,7 +54,8 @@ def upload_ppt_to_supabase(ppt_file, team_name):
         print(f"Error uploading PPT: {str(e)}")
         print(f"Response status: {getattr(response, 'status_code', 'N/A')}")
         print(f"Response text: {getattr(response, 'text', 'N/A')[:500]}")
-        raise e
+        # Return None instead of raising - allow form submission to continue
+        return None
 
 def insert_registration_data(data):
     """Insert registration data into Supabase table"""
@@ -88,10 +94,12 @@ def register_team(request):
                 ppt_file = request.FILES.get('ppt_file')
                 team_name = form.cleaned_data['team_name']
                 
+                ppt_path = None
                 if ppt_file:
                     ppt_path = upload_ppt_to_supabase(ppt_file, team_name)
-                else:
-                    ppt_path = None
+                    if ppt_path is None:
+                        # PPT upload failed (likely bucket not found), but continue with form submission
+                        messages.warning(request, 'Note: PPT file could not be uploaded (storage bucket not configured), but your registration will still be saved.')
                 
                 # Prepare data for Supabase
                 registration_data = {
