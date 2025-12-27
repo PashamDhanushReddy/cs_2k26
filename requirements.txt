@@ -1,0 +1,5 @@
+django
+supabase
+python-dotenv
+gunicorn
+whitenoise

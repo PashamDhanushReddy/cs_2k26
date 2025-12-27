@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeStorm Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .main-content {
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding-top: 1rem;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white !important;
+        }
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: rgba(255,255,255,0.9) !important;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 0 2px;
+        }
+        .navbar-nav .nav-link:hover {
+            transform: translateY(-2px);
+            color: white !important;
+            background: rgba(255,255,255,0.1);
+        }
+        .navbar-nav .nav-link.active {
+            color: white !important;
+            background: rgba(255,255,255,0.2);
+        }
+        .navbar-toggler {
+            border: none;
+            background: rgba(255,255,255,0.1);
+        }
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.25);
+        }
+        .stats-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        .filter-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: none;
+        }
+        .btn-custom {
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-youtube {
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn-youtube:hover {
+            background-color: #CC0000;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
+        }
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .table thead th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+        .team-member-badge {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            margin: 1px;
+        }
+        .idea-title {
+            font-weight: 500;
+            color: #495057;
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .status-badge {
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-ppt {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        .status-no-ppt {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .btn-download {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            border: none;
+            border-radius: 20px;
+            padding: 6px 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .btn-download:hover {
+            background: linear-gradient(135deg, #45a049, #4caf50);
+            transform: translateY(-1px);
+        }
+        .filter-badge {
+            background: #f0f0f0;
+            color: #666;
+            border-radius: 15px;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            margin: 2px;
+            display: inline-block;
+        }
+        .date-input {
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        .date-input:focus {
+            border-color: #86b7fe;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding-top: 0.5rem;
+            }
+            .stats-card {
+                margin-bottom: 1rem;
+            }
+            .filter-section .row > div {
+                margin-bottom: 1rem;
+            }
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .btn-custom {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            .d-flex.gap-2 {
+                flex-direction: column;
+            }
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            .navbar-nav .nav-link {
+                padding: 0.5rem 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 1rem !important;
+            }
+            .stats-card .card-body h2 {
+                font-size: 1.5rem;
+            }
+            .table-responsive {
+                font-size: 0.875rem;
+            }
+            .filter-section .card-body {
+                padding: 1rem;
+            }
+            .badge {
+                font-size: 0.75rem;
+            }
+            .btn-sm {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* Mobile-specific table improvements */
+        @media (max-width: 768px) {
+            .table-responsive table {
+                font-size: 0.875rem;
+            }
+            .table-responsive th,
+            .table-responsive td {
+                padding: 0.5rem 0.25rem;
+                white-space: nowrap;
+            }
+            .table-responsive .btn-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            .table-responsive .btn-sm {
+                width: 100%;
+                font-size: 0.75rem;
+            }
+        }
+        
+
+        
+        /* Improved mobile table display */
+        .mobile-table-header {
+            display: none;
+            font-weight: 600;
+            color: #6c757d;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        
+        @media (max-width: 576px) {
+            .mobile-table-header {
+                display: block;
+            }
+            .table-responsive td {
+                display: block;
+                width: 100%;
+                padding: 0.5rem;
+                border: none;
+                border-bottom: 1px solid #dee2e6;
+            }
+            .table-responsive td:last-child {
+                border-bottom: none;
+            }
+            .table-responsive tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid #dee2e6;
+                border-radius: 0.5rem;
+                background: white;
+            }
+            .table-responsive thead {
+                display: none;
+            }
+            /* Mobile button improvements */
+            .table-responsive .btn-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .table-responsive .btn-sm {
+                width: 100%;
+                font-size: 0.8rem;
+                padding: 0.5rem;
+            }
+        }
+        
+        /* Tablet improvements */
+        @media (max-width: 768px) and (min-width: 577px) {
+            .table-responsive .btn-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.25rem;
+            }
+            .table-responsive .btn-sm {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.5rem;
+                flex: 1;
+                min-width: 80px;
+            }
+        }
+        .export-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Top Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">
+                <i class="fas fa-code"></i> CodeStorm Admin
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'dashboard' %}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="exportToExcel()">
+                            <i class="fas fa-file-excel"></i> Export Excel
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="exportToCSV()">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-success btn-sm ms-2" onclick="saveSelectionChanges()" id="saveChangesBtn" style="display: none;">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid main-content p-4">
+                <!-- Header Stats -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-lg-6 mb-3">
+                        <div class="card stats-card bg-primary text-white">
+                            <div class="card-body text-center">
+                                <h2 class="mb-1">{{ total_registrations }}</h2>
+                                <small>Total Registrations</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-6 mb-3">
+                        <div class="card stats-card bg-info text-white">
+                            <div class="card-body text-center">
+                                <h2 class="mb-1">{{ registrations|length }}</h2>
+                                <small>Filtered Results</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 mb-3">
+                        <div class="card stats-card bg-warning text-white">
+                            <div class="card-body text-center">
+                                <h2 class="mb-1">{{ team_sizes|length }}</h2>
+                                <small>Team Sizes</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Section -->
+                <div class="card filter-section mb-4">
+                    <div class="card-header bg-white border-0">
+                        <h5 class="mb-0">
+                            <i class="fas fa-filter me-2"></i>Advanced Filters
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="get" id="filterForm">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-4 mb-3">
+                                    <label class="form-label fw-semibold">College Code</label>
+                                    <select name="college_code" class="form-select">
+                                        <option value="">All College Codes</option>
+                                        {% for code in college_codes %}
+                                            <option value="{{ code }}" {% if filters.college_code == code %}selected{% endif %}>
+                                                {{ code }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-md-4 mb-3">
+                                    <label class="form-label fw-semibold">Team Size</label>
+                                    <select name="team_size" class="form-select">
+                                        <option value="">All Sizes</option>
+                                        {% for size in team_sizes %}
+                                            <option value="{{ size }}" {% if filters.team_size == size|stringformat:"s" %}selected{% endif %}>
+                                                {{ size }} Members
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-md-4 mb-3">
+                                    <label class="form-label fw-semibold">Idea Theme</label>
+                                    <select name="idea_theme" class="form-select">
+                                        <option value="">All Themes</option>
+                                        {% for theme in idea_themes %}
+                                            <option value="{{ theme }}" {% if filters.idea_theme == theme %}selected{% endif %}>
+                                                {{ theme }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-md-4 mb-3">
+                                    <label class="form-label fw-semibold">Selection Status</label>
+                                    <select name="selection_status" class="form-select">
+                                        <option value="">All Statuses</option>
+                                        <option value="pending" {% if filters.selection_status == 'pending' %}selected{% endif %}>Pending</option>
+                                        <option value="selected" {% if filters.selection_status == 'selected' %}selected{% endif %}>Selected</option>
+                                        <option value="rejected" {% if filters.selection_status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                        <option value="waitlisted" {% if filters.selection_status == 'waitlisted' %}selected{% endif %}>Waitlisted</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4 mb-3">
+                                    <label class="form-label fw-semibold">Registration Date</label>
+                                    <input type="date" name="date" class="form-control date-input" 
+                                           value="{{ filters.date }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="submit" class="btn btn-primary btn-custom">
+                                            <i class="fas fa-search me-1"></i>Apply Filters
+                                        </button>
+                                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-custom">
+                                            <i class="fas fa-refresh me-1"></i>Reset
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Active Filters Display -->
+                {% if filters.college_code or filters.team_size or filters.has_ppt or filters.date or filters.selection_status %}
+                <div class="mb-3">
+                    <small class="text-muted">Active Filters:</small>
+                    {% if filters.college_code %}<span class="filter-badge">College Code: {{ filters.college_code }}</span>{% endif %}
+                    {% if filters.team_size %}<span class="filter-badge">Size: {{ filters.team_size }}</span>{% endif %}
+                    {% if filters.has_ppt %}<span class="filter-badge">PPT: {{ filters.has_ppt }}</span>{% endif %}
+                    {% if filters.date %}<span class="filter-badge">Date: {{ filters.date }}</span>{% endif %}
+                    {% if filters.selection_status %}<span class="filter-badge">Status: {{ filters.selection_status|title }}</span>{% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Export Section -->
+                <div class="card export-section mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8 col-md-6 mb-3 mb-md-0">
+                                <h6 class="mb-0">Export Current View</h6>
+                                <small class="text-muted">Download filtered data in various formats</small>
+                            </div>
+                            <div class="col-lg-4 col-md-6 text-md-end">
+                                <div class="d-flex flex-column flex-sm-row gap-2">
+                                    <button class="btn btn-success btn-custom flex-fill" onclick="exportToExcel()">
+                                        <i class="fas fa-file-excel me-1"></i>Excel
+                                    </button>
+                                    <button class="btn btn-info btn-custom flex-fill" onclick="exportToCSV()">
+                                        <i class="fas fa-file-csv me-1"></i>CSV
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Registrations Table -->
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table id="registrationsTable" class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Team Name</th>
+                                    <th>Team Leader</th>
+                                    <th>College</th>
+                                    <th>College Code</th>
+                                    <th>Team Size</th>
+                                    <th>Selection Status</th>
+                                    <th>Team Members</th>
+                                    <th>Registration Date</th>
+                                    <th>Idea Theme</th>
+                                    <th>YouTube Link</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reg in registrations %}
+                                <tr>
+                                    <td>
+                                        <div class="mobile-table-header">Team Name</div>
+                                        <div class="fw-semibold text-primary">{{ reg.team_name }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="mobile-table-header">Team Leader</div>
+                                        <div class="fw-medium">{{ reg.team_leader_name }}</div>
+                                        <small class="text-muted d-block">{{ reg.team_leader_email }}</small>
+                                        <small class="text-muted">{{ reg.team_leader_phone }}</small>
+                                    </td>
+                                    <td>
+                                        <div class="mobile-table-header">College</div>
+                                        <span class="badge bg-secondary">{{ reg.college_name }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="mobile-table-header">College Code</div>
+                                        <span class="badge bg-dark">{{ reg.college_code }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="mobile-table-header">Team Size</div>
+                                        <span class="badge bg-info">{{ reg.team_size }} Members</span>
+                                    </td>
+                                    <td>
+                                        <div class="mobile-table-header">Selection Status</div>
+                                        <select class="form-select form-select-sm selection-status" data-registration-id="{{ reg.id }}" data-current-status="{{ reg.selection_status|default:'pending' }}">
+                                            <option value="pending" {% if reg.selection_status == 'pending' %}selected{% endif %}>Pending</option>
+                                            <option value="selected" {% if reg.selection_status == 'selected' %}selected{% endif %}>Selected</option>
+                                            <option value="rejected" {% if reg.selection_status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                            <option value="waitlisted" {% if reg.selection_status == 'waitlisted' %}selected{% endif %}>Waitlisted</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <div class="mobile-table-header">Team Members</div>
+                                        {% if reg.team_members %}
+                                            {% for member in reg.team_members %}
+                                                <span class="team-member-badge">{{ member.name }}</span>
+                                            {% endfor %}
+                                        {% else %}
+                                            <small class="text-muted">No additional members</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="mobile-table-header">Registration Date</div>
+                                        <small class="text-muted">{{ reg.registration_date|date:"M d, Y" }}</small>
+                                    </td>
+                                    <td>
+                                        <div class="mobile-table-header">Idea Theme</div>
+                                        <div class="text-truncate" style="max-width: 200px;" title="{{ reg.idea_theme }}">
+                                            {{ reg.idea_theme|default:"N/A" }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="mobile-table-header">YouTube Link</div>
+                                        {% if reg.youtube_link %}
+                                            <a href="{{ reg.youtube_link }}" target="_blank" class="btn btn-sm btn-youtube">
+                                                <i class="fab fa-youtube me-1"></i>Watch Video
+                                            </a>
+                                        {% else %}
+                                            <span class="text-muted">No Video</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="mobile-table-header">Actions</div>
+                                        <div class="btn-group" role="group">
+                                            {% if reg.download_path %}
+                                                <a href="{% url 'download_ppt' reg.download_path %}" 
+                                                   class="btn btn-download btn-sm" 
+                                                   title="Download PPT: {{ reg.download_filename }}">
+                                                    <i class="fas fa-download me-1"></i>PPT
+                                                </a>
+                                            {% elif reg.download_error %}
+                                                <button class="btn btn-outline-danger btn-sm" 
+                                                        title="{{ reg.download_error }}" 
+                                                        disabled>
+                                                    <i class="fas fa-exclamation-triangle me-1"></i>Error
+                                                </button>
+                                            {% else %}
+                                                <button class="btn btn-outline-secondary btn-sm" disabled>
+                                                    <i class="fas fa-file-alt me-1"></i>No PPT
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="8" class="text-center py-4">
+                                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                        <h5 class="text-muted">No registrations found</h5>
+                                        <p class="text-muted">Try adjusting your filters or check back later.</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        
+        $(document).ready(function() {
+            // Initialize DataTable with custom options
+            const table = $('#registrationsTable').DataTable({
+                responsive: true,
+                pageLength: 25,
+                order: [[5, 'desc']], // Sort by registration date (column 6, 0-indexed)
+                language: {
+                    search: "Search registrations:",
+                    lengthMenu: "Show _MENU_ registrations per page",
+                    info: "Showing _START_ to _END_ of _TOTAL_ registrations",
+                    paginate: {
+                        first: "First",
+                        last: "Last",
+                        next: "Next",
+                        previous: "Previous"
+                    }
+                },
+                columnDefs: [
+                    { orderable: false, targets: [4, 8] }, // Disable sorting for team members and actions
+                    { type: 'num', targets: [3] }, // Team size as number
+                    { type: 'date', targets: [5] } // Registration date
+                ]
+            });
+
+            // Export functions
+            window.exportToExcel = function() {
+                const filteredData = table.rows({ filter: 'applied' }).data().toArray();
+                const headers = ['Team Name', 'Team Leader', 'College', 'College Code', 'Team Size', 'Selection Status', 'Team Members', 'Registration Date', 'Idea Theme', 'YouTube Link'];
+                
+                let csvContent = headers.join(',') + '\n';
+                
+                filteredData.forEach(function(row) {
+                    const rowData = [
+                        $(row[0]).text().trim(),
+                        $(row[1]).find('.fw-medium').text().trim(),
+                        $(row[2]).text().trim(),
+                        $(row[3]).text().trim(),
+                        $(row[4]).text().trim(),
+                        $(row[5]).find('select').val() || 'pending',
+                        $(row[6]).text().trim(),
+                        $(row[7]).text().trim(),
+                        $(row[8]).text().trim(),
+                        $(row[9]).find('a').attr('href') || 'No Video'
+                    ];
+                    csvContent += rowData.map(field => '"' + field + '"').join(',') + '\n';
+                });
+                
+                downloadFile(csvContent, 'registrations.csv', 'text/csv');
+            };
+
+            window.exportToCSV = function() {
+                exportToExcel(); // Same functionality for now
+            };
+
+            function downloadFile(content, filename, contentType) {
+                const blob = new Blob([content], { type: contentType });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }
+
+            // Auto-submit form on filter change (with debounce)
+            let filterTimeout;
+            $('#filterForm select, #filterForm input').on('change input', function() {
+                clearTimeout(filterTimeout);
+                filterTimeout = setTimeout(function() {
+                    $('#filterForm').submit();
+                }, 500);
+            });
+
+            // Date filter validation
+            $('#filterForm input[name="date"]').on('change', function() {
+                const selectedDate = $(this).val();
+                if (selectedDate) {
+                    console.log('Filtering by date:', selectedDate);
+                }
+            });
+        });
+    </script>
+
+    <!-- Selection Status Update Script -->
+    <script>
+        // Track changes made to selection status
+        let selectionChanges = {};
+        
+        // Add event listeners to all selection status dropdowns
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectionDropdowns = document.querySelectorAll('.selection-status');
+            
+            selectionDropdowns.forEach(function(dropdown) {
+                dropdown.addEventListener('change', function() {
+                    const registrationId = this.getAttribute('data-registration-id');
+                    const currentStatus = this.getAttribute('data-current-status');
+                    const newStatus = this.value;
+                    
+                    // Only track if status actually changed
+                    if (currentStatus !== newStatus) {
+                        selectionChanges[registrationId] = newStatus;
+                        this.setAttribute('data-current-status', newStatus);
+                        
+                        // Show save button
+                        document.getElementById('saveChangesBtn').style.display = 'inline-block';
+                        
+                        // Add visual indication that this row has changes
+                        this.closest('tr').classList.add('table-warning');
+                    } else {
+                        // Remove from changes if status reverted to original
+                        delete selectionChanges[registrationId];
+                        this.closest('tr').classList.remove('table-warning');
+                        
+                        // Hide save button if no more changes
+                        if (Object.keys(selectionChanges).length === 0) {
+                            document.getElementById('saveChangesBtn').style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Function to save all selection changes
+        function saveSelectionChanges() {
+            if (Object.keys(selectionChanges).length === 0) {
+                return;
+            }
+            
+            // Disable save button and show loading state
+            const saveBtn = document.getElementById('saveChangesBtn');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            
+            // Prepare data for API call
+            const updates = Object.entries(selectionChanges).map(([registrationId, status]) => ({
+                registration_id: registrationId,
+                selection_status: status
+            }));
+            
+            // Make API calls for each update
+            Promise.all(updates.map(update => 
+                fetch('{% url "update_selection_status" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify(update)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove visual indication for successfully updated rows
+                        const row = document.querySelector(`[data-registration-id="${update.registration_id}"]`).closest('tr');
+                        row.classList.remove('table-warning');
+                        row.classList.add('table-success');
+                        
+                        // Remove from changes after successful update
+                        setTimeout(() => {
+                            row.classList.remove('table-success');
+                        }, 2000);
+                        
+                        return { success: true, registration_id: update.registration_id };
+                    } else {
+                        throw new Error(data.error || 'Update failed');
+                    }
+                })
+            ))
+            .then(results => {
+                // Clear changes after all successful updates
+                selectionChanges = {};
+                
+                // Reset save button
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+                saveBtn.style.display = 'none';
+                
+                // Show success message
+                showAlert('Selection status updated successfully!', 'success');
+            })
+            .catch(error => {
+                console.error('Error updating selection status:', error);
+                
+                // Reset save button
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+                
+                // Show error message
+                showAlert('Error updating selection status. Please try again.', 'danger');
+            });
+        }
+        
+        // Helper function to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // Helper function to show alerts
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 80px; right: 20px; z-index: 1050; min-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            // Auto-dismiss after 3 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.parentNode.removeChild(alertDiv);
+                }
+            }, 3000);
+        }
+    </script>
+</div> <!-- Close main-content -->
+</body>
+</html>
