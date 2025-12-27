@@ -310,6 +310,211 @@
         .hero-bg {
             padding-top: 100px;
         }
+
+        /* Chatbot Styling */
+        /* Ensure chat window stays in place */
+        #chatbot-window {
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        
+        /* Enhanced desktop header shine effect */
+        #chatbot-window .bg-gradient-to-r.from-blue-600.via-purple-600.to-blue-600::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: headerShine 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes headerShine {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Mobile-specific fixes */
+        @media (max-width: 768px) {
+            #chatbot-window {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                max-height: 100vh !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+                z-index: 9999 !important;
+            }
+            
+            #chatbot-messages {
+                max-height: calc(100vh - 200px) !important;
+                min-height: 200px !important;
+            }
+            
+            #chatbot-window .bg-gradient-to-r.from-blue-600.via-purple-600.to-blue-600 {
+                position: sticky !important;
+                top: 0 !important;
+                z-index: 10 !important;
+                border-radius: 0 !important;
+            }
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 769px) {
+            #chatbot-window {
+                position: fixed !important;
+                bottom: 100px !important;
+                right: 32px !important;
+                width: 420px !important;
+                max-height: 650px !important;
+                height: auto !important;
+                border-radius: 16px !important;
+                backdrop-filter: blur(16px) !important;
+                background: rgba(17, 24, 39, 0.98) !important;
+                border: 2px solid rgba(59, 130, 246, 0.5) !important;
+                box-shadow: 
+                    0 25px 50px -12px rgba(0, 0, 0, 0.6), 
+                    0 0 40px rgba(59, 130, 246, 0.5),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+                margin: 0 !important;
+                top: auto !important;
+                left: auto !important;
+                transform-origin: bottom right !important;
+                transform: none !important;
+            }
+            
+            #chatbot-messages {
+                max-height: 350px !important;
+                min-height: 200px !important;
+            }
+            
+            /* Enhanced desktop header */
+            #chatbot-window .bg-gradient-to-r.from-blue-600.via-purple-600.to-blue-600 {
+                padding: 1.25rem !important;
+                border-radius: 16px 16px 0 0 !important;
+            }
+            
+            /* Better desktop spacing */
+            #chatbot-window > div {
+                border-radius: 0 !important;
+            }
+            
+            #chatbot-window > div:first-child {
+                border-radius: 16px 16px 0 0 !important;
+                position: sticky !important;
+                top: 0 !important;
+                z-index: 20 !important;
+            }
+            
+            #chatbot-window > div:last-child {
+                border-radius: 0 0 16px 16px !important;
+            }
+            
+            #chatbot-toggle {
+                padding: 1.25rem !important;
+                font-size: 1.25rem !important;
+                width: 64px !important;
+                height: 64px !important;
+                bottom: 32px !important;
+                right: 32px !important;
+                border-radius: 50% !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+        }
+        
+        /* Particle animation for toggle button */
+        @keyframes particleFloat {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        
+        #chatbot-toggle::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 3s infinite;
+            animation-delay: 0s;
+        }
+        
+        #chatbot-toggle::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(59, 130, 246, 0.8);
+            border-radius: 50%;
+            animation: particleFloat 4s infinite;
+            animation-delay: 1s;
+        }
+        
+        /* Glow effect for toggle button */
+        @keyframes glowRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #chatbot-toggle {
+            position: relative;
+        }
+        
+        #chatbot-toggle > div:first-child {
+            position: absolute;
+            inset: -4px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #3b82f6);
+            border-radius: 50%;
+            animation: glowRotate 3s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        #chatbot-toggle:hover > div:first-child {
+            opacity: 0.7;
+        }
+        
+        /* Question button enhancements */
+        .question-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .question-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .question-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Message shimmer effect */
+        @keyframes messageShimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .message-animate {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: messageShimmer 2s ease-in-out;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-amber-500 selection:text-black">
@@ -1268,16 +1473,17 @@
     </script>
     
     <!-- Chat Bot -->
-    <div id="chatbot-container" class="fixed bottom-6 right-6 z-50">
+    <div id="chatbot-container" class="fixed bottom-4 right-4 z-[9999] sm:bottom-8 sm:right-8">
         <!-- Chat Button -->
-        <button id="chatbot-toggle" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 px-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-            <i class="fas fa-comments"></i>
+        <button id="chatbot-toggle" class="relative bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 hover:from-blue-600 hover:via-blue-700 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-full shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-110 group overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+            <i class="fas fa-comments relative z-10"></i>
         </button>
         
         <!-- Chat Window -->
-        <div id="chatbot-window" class="hidden absolute bottom-16 right-0 w-80 bg-gray-900 border border-gray-700 rounded-lg shadow-2xl overflow-hidden">
+        <div id="chatbot-window" class="hidden fixed bottom-16 right-0 w-screen h-screen bg-gray-900 border border-gray-700 rounded-lg shadow-2xl overflow-hidden flex flex-col sm:absolute sm:bottom-16 sm:right-0 sm:w-80 sm:h-auto sm:max-h-[80vh] z-[9998]">
             <!-- Chat Header -->
-            <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4">
+            <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 text-white p-4 relative overflow-hidden flex-shrink-0 z-10">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold text-lg">CodeStorm Assistant</h3>
                     <button id="chatbot-close" class="text-white hover:text-gray-300">
@@ -1287,41 +1493,64 @@
             </div>
             
             <!-- Chat Messages -->
-            <div id="chatbot-messages" class="h-64 overflow-y-auto p-4 space-y-3">
-                <div class="flex justify-start">
-                    <div class="bg-gray-800 text-white rounded-lg px-4 py-2 max-w-xs">
+            <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 min-h-0">
+                <div class="flex justify-start message-animate">
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-700 text-white rounded-xl px-4 py-3 max-w-xs shadow-lg border border-gray-600">
                         <div class="text-sm">Hello! I'm here to help with CodeStorm 2026. Ask me about registration, timeline, or any other questions!</div>
                     </div>
                 </div>
             </div>
             
+            <!-- Typing Indicator -->
+            <div id="typing-indicator" class="hidden px-4 pb-2">
+                <div class="flex justify-start">
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-700 text-white rounded-xl px-4 py-3 max-w-xs shadow-lg border border-gray-600">
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0ms"></div>
+                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 150ms"></div>
+                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 300ms"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Predefined Questions -->
-            <div class="p-4 border-t border-gray-700">
-                <p class="text-gray-400 text-sm mb-3">Choose a question:</p>
-                <div class="space-y-2">
-                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="registration">
-                        📋 How do I Submit my idea?
+            <div class="p-3 sm:p-4 border-t border-gray-700 max-h-32 sm:max-h-48 overflow-y-auto flex-shrink-0 bg-gradient-to-b from-gray-900 to-gray-800">
+                <p class="text-gray-300 text-xs sm:text-sm mb-2 sm:mb-3 hidden sm:block font-medium">Choose a question:</p>
+                <div class="space-y-2 sm:space-y-3">
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="registration">
+                        <span class="relative z-10">📋 How do I Submit my idea?</span>
                     </button>
-                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="team">
-                        👥 What about team formation?
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="team">
+                        <span class="relative z-10">👥 What about team formation?</span>
                     </button>
-                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="dates">
-                        📅 When is the hackathon?
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="dates">
+                        <span class="relative z-10">📅 When is the hackathon?</span>
                     </button>
-                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="venue">
-                        📍 Where is the venue?
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="venue">
+                        <span class="relative z-10">📍 Where is the venue?</span>
                     </button>
-                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="prizes">
-                        🏆 What are the prizes?
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="prizes">
+                        <span class="relative z-10">🏆 What are the prizes?</span>
                     </button>
-                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="food">
-                        🍕 Is food provided?
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="food">
+                        <span class="relative z-10">🍕 Is food provided?</span>
                     </button>
-                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="tracks">
-                        🎯 What are the tracks?
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="tracks">
+                        <span class="relative z-10">🎯 What are the tracks?</span>
                     </button>
-                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="contact">
-                        📞 How to contact?
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="contact">
+                        <span class="relative z-10">📞 How to contact?</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="p-3 sm:p-4 border-t border-gray-700 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 flex-shrink-0">
+                <div class="flex space-x-3">
+                    <input type="text" id="chatbot-input" placeholder="Type your message..." class="flex-1 bg-gradient-to-r from-gray-800 to-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-400 border border-gray-600 text-sm sm:text-base transition-all duration-200 placeholder-gray-400">
+                    <button id="chatbot-send" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-3 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
             </div>
@@ -1349,10 +1578,10 @@
         // Add message to chat
         function addMessage(message, isUser = false) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'} message-animate`;
             
             const messageContent = document.createElement('div');
-            messageContent.className = `${isUser ? 'bg-blue-600 text-white' : 'bg-gray-800 text-white'} rounded-lg px-4 py-2 max-w-xs`;
+            messageContent.className = `${isUser ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white border-blue-500' : 'bg-gradient-to-br from-gray-800 to-gray-700 text-white border-gray-600'} rounded-xl px-4 py-3 max-w-xs shadow-lg border`;
             
             // For bot messages, the HTML is already formatted in getBotResponse
             // For user messages, just display as text
@@ -1366,8 +1595,29 @@
             messageDiv.appendChild(messageContent);
             chatbotMessages.appendChild(messageDiv);
             
-            // Scroll to bottom
-            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            // Scroll to bottom with smooth animation
+            setTimeout(() => {
+                chatbotMessages.scrollTo({
+                    top: chatbotMessages.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            document.getElementById('typing-indicator').classList.remove('hidden');
+            setTimeout(() => {
+                chatbotMessages.scrollTo({
+                    top: chatbotMessages.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 50);
+        }
+
+        // Hide typing indicator
+        function hideTypingIndicator() {
+            document.getElementById('typing-indicator').classList.add('hidden');
         }
 
         // Get bot response based on question type
@@ -1391,10 +1641,13 @@
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 const questionType = button.getAttribute('data-question');
-                const questionText = button.textContent.trim();
+                const questionText = button.querySelector('span').textContent.trim();
                 
                 // Add user question to chat
                 addMessage(questionText, true);
+                
+                // Show typing indicator
+                showTypingIndicator();
                 
                 // Disable all question buttons temporarily
                 document.querySelectorAll('.question-btn').forEach(btn => {
@@ -1404,6 +1657,7 @@
                 
                 // Simulate typing delay and show response
                 setTimeout(() => {
+                    hideTypingIndicator();
                     const response = getBotResponse(questionType);
                     addMessage(response, false);
                     
@@ -1412,7 +1666,7 @@
                         btn.disabled = false;
                         btn.classList.remove('opacity-50', 'cursor-not-allowed');
                     });
-                }, 1000);
+                }, 1500);
             });
         });
 
@@ -1422,6 +1676,39 @@
                 chatbotWindow.classList.add('hidden');
             }
         });
+
+        // Handle chat input
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSend = document.getElementById('chatbot-send');
+
+        // Send message on button click
+        chatbotSend.addEventListener('click', sendMessage);
+
+        // Send message on Enter key
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = chatbotInput.value.trim();
+            if (message) {
+                // Add user message
+                addMessage(message, true);
+                chatbotInput.value = '';
+
+                // Show typing indicator
+                showTypingIndicator();
+
+                // Simulate bot response after delay
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    const response = "Thanks for your message! I'm here to help with CodeStorm 2026. You can also use the predefined questions below for quick answers.";
+                    addMessage(response, false);
+                }, 1000);
+            }
+        }
     </script>
 </body>
 </html>
