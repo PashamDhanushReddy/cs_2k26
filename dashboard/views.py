@@ -276,6 +276,7 @@ def dashboard_view(request):
             'idea_title': reg.get('idea_title', 'N/A'),
             'idea_theme': reg.get('idea_theme', 'N/A'),
             'youtube_link': reg.get('youtube_link', 'N/A'),
+            'ppt_file_path': reg.get('ppt_file_path', ''),  # Add Google Drive link
             'selection_status': reg.get('selection_status', 'pending'),
         }
         
@@ -376,7 +377,7 @@ def export_registrations_view(request):
         if has_ppt_filter == 'no' and has_ppt:
             continue
             
-        # Find leader
+        # Find leader and collect detailed member information
         team_leader_name = 'N/A'
         team_leader_email = 'N/A'
         team_leader_phone = 'N/A'
@@ -384,6 +385,7 @@ def export_registrations_view(request):
         # Calculate team size and members string
         team_size = 0
         members_list = []
+        detailed_members = []  # Store detailed member info for export
         
         for i in range(1, 7):
             name = reg.get(f'member{i}_name')
@@ -401,6 +403,15 @@ def export_registrations_view(request):
                     team_leader_phone = phone
                     member_str += " [LEADER]"
                 members_list.append(member_str)
+                
+                # Store detailed member info
+                detailed_members.append({
+                    'name': name,
+                    'email': email or 'N/A',
+                    'phone': phone or 'N/A',
+                    'roll': roll or 'N/A',
+                    'is_leader': is_leader
+                })
         
         if team_size_filter and str(team_size) != team_size_filter:
             continue
@@ -419,25 +430,55 @@ def export_registrations_view(request):
             'Idea Theme': reg.get('idea_theme', 'N/A'),
             'Idea Title': reg.get('idea_title', 'N/A'),
             'YouTube Link': reg.get('youtube_link', 'N/A'),
+            'Detailed Members': detailed_members,  # Store detailed member info for modal
         })
 
     # Check export format
     export_format = request.GET.get('format', 'csv')
     
     if export_format == 'excel':
+        # Create detailed DataFrame with individual member columns
+        detailed_data = []
+        for reg in processed_data:
+            base_row = {
+                'Team Name': reg['Team Name'],
+                'Team Leader': reg['Team Leader'],
+                'Leader Email': reg['Leader Email'],
+                'Leader Phone': reg['Leader Phone'],
+                'College': reg['College'],
+                'College Code': reg['College Code'],
+                'Team Size': reg['Team Size'],
+                'Selection Status': reg['Selection Status'],
+                'Registration Date': reg['Registration Date'],
+                'Idea Theme': reg['Idea Theme'],
+                'Idea Title': reg['Idea Title'],
+                'YouTube Link': reg['YouTube Link'],
+            }
+            
+            # Add individual member details
+            if reg.get('Detailed Members'):
+                for i, member in enumerate(reg['Detailed Members'], 1):
+                    base_row[f'Member {i} Name'] = member['name']
+                    base_row[f'Member {i} Roll No'] = member['roll']
+                    base_row[f'Member {i} Email'] = member['email']
+                    base_row[f'Member {i} Phone'] = member['phone']
+                    base_row[f'Member {i} Role'] = 'Team Leader' if member['is_leader'] else 'Member'
+            
+            detailed_data.append(base_row)
+        
         # Create DataFrame
-        df = pd.DataFrame(processed_data)
+        df = pd.DataFrame(detailed_data)
         
         # Create Excel file in memory
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            df.to_excel(writer, index=False, sheet_name='Registrations')
+            df.to_excel(writer, index=False, sheet_name='Detailed Registrations')
             
             # Auto-adjust column widths
-            worksheet = writer.sheets['Registrations']
+            worksheet = writer.sheets['Detailed Registrations']
             for column_cells in worksheet.columns:
                 length = max(len(str(cell.value)) for cell in column_cells)
-                worksheet.column_dimensions[column_cells[0].column_letter].width = length + 2
+                worksheet.column_dimensions[column_cells[0].column_letter].width = min(length + 2, 50)  # Cap at 50 chars
         
         output.seek(0)
         
@@ -446,21 +487,48 @@ def export_registrations_view(request):
             output.getvalue(),
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
-        response['Content-Disposition'] = 'attachment; filename="codestorm_registrations.xlsx"'
+        response['Content-Disposition'] = 'attachment; filename="codestorm_registrations_detailed.xlsx"'
         return response
     
     # Default to CSV response
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="codestorm_registrations.csv"'
+    response['Content-Disposition'] = 'attachment; filename="codestorm_registrations_detailed.csv"'
 
-    writer = csv.DictWriter(response, fieldnames=[
-        'Team Name', 'Team Leader', 'Leader Email', 'Leader Phone', 
-        'College', 'College Code', 'Team Size', 'Selection Status', 
-        'Team Members', 'Registration Date', 'Idea Theme', 'Idea Title', 'YouTube Link'
-    ])
-    
+    # Create detailed CSV with individual member columns
+    detailed_data = []
+    for reg in processed_data:
+        base_row = {
+            'Team Name': reg['Team Name'],
+            'Team Leader': reg['Team Leader'],
+            'Leader Email': reg['Leader Email'],
+            'Leader Phone': reg['Leader Phone'],
+            'College': reg['College'],
+            'College Code': reg['College Code'],
+            'Team Size': reg['Team Size'],
+            'Selection Status': reg['Selection Status'],
+            'Registration Date': reg['Registration Date'],
+            'Idea Theme': reg['Idea Theme'],
+            'Idea Title': reg['Idea Title'],
+            'YouTube Link': reg['YouTube Link'],
+        }
+        
+        # Add individual member details
+        if reg.get('Detailed Members'):
+            for i, member in enumerate(reg['Detailed Members'], 1):
+                base_row[f'Member {i} Name'] = member['name']
+                base_row[f'Member {i} Roll No'] = member['roll']
+                base_row[f'Member {i} Email'] = member['email']
+                base_row[f'Member {i} Phone'] = member['phone']
+                base_row[f'Member {i} Role'] = 'Team Leader' if member['is_leader'] else 'Member'
+        
+        detailed_data.append(base_row)
+
+    # Get all fieldnames from the first row (all possible columns)
+    fieldnames = list(detailed_data[0].keys()) if detailed_data else []
+
+    writer = csv.DictWriter(response, fieldnames=fieldnames)
     writer.writeheader()
-    for row in processed_data:
+    for row in detailed_data:
         writer.writerow(row)
         
     return response

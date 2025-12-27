@@ -111,11 +111,11 @@
         
         /* Dynamic column visibility - progressive enhancement */
         @media (max-width: 1200px) {
-            table.dataTable thead th:nth-child(8), /* Idea Theme */
-            table.dataTable tbody td:nth-child(8) {
+            table.dataTable thead th:nth-child(9), /* Idea Theme */
+            table.dataTable tbody td:nth-child(9) {
                 display: none;
             }
-            .mobile-table-header:nth-child(8) {
+            .mobile-table-header:nth-child(9) {
                 display: none;
             }
         }
@@ -152,11 +152,11 @@
         
         /* Dynamic column visibility */
         @media (max-width: 1200px) {
-            table.dataTable thead th:nth-child(8), /* Idea Theme */
-            table.dataTable tbody td:nth-child(8) {
+            table.dataTable thead th:nth-child(9), /* Idea Theme */
+            table.dataTable tbody td:nth-child(9) {
                 display: none;
             }
-            .mobile-table-header:nth-child(8) {
+            .mobile-table-header:nth-child(9) {
                 display: none;
             }
         }
@@ -424,6 +424,21 @@
             font-size: 0.75rem;
             margin: 1px;
         }
+        
+        .team-members-cell {
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .team-members-cell:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .team-members-cell:active {
+            transform: scale(0.98);
+        }
         .idea-title {
             font-weight: 500;
             color: #495057;
@@ -595,10 +610,10 @@
                 padding: 0.25rem 0.5rem;
                 font-size: 0.75rem;
             }
-            /* Ensure YouTube and Actions columns remain visible on very small screens */
+            /* Ensure YouTube and PPT Link columns remain visible on very small screens */
             .table-responsive th:nth-child(10), /* YouTube Link column */
             .table-responsive td:nth-child(10),
-            .table-responsive th:nth-child(11), /* Actions column */
+            .table-responsive th:nth-child(11), /* PPT Link column */
             .table-responsive td:nth-child(11) {
                 display: table-cell !important;
                 visibility: visible !important;
@@ -630,10 +645,10 @@
                 width: 100%;
                 font-size: 0.75rem;
             }
-            /* Ensure YouTube and Actions columns remain visible */
+            /* Ensure YouTube and PPT Link columns remain visible */
             .table-responsive th:nth-child(10), /* YouTube Link column */
             .table-responsive td:nth-child(10),
-            .table-responsive th:nth-child(11), /* Actions column */
+            .table-responsive th:nth-child(11), /* PPT Link column */
             .table-responsive td:nth-child(11) {
                 display: table-cell !important;
                 visibility: visible !important;
@@ -715,7 +730,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        /* Override DataTables responsive hiding for YouTube and Actions columns */
+        /* Override DataTables responsive hiding for YouTube and PPT Link columns */
         table.dataTable.dtr-inline.collapsed>tbody>tr>td.child,
         table.dataTable.dtr-inline.collapsed>tbody>tr>th.child,
         table.dataTable.dtr-inline.collapsed>tbody>tr>td.dataTables_empty {
@@ -727,7 +742,7 @@
             display: none !important;
         }
         
-        /* Force YouTube Link and Actions columns to always be visible */
+        /* Force YouTube Link and PPT Link columns to always be visible */
         table.dataTable>tbody>tr>td:nth-child(10),
         table.dataTable>tbody>tr>th:nth-child(10),
         table.dataTable>tbody>tr>td:nth-child(11),
@@ -1023,7 +1038,7 @@
                                     <th>Registration Date</th>
                                     <th>Idea Theme</th>
                                     <th>YouTube Link</th>
-                                    <th>Actions</th>
+                                    <th>PPT Link</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1062,13 +1077,19 @@
                                     </td>
                                     <td>
                                         <div class="mobile-table-header">Team Members</div>
-                                        {% if reg.team_members %}
-                                            {% for member in reg.team_members %}
-                                                <span class="team-member-badge">{{ member.name }}</span>
-                                            {% endfor %}
-                                        {% else %}
-                                            <small class="text-muted">No additional members</small>
-                                        {% endif %}
+                                        <div class="team-members-cell" 
+                                             data-team-name="{{ reg.team_name }}"
+                                             data-team-members='{{ reg.team_members|safe }}'
+                                             style="cursor: pointer;"
+                                             title="Click to view team member details">
+                                            {% if reg.team_members %}
+                                                {% for member in reg.team_members %}
+                                                    <span class="team-member-badge">{{ member.name }}</span>
+                                                {% endfor %}
+                                            {% else %}
+                                                <small class="text-muted">No additional members</small>
+                                            {% endif %}
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="mobile-table-header">Registration Date</div>
@@ -1091,27 +1112,16 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <div class="mobile-table-header">Actions</div>
-                                        <div class="btn-group" role="group">
-                                            {% if reg.download_path %}
-                                                <a href="{% url 'download_ppt' reg.download_path %}" 
-                                                   class="btn btn-download btn-sm" 
-                                                   title="Download PPT: {{ reg.download_filename }}">
-                                                    <i class="fas fa-download me-1"></i>PPT
-                                                </a>
-                                            {% elif reg.download_error %}
-                                                <button class="btn btn-outline-danger btn-sm" 
-                                                        title="{{ reg.download_error }}" 
-                                                        disabled>
-                                                    <i class="fas fa-exclamation-triangle me-1"></i>Error
-                                                </button>
-                                            {% else %}
-                                                <button class="btn btn-outline-secondary btn-sm" disabled>
-                                                    <i class="fas fa-file-alt me-1"></i>No PPT
-                                                </button>
-                                            {% endif %}
-                                        </div>
+                                        <div class="mobile-table-header">PPT Link</div>
+                                        {% if reg.ppt_file_path %}
+                                            <a href="{{ reg.ppt_file_path }}" target="_blank" class="btn btn-sm btn-primary">
+                                                <i class="fab fa-google-drive me-1"></i>View PPT
+                                            </a>
+                                        {% else %}
+                                            <span class="text-muted">No PPT</span>
+                                        {% endif %}
                                     </td>
+
                                 </tr>
                                 {% empty %}
                                 <tr>
@@ -1184,7 +1194,6 @@
             table.column(2).visible(true); // College
             table.column(5).visible(true); // Selection Status
             table.column(9).visible(true); // YouTube Link
-            table.column(10).visible(true); // Actions
             
             // Adjust table width based on visible columns
             adjustTableWidth();
@@ -1221,7 +1230,7 @@
                     emptyTable: "No registrations found. Try adjusting your filters or check back later."
                 },
                 columnDefs: [
-                    { orderable: false, targets: [6, 10] }, // Disable sorting for team members and actions
+                    { orderable: false, targets: [6, 10] }, // Disable sorting for team members and PPT Link
                     { type: 'num', targets: [4] }, // Team size as number
                     { type: 'date', targets: [7] }, // Registration date
                     // Ensure all columns remain visible (no responsive hiding)
@@ -1260,7 +1269,37 @@
                 };
             }
 
-
+            // Team Member Details Modal Functionality
+            $(document).on('click', '.team-members-cell', function() {
+                const teamName = $(this).data('team-name');
+                const teamMembers = $(this).data('team-members');
+                
+                let modalContent = '<h6>Team: ' + teamName + '</h6>';
+                modalContent += '<div class="table-responsive">';
+                modalContent += '<table class="table table-sm">';
+                modalContent += '<thead><tr><th>Name</th><th>Roll No</th><th>Email</th><th>Phone</th><th>Role</th></tr></thead>';
+                modalContent += '<tbody>';
+                
+                if (teamMembers && teamMembers.length > 0) {
+                    teamMembers.forEach(function(member) {
+                        modalContent += '<tr>';
+                        modalContent += '<td>' + (member.name || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.roll || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.email || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.phone || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.is_leader ? 'Team Leader' : 'Member') + '</td>';
+                        modalContent += '</tr>';
+                    });
+                } else {
+                    modalContent += '<tr><td colspan="5" class="text-center text-muted">No team members found</td></tr>';
+                }
+                
+                modalContent += '</tbody></table></div>';
+                
+                $('#teamMemberContent').html(modalContent);
+                $('#teamMemberModalLabel').text('Team Members - ' + teamName);
+                $('#teamMemberModal').modal('show');
+            });
 
             // Auto-submit form on filter change (with debounce)
             let filterTimeout;
@@ -1553,5 +1592,26 @@
             });
         });
     </script>
+
+    <!-- Team Member Details Modal -->
+    <div class="modal fade" id="teamMemberModal" tabindex="-1" aria-labelledby="teamMemberModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="teamMemberModalLabel">Team Members Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="teamMemberContent">
+                        <!-- Team member details will be loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
