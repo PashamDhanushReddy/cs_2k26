@@ -996,7 +996,7 @@
                     <p class="text-gray-500 text-sm mt-2">Narsimha Reddy Engineering College</p>
                     <p class="text-gray-500 text-sm">Maisammaguda (V), Kompally - 500100, Hyderabad.</p>
                 </div>
-                <div class="flex space-x-6">
+                <div class="flex space-x-6 items-center">
                     <a href="https://www.facebook.com/NarasimhaReddyEngineeringCollege.NRCM/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-amber-500 hover:text-black transition duration-300">
                         <i class="fab fa-facebook-f"></i>
                     </a>
@@ -1008,6 +1008,10 @@
                     </a>
                     <a href="https://www.linkedin.com/company/narsimhareddyengineeringcollege-nrcm/?originalSubdomain=in" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-700 hover:text-white transition duration-300">
                         <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://admin-page-i3l3.onrender.com" target="_blank" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-user-shield mr-2"></i>
+                        Admin Login
                     </a>
                 </div>
             </div>
@@ -1260,6 +1264,163 @@
                 }
             },
             "retina_detect": true
+        });
+    </script>
+    
+    <!-- Chat Bot -->
+    <div id="chatbot-container" class="fixed bottom-6 right-6 z-50">
+        <!-- Chat Button -->
+        <button id="chatbot-toggle" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 px-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <i class="fas fa-comments"></i>
+        </button>
+        
+        <!-- Chat Window -->
+        <div id="chatbot-window" class="hidden absolute bottom-16 right-0 w-80 bg-gray-900 border border-gray-700 rounded-lg shadow-2xl overflow-hidden">
+            <!-- Chat Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-lg">CodeStorm Assistant</h3>
+                    <button id="chatbot-close" class="text-white hover:text-gray-300">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div id="chatbot-messages" class="h-64 overflow-y-auto p-4 space-y-3">
+                <div class="flex justify-start">
+                    <div class="bg-gray-800 text-white rounded-lg px-4 py-2 max-w-xs">
+                        <div class="text-sm">Hello! I'm here to help with CodeStorm 2026. Ask me about registration, timeline, or any other questions!</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Predefined Questions -->
+            <div class="p-4 border-t border-gray-700">
+                <p class="text-gray-400 text-sm mb-3">Choose a question:</p>
+                <div class="space-y-2">
+                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="registration">
+                        📋 How do I Submit my idea?
+                    </button>
+                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="team">
+                        👥 What about team formation?
+                    </button>
+                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="dates">
+                        📅 When is the hackathon?
+                    </button>
+                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="venue">
+                        📍 Where is the venue?
+                    </button>
+                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="prizes">
+                        🏆 What are the prizes?
+                    </button>
+                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="food">
+                        🍕 Is food provided?
+                    </button>
+                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="tracks">
+                        🎯 What are the tracks?
+                    </button>
+                    <button class="question-btn w-full text-left bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 hover:border-blue-500 transition-colors text-sm" data-question="contact">
+                        📞 How to contact?
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Bot Script -->
+    <script>
+        // Chat Bot Functionality
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbotWindow = document.getElementById('chatbot-window');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+
+        // Toggle chat window
+        chatbotToggle.addEventListener('click', () => {
+            chatbotWindow.classList.toggle('hidden');
+        });
+
+        // Close chat window
+        chatbotClose.addEventListener('click', () => {
+            chatbotWindow.classList.add('hidden');
+        });
+
+        // Add message to chat
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = `${isUser ? 'bg-blue-600 text-white' : 'bg-gray-800 text-white'} rounded-lg px-4 py-2 max-w-xs`;
+            
+            // For bot messages, the HTML is already formatted in getBotResponse
+            // For user messages, just display as text
+            if (isUser) {
+                messageContent.innerHTML = `<p class="text-sm">${message}</p>`;
+            } else {
+                // For bot messages, message already contains HTML, so don't wrap in p tag
+                messageContent.innerHTML = `<div class="text-sm">${message}</div>`;
+            }
+            
+            messageDiv.appendChild(messageContent);
+            chatbotMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        // Get bot response based on question type
+        function getBotResponse(questionType) {
+            const responses = {
+                'registration': 'Idea Submission is open! <a href="https://codestorm2026.onrender.com/#steps" target="_blank" style="color: #93c5fd; text-decoration: underline;">Follow these steps</a>',
+                'team': 'Each team should have 4-6 members. You can register as a complete team.',
+                'dates': 'The hackathon will be held on January 31-February 1, 2026. Idea Submission deadline is January 15, 2026.',
+                'venue': 'CodeStorm 2026 will be held at Narsimha Reddy Engineering College, Maisammaguda (V), Kompally, Hyderabad. <a href="https://maps.app.goo.gl/ZG2eFuQXGdCw5yph8" target="_blank" style="color: #93c5fd; text-decoration: underline;">View on Google Maps</a>',
+                'prizes': 'Exciting prizes await the winners! We have prizes for top 3 teams.',
+                'food': 'Yes! Free food and accommodation will be provided for all participants throughout the hackathon.',
+                'tracks': 'We have multiple tracks including Generative Al & LLM Applications;Robotics, Drones & Autonomous Systems;Cybersecurity & Threat Intelligence;HealthTech, MedAl & Diagnostics;FinTech, Blockchain & Digital Trust;Smart Cities, IoT & Edge Computing;Green Tech & Energy Optimization;Agritech & Rural Innovation;Transportation & Logistics (Al-Driven);Open Innovation Challenge (Wildcard Track). Choose the track that best fits your idea!',
+                'contact': 'For any queries, you can contact our organizing team <a href="https://codestorm2026.onrender.com/#team" target="_blank" style="color: #93c5fd; text-decoration: underline;">here</a>'
+            };
+            
+            return responses[questionType] || 'I\'m here to help with CodeStorm 2026 questions! Choose one of the questions below to get started.';
+        }
+
+        // Handle question button clicks
+        document.querySelectorAll('.question-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const questionType = button.getAttribute('data-question');
+                const questionText = button.textContent.trim();
+                
+                // Add user question to chat
+                addMessage(questionText, true);
+                
+                // Disable all question buttons temporarily
+                document.querySelectorAll('.question-btn').forEach(btn => {
+                    btn.disabled = true;
+                    btn.classList.add('opacity-50', 'cursor-not-allowed');
+                });
+                
+                // Simulate typing delay and show response
+                setTimeout(() => {
+                    const response = getBotResponse(questionType);
+                    addMessage(response, false);
+                    
+                    // Re-enable question buttons
+                    document.querySelectorAll('.question-btn').forEach(btn => {
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    });
+                }, 1000);
+            });
+        });
+
+        // Close chat when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!chatbotWindow.contains(e.target) && !chatbotToggle.contains(e.target)) {
+                chatbotWindow.classList.add('hidden');
+            }
         });
     </script>
 </body>
