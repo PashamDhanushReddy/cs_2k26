@@ -13,6 +13,12 @@ def validate_indian_phone(value):
         raise ValidationError('Phone number must start with 6, 7, 8, or 9.')
     return value
 
+def validate_capital_letters(value):
+    """Validate that the input contains only capital letters."""
+    if not re.fullmatch(r'[A-Z]+', value):
+        raise ValidationError('This field must contain only capital letters.')
+    return value
+
 class TeamRegistrationForm(forms.Form):
     # Team details
     team_name = forms.CharField(
@@ -27,6 +33,14 @@ class TeamRegistrationForm(forms.Form):
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
             'placeholder': 'Enter your college name'
+        })
+    )
+    college_code = forms.CharField(
+        max_length=50,
+        validators=[validate_capital_letters],
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'Enter College Code (e.g., ABC)'
         })
     )
     branch = forms.ChoiceField(
@@ -93,10 +107,10 @@ class TeamRegistrationForm(forms.Form):
         })
     )
     youtube_link = forms.URLField(
-        required=False,
+        required=True,
         widget=forms.URLInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Enter YouTube link (optional)'
+            'placeholder': 'Enter YouTube link'
         })
     )
     

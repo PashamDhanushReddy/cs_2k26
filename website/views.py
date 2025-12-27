@@ -130,6 +130,7 @@ def register_team(request):
                 registration_data = {
                     'team_name': team_name,
                     'college': form.cleaned_data['college'],
+                    'college_code': form.cleaned_data['college_code'],
                     'branch': form.cleaned_data.get('branch', ''),
                     'year_of_study': form.cleaned_data.get('year_of_study', ''),
                     'idea_title': form.cleaned_data['idea_title'],

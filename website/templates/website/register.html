@@ -94,6 +94,13 @@
                                     <p class="text-red-400 text-sm mt-1">{{ form.college.errors.0 }}</p>
                                 {% endif %}
                             </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">College Code *</label>
+                                {{ form.college_code }}
+                                {% if form.college_code.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.college_code.errors.0 }}</p>
+                                {% endif %}
+                            </div>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -144,7 +151,7 @@
                                 {% endif %}
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">YouTube Link (Optional)</label>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">YouTube Link <span class="text-amber-500">*</span></label>
                                 {{ form.youtube_link }}
                                 {% if form.youtube_link.errors %}
                                     <p class="text-red-400 text-sm mt-1">{{ form.youtube_link.errors.0 }}</p>
