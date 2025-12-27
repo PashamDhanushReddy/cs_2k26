@@ -32,10 +32,29 @@ gunicorn codestorm_project.wsgi:application
 
 ## Important Notes:
 
-1. **Supabase Bucket**: If you want PPT uploads to work, create the `codestorm-ppt` bucket in your Supabase dashboard
-2. **Database**: The registration system will work with your existing Supabase table
-3. **Static Files**: WhiteNoise is configured to serve static files automatically
-4. **Environment Variables**: Make sure all variables are set before deploying
+1. **Supabase Table Structure**: The registration form now matches your exact table structure with:
+   - Team details: `team_name`, `college`, `branch`, `year_of_study`
+   - Idea details: `idea_title`, `idea_theme` (not `idea_description` or `idea_track`)
+   - PPT uploads: `ppt_file_path` (required field)
+   - YouTube link: `youtube_link` (optional field)
+   - Member details: `member1-6` with `name`, `email`, `phone`, `roll`, and `is_leader` fields
+
+2. **Supabase Bucket**: If you want PPT uploads to work, create the `codestorm-ppt` bucket in your Supabase dashboard
+
+3. **Database**: The registration system will work with your existing Supabase table with exact column mapping
+
+4. **Static Files**: WhiteNoise is configured to serve static files automatically
+
+5. **Environment Variables**: Make sure all variables are set before deploying
+
+6. **CSRF Configuration**: The app now includes proper CSRF settings for production deployment
+
+## CSRF Configuration Added:
+
+The application now includes:
+- `CSRF_COOKIE_SECURE = True` for production (uses HTTPS cookies)
+- `CSRF_TRUSTED_ORIGINS` automatically configured with your Render hostname
+- Session security settings for production environments
 
 ## Testing Locally:
 ```bash
@@ -47,6 +66,7 @@ python manage.py runserver
 
 ## Troubleshooting:
 
+- **CSRF Verification Failed**: Make sure your `RENDER_EXTERNAL_HOSTNAME` is set correctly in Render
 - If `collectstatic` fails, make sure `whitenoise` is in your requirements.txt
 - If Supabase connection fails, check your URL and key in the environment variables
 - If the registration form doesn't load, check that all required environment variables are set

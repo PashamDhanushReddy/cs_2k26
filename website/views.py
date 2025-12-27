@@ -9,6 +9,12 @@ from .forms import TeamRegistrationForm
 
 def create_supabase_headers():
     """Create headers for Supabase API requests"""
+    print(f"=== AUTH DEBUG ===")
+    print(f"SUPABASE_KEY from settings: {settings.SUPABASE_KEY[:20]}...")
+    print(f"SUPABASE_URL from settings: {settings.SUPABASE_URL}")
+    print(f"SUPABASE_KEY length: {len(settings.SUPABASE_KEY) if settings.SUPABASE_KEY else 'None'}")
+    print(f"==================")
+    
     return {
         'apikey': settings.SUPABASE_KEY,
         'Authorization': f'Bearer {settings.SUPABASE_KEY}',
@@ -18,15 +24,15 @@ def create_supabase_headers():
 
 def upload_ppt_to_supabase(ppt_file, team_name):
     """Upload PPT file to Supabase storage"""
+    response = None
     try:
-        # Generate unique filename
         file_extension = ppt_file.name.split('.')[-1]
         unique_filename = f"{team_name.replace(' ', '_')}_{uuid.uuid4()}.{file_extension}"
         file_path = f"ppt_submissions/{unique_filename}"
-        
+
         # Read file content
         file_content = ppt_file.read()
-        
+
         # Ensure proper URL format
         base_url = settings.SUPABASE_URL.rstrip('/')
         if not base_url.startswith('http'):
@@ -52,13 +58,17 @@ def upload_ppt_to_supabase(ppt_file, team_name):
         return file_path
     except Exception as e:
         print(f"Error uploading PPT: {str(e)}")
-        print(f"Response status: {getattr(response, 'status_code', 'N/A')}")
-        print(f"Response text: {getattr(response, 'text', 'N/A')[:500]}")
+        if response:
+            print(f"Response status: {response.status_code}")
+            print(f"Response text: {response.text[:500]}")
+        else:
+            print("No response available (error occurred before request)")
         # Return None instead of raising - allow form submission to continue
         return None
 
 def insert_registration_data(data):
     """Insert registration data into Supabase table"""
+    response = None
     try:
         # Ensure proper URL format
         base_url = settings.SUPABASE_URL.rstrip('/')
@@ -68,6 +78,13 @@ def insert_registration_data(data):
         table_url = f"{base_url}/rest/v1/codestorm_registrations"
         headers = create_supabase_headers()
         
+        print(f"=== SUPABASE REQUEST DEBUG ===")
+        print(f"URL: {table_url}")
+        print(f"Headers: {json.dumps(headers, indent=2)}")
+        print(f"Data: {json.dumps(data, indent=2)}")
+        print(f"SUPABASE_KEY from settings: {settings.SUPABASE_KEY[:20]}...")
+        print(f"==============================")
+        
         print(f"Inserting data to: {table_url}")
         print(f"Data being sent: {json.dumps(data, indent=2)[:500]}...")
         
@@ -75,13 +92,21 @@ def insert_registration_data(data):
         print(f"Data insert response status: {response.status_code}")
         print(f"Data insert response: {response.text[:200]}")
         
+        if response.status_code == 409:
+            print(f"❌ CONFLICT ERROR: {response.text}")
+            print(f"Data being inserted: {json.dumps(data, indent=2)}")
+            raise Exception(f"Registration conflict: {response.text}")
+        
         response.raise_for_status()
         
         return response.json()
     except Exception as e:
         print(f"Error inserting registration data: {str(e)}")
-        print(f"Response status: {getattr(response, 'status_code', 'N/A')}")
-        print(f"Response text: {getattr(response, 'text', 'N/A')[:500]}")
+        if response:
+            print(f"Response status: {response.status_code}")
+            print(f"Response text: {response.text[:500]}")
+        else:
+            print("No response available (error occurred before request)")
         raise e
 
 def register_team(request):
@@ -101,51 +126,46 @@ def register_team(request):
                         # PPT upload failed (likely bucket not found), but continue with form submission
                         messages.warning(request, 'Note: PPT file could not be uploaded (storage bucket not configured), but your registration will still be saved.')
                 
-                # Prepare data for Supabase
+                # Prepare data for Supabase - match your table structure exactly
                 registration_data = {
                     'team_name': team_name,
                     'college': form.cleaned_data['college'],
-                    'team_size': form.cleaned_data['team_size'],
+                    'branch': form.cleaned_data.get('branch', ''),
+                    'year_of_study': form.cleaned_data.get('year_of_study', ''),
                     'idea_title': form.cleaned_data['idea_title'],
-                    'idea_description': form.cleaned_data['idea_description'],
-                    'idea_track': form.cleaned_data['idea_track'],
-                    'ppt_file_path': ppt_path,
+                    'idea_theme': form.cleaned_data['idea_theme'],
+                    'ppt_file_path': ppt_path or '',  # Ensure it's not None
+                    'youtube_link': form.cleaned_data.get('youtube_link', ''),
                     'member1_name': form.cleaned_data['member1_name'],
                     'member1_email': form.cleaned_data['member1_email'],
                     'member1_phone': form.cleaned_data['member1_phone'],
-                    'member1_branch': form.cleaned_data['member1_branch'],
-                    'member1_year': form.cleaned_data['member1_year'],
+                    'member1_roll': form.cleaned_data['member1_roll'],
                     'is_leader1': form.cleaned_data['is_leader1'],
-                    'member2_name': form.cleaned_data.get('member2_name'),
-                    'member2_email': form.cleaned_data.get('member2_email'),
-                    'member2_phone': form.cleaned_data.get('member2_phone'),
-                    'member2_branch': form.cleaned_data.get('member2_branch'),
-                    'member2_year': form.cleaned_data.get('member2_year'),
-                    'is_leader2': form.cleaned_data.get('is_leader2'),
-                    'member3_name': form.cleaned_data.get('member3_name'),
-                    'member3_email': form.cleaned_data.get('member3_email'),
-                    'member3_phone': form.cleaned_data.get('member3_phone'),
-                    'member3_branch': form.cleaned_data.get('member3_branch'),
-                    'member3_year': form.cleaned_data.get('member3_year'),
-                    'is_leader3': form.cleaned_data.get('is_leader3'),
-                    'member4_name': form.cleaned_data.get('member4_name'),
-                    'member4_email': form.cleaned_data.get('member4_email'),
-                    'member4_phone': form.cleaned_data.get('member4_phone'),
-                    'member4_branch': form.cleaned_data.get('member4_branch'),
-                    'member4_year': form.cleaned_data.get('member4_year'),
-                    'is_leader4': form.cleaned_data.get('is_leader4'),
-                    'member5_name': form.cleaned_data.get('member5_name'),
-                    'member5_email': form.cleaned_data.get('member5_email'),
-                    'member5_phone': form.cleaned_data.get('member5_phone'),
-                    'member5_branch': form.cleaned_data.get('member5_branch'),
-                    'member5_year': form.cleaned_data.get('member5_year'),
-                    'is_leader5': form.cleaned_data.get('is_leader5'),
-                    'member6_name': form.cleaned_data.get('member6_name'),
-                    'member6_email': form.cleaned_data.get('member6_email'),
-                    'member6_phone': form.cleaned_data.get('member6_phone'),
-                    'member6_branch': form.cleaned_data.get('member6_branch'),
-                    'member6_year': form.cleaned_data.get('member6_year'),
-                    'is_leader6': form.cleaned_data.get('is_leader6'),
+                    'member2_name': form.cleaned_data['member2_name'],
+                    'member2_email': form.cleaned_data['member2_email'],
+                    'member2_phone': form.cleaned_data['member2_phone'],
+                    'member2_roll': form.cleaned_data['member2_roll'],
+                    'is_leader2': form.cleaned_data['is_leader2'],
+                    'member3_name': form.cleaned_data['member3_name'],
+                    'member3_email': form.cleaned_data['member3_email'],
+                    'member3_phone': form.cleaned_data['member3_phone'],
+                    'member3_roll': form.cleaned_data['member3_roll'],
+                    'is_leader3': form.cleaned_data['is_leader3'],
+                    'member4_name': form.cleaned_data['member4_name'],
+                    'member4_email': form.cleaned_data['member4_email'],
+                    'member4_phone': form.cleaned_data['member4_phone'],
+                    'member4_roll': form.cleaned_data['member4_roll'],
+                    'is_leader4': form.cleaned_data['is_leader4'],
+                    'member5_name': form.cleaned_data.get('member5_name', ''),
+                    'member5_email': form.cleaned_data.get('member5_email', ''),
+                    'member5_phone': form.cleaned_data.get('member5_phone', ''),
+                    'member5_roll': form.cleaned_data.get('member5_roll', ''),
+                    'is_leader5': form.cleaned_data.get('is_leader5', False),
+                    'member6_name': form.cleaned_data.get('member6_name', ''),
+                    'member6_email': form.cleaned_data.get('member6_email', ''),
+                    'member6_phone': form.cleaned_data.get('member6_phone', ''),
+                    'member6_roll': form.cleaned_data.get('member6_roll', ''),
+                    'is_leader6': form.cleaned_data.get('is_leader6', False),
                 }
                 
                 # Insert into Supabase
@@ -154,8 +174,17 @@ def register_team(request):
                 return redirect('registration_success')
                 
             except Exception as e:
-                print(f"Registration error: {str(e)}")
-                messages.error(request, f'Error submitting registration: {str(e)}')
+                error_msg = str(e)
+                print(f"Registration error: {error_msg}")
+                
+                # Handle specific CSRF errors
+                if 'CSRF' in error_msg.upper():
+                    messages.error(request, 'CSRF verification failed. Please refresh the page and try again.')
+                elif 'cannot access local variable' in error_msg:
+                    messages.error(request, 'Server configuration error. Please try again or contact support.')
+                else:
+                    messages.error(request, f'Error submitting registration: {error_msg}')
+                
                 # If PPT upload failed, we don't need to clean up since we didn't insert data
                 
     else:

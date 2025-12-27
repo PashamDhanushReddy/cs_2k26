@@ -19,18 +19,16 @@ class TeamRegistrationForm(forms.Form):
     )
     branch = forms.CharField(
         max_length=255,
-        required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Enter your branch (optional)'
+            'placeholder': 'Enter your branch'
         })
     )
     year_of_study = forms.CharField(
         max_length=50,
-        required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Enter year of study (optional)'
+            'placeholder': 'Enter year of study'
         })
     )
     
