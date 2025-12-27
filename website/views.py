@@ -4,6 +4,7 @@ from django.contrib import messages
 import requests
 import uuid
 import os
+import json
 from .forms import TeamRegistrationForm
 
 def create_supabase_headers():
@@ -26,31 +27,55 @@ def upload_ppt_to_supabase(ppt_file, team_name):
         # Read file content
         file_content = ppt_file.read()
         
+        # Ensure proper URL format
+        base_url = settings.SUPABASE_URL.rstrip('/')
+        if not base_url.startswith('http'):
+            base_url = f"https://{base_url}"
+            
         # Upload to Supabase storage
-        storage_url = f"{settings.SUPABASE_URL}/storage/v1/object/{settings.SUPABASE_BUCKET_NAME}/{file_path}"
+        storage_url = f"{base_url}/storage/v1/object/{settings.SUPABASE_BUCKET_NAME}/{file_path}"
         headers = create_supabase_headers()
         headers['Content-Type'] = ppt_file.content_type
         
+        print(f"Uploading PPT to: {storage_url}")
         response = requests.post(storage_url, data=file_content, headers=headers)
+        print(f"PPT upload response status: {response.status_code}")
+        print(f"PPT upload response: {response.text[:200]}")
+        
         response.raise_for_status()
         
         return file_path
     except Exception as e:
         print(f"Error uploading PPT: {str(e)}")
+        print(f"Response status: {getattr(response, 'status_code', 'N/A')}")
+        print(f"Response text: {getattr(response, 'text', 'N/A')[:500]}")
         raise e
 
 def insert_registration_data(data):
     """Insert registration data into Supabase table"""
     try:
-        table_url = f"{settings.SUPABASE_URL}/rest/v1/codestorm_registrations"
+        # Ensure proper URL format
+        base_url = settings.SUPABASE_URL.rstrip('/')
+        if not base_url.startswith('http'):
+            base_url = f"https://{base_url}"
+            
+        table_url = f"{base_url}/rest/v1/codestorm_registrations"
         headers = create_supabase_headers()
         
+        print(f"Inserting data to: {table_url}")
+        print(f"Data being sent: {json.dumps(data, indent=2)[:500]}...")
+        
         response = requests.post(table_url, json=data, headers=headers)
+        print(f"Data insert response status: {response.status_code}")
+        print(f"Data insert response: {response.text[:200]}")
+        
         response.raise_for_status()
         
         return response.json()
     except Exception as e:
         print(f"Error inserting registration data: {str(e)}")
+        print(f"Response status: {getattr(response, 'status_code', 'N/A')}")
+        print(f"Response text: {getattr(response, 'text', 'N/A')[:500]}")
         raise e
 
 def register_team(request):
@@ -121,6 +146,7 @@ def register_team(request):
                 return redirect('registration_success')
                 
             except Exception as e:
+                print(f"Registration error: {str(e)}")
                 messages.error(request, f'Error submitting registration: {str(e)}')
                 # If PPT upload failed, we don't need to clean up since we didn't insert data
                 
