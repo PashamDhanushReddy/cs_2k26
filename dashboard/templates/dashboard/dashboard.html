@@ -40,13 +40,47 @@
         }
 
         /* Glassmorphism Cards */
-        .card, .stats-card, .filter-section, .table-container, .export-section {
+        .card, .stats-card, .filter-section, .export-section {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 20px;
             border: var(--glass-border);
             box-shadow: var(--card-shadow);
+        }
+
+        /* Enhanced table container with glassmorphism borders */
+        .table-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: var(--glass-border);
+            box-shadow: 
+                var(--card-shadow),
+                0 0 0 1px rgba(102, 126, 234, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .table-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .table-responsive {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
         }
 
         .navbar {
@@ -160,6 +194,84 @@
             font-size: 0.85rem;
             letter-spacing: 1px;
             padding: 15px;
+        }
+
+        /* Enhanced table borders for better visual definition */
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 
+                0 8px 32px rgba(102, 126, 234, 0.15),
+                0 0 0 1px rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .table thead {
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+        }
+
+        .table thead th {
+            background: var(--primary-gradient);
+            color: white;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.4);
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .table thead th:first-child {
+            border-top-left-radius: 15px;
+        }
+
+        .table thead th:last-child {
+            border-top-right-radius: 15px;
+            border-right: none;
+        }
+
+        .table tbody td {
+            border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+            border-right: 1px solid rgba(102, 126, 234, 0.08);
+            padding: 12px 15px;
+            vertical-align: middle;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease;
+        }
+
+        .table tbody td:last-child {
+            border-right: none;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table tbody tr:not(:last-child) td {
+            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        /* Enhanced hover effect with border highlight */
+        .table tbody tr:hover td {
+            border-bottom: 1px solid rgba(102, 126, 234, 0.4);
+            border-right: 1px solid rgba(102, 126, 234, 0.25);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .table tbody tr:hover td:last-child {
+            border-right: none;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(102, 126, 234, 0.08);
+            transform: scale(1.01);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
         }
 
         .table tbody tr {
@@ -383,31 +495,55 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        /* Row Status Colors - Increased Specificity and Opacity */
+        /* Row Status Colors - Increased Specificity and Opacity with Enhanced Borders */
         table.dataTable tbody tr.row-selected,
-        table.dataTable tbody tr.row-selected > td { background-color: rgba(46, 204, 113, 0.25) !important; }
+        table.dataTable tbody tr.row-selected > td { 
+            background-color: rgba(46, 204, 113, 0.25) !important;
+            border-color: rgba(46, 204, 113, 0.4) !important;
+        }
         
         table.dataTable tbody tr.row-waitlisted,
-        table.dataTable tbody tr.row-waitlisted > td { background-color: rgba(241, 196, 15, 0.25) !important; }
+        table.dataTable tbody tr.row-waitlisted > td { 
+            background-color: rgba(241, 196, 15, 0.25) !important;
+            border-color: rgba(241, 196, 15, 0.4) !important;
+        }
         
         table.dataTable tbody tr.row-rejected,
-        table.dataTable tbody tr.row-rejected > td { background-color: rgba(231, 76, 60, 0.25) !important; }
+        table.dataTable tbody tr.row-rejected > td { 
+            background-color: rgba(231, 76, 60, 0.25) !important;
+            border-color: rgba(231, 76, 60, 0.4) !important;
+        }
         
         table.dataTable tbody tr.row-pending,
-        table.dataTable tbody tr.row-pending > td { background-color: rgba(149, 165, 166, 0.25) !important; }
+        table.dataTable tbody tr.row-pending > td { 
+            background-color: rgba(149, 165, 166, 0.25) !important;
+            border-color: rgba(149, 165, 166, 0.4) !important;
+        }
         
-        /* Hover Effects */
+        /* Hover Effects with Enhanced Borders */
         table.dataTable tbody tr.row-selected:hover,
-        table.dataTable tbody tr.row-selected:hover > td { background-color: rgba(46, 204, 113, 0.35) !important; }
+        table.dataTable tbody tr.row-selected:hover > td { 
+            background-color: rgba(46, 204, 113, 0.35) !important;
+            border-color: rgba(46, 204, 113, 0.6) !important;
+        }
         
         table.dataTable tbody tr.row-waitlisted:hover,
-        table.dataTable tbody tr.row-waitlisted:hover > td { background-color: rgba(241, 196, 15, 0.35) !important; }
+        table.dataTable tbody tr.row-waitlisted:hover > td { 
+            background-color: rgba(241, 196, 15, 0.35) !important;
+            border-color: rgba(241, 196, 15, 0.6) !important;
+        }
         
         table.dataTable tbody tr.row-rejected:hover,
-        table.dataTable tbody tr.row-rejected:hover > td { background-color: rgba(231, 76, 60, 0.35) !important; }
+        table.dataTable tbody tr.row-rejected:hover > td { 
+            background-color: rgba(231, 76, 60, 0.35) !important;
+            border-color: rgba(231, 76, 60, 0.6) !important;
+        }
         
         table.dataTable tbody tr.row-pending:hover,
-        table.dataTable tbody tr.row-pending:hover > td { background-color: rgba(149, 165, 166, 0.35) !important; }
+        table.dataTable tbody tr.row-pending:hover > td { 
+            background-color: rgba(149, 165, 166, 0.35) !important;
+            border-color: rgba(149, 165, 166, 0.6) !important;
+        }
     </style>
 </head>
 <body>
@@ -749,8 +885,8 @@
                 responsive: true,
                 pageLength: 25,
                 order: [[7, 'desc']], // Sort by registration date (column 8, 0-indexed)
+                searching: false, // Disable search functionality
                 language: {
-                    search: "Search registrations:",
                     lengthMenu: "Show _MENU_ registrations per page",
                     info: "Showing _START_ to _END_ of _TOTAL_ registrations",
                     paginate: {
