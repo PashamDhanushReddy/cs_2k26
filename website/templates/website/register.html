@@ -144,11 +144,12 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">PPT File * (.ppt, .pptx, .pdf)</label>
-                                {{ form.ppt_file }}
-                                {% if form.ppt_file.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.ppt_file.errors.0 }}</p>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Google Drive Link for PPT *</label>
+                                {{ form.ppt_file_path }}
+                                {% if form.ppt_file_path.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.ppt_file_path.errors.0 }}</p>
                                 {% endif %}
+                                <p class="text-gray-500 text-xs mt-1">Make sure the Google Drive link is publicly accessible</p>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-300 mb-2">YouTube Link <span class="text-amber-500">*</span></label>

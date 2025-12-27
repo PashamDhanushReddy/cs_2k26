@@ -19,6 +19,14 @@ def validate_capital_letters(value):
         raise ValidationError('This field must contain only capital letters.')
     return value
 
+def validate_google_drive_link(value):
+    """Validate Google Drive link format"""
+    if not value.startswith('https://'):
+        raise ValidationError('Link must start with https://')
+    if 'drive.google.com' not in value and 'docs.google.com' not in value:
+        raise ValidationError('Please provide a valid Google Drive link.')
+    return value
+
 class TeamRegistrationForm(forms.Form):
     # Team details
     team_name = forms.CharField(
@@ -98,12 +106,13 @@ class TeamRegistrationForm(forms.Form):
         })
     )
     
-    # File uploads
-    ppt_file = forms.FileField(
-        validators=[FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pdf'])],
-        widget=forms.FileInput(attrs={
+    # PPT Google Drive Link - stores directly in ppt_file_path column
+    ppt_file_path = forms.URLField(
+        required=True,
+        validators=[validate_google_drive_link],
+        widget=forms.URLInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'accept': '.ppt,.pptx,.pdf'
+            'placeholder': 'Enter Google Drive link for your PPT (make sure link is publicly accessible)'
         })
     )
     youtube_link = forms.URLField(

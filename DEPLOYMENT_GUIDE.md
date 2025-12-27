@@ -9,7 +9,6 @@ Add these to your Render dashboard under Environment Variables:
 SECRET_KEY=your-secret-key-here
 SUPABASE_URL=https://divhwqupyptmuotlzqpn.supabase.co
 SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpdmh3cXVweXB0bXVvdGx6cXBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY3NjMxNDIsImV4cCI6MjA4MjMzOTE0Mn0.byZcoPz1SG6olNX_x17jKoqyVwuUKhPeO_JnDauR4A4
-SUPABASE_BUCKET_NAME=codestorm-ppt
 RENDER_EXTERNAL_HOSTNAME=your-app-name.onrender.com
 ```
 
@@ -39,7 +38,7 @@ gunicorn codestorm_project.wsgi:application
    - YouTube link: `youtube_link` (optional field)
    - Member details: `member1-6` with `name`, `email`, `phone`, `roll`, and `is_leader` fields
 
-2. **Supabase Bucket**: If you want PPT uploads to work, create the `codestorm-ppt` bucket in your Supabase dashboard
+2. **PPT Submission**: Teams now submit Google Drive links instead of uploading files. The `ppt_file_path` column stores the Google Drive link directly.
 
 3. **Database**: The registration system will work with your existing Supabase table with exact column mapping
 

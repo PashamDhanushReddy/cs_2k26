@@ -22,49 +22,7 @@ def create_supabase_headers():
         'Prefer': 'return=representation'
     }
 
-def upload_ppt_to_supabase(ppt_file, team_name):
-    """Upload PPT file to Supabase storage"""
-    response = None
-    try:
-        file_extension = ppt_file.name.split('.')[-1]
-        unique_filename = f"{team_name.replace(' ', '_')}_{uuid.uuid4()}.{file_extension}"
-        file_path = f"ppt_submissions/{unique_filename}"
-
-        # Read file content
-        file_content = ppt_file.read()
-
-        # Ensure proper URL format
-        base_url = settings.SUPABASE_URL.rstrip('/')
-        if not base_url.startswith('http'):
-            base_url = f"https://{base_url}"
-            
-        # Upload to Supabase storage
-        storage_url = f"{base_url}/storage/v1/object/{settings.SUPABASE_BUCKET_NAME}/{file_path}"
-        headers = create_supabase_headers()
-        headers['Content-Type'] = ppt_file.content_type
-        
-        print(f"Uploading PPT to: {storage_url}")
-        response = requests.post(storage_url, data=file_content, headers=headers)
-        print(f"PPT upload response status: {response.status_code}")
-        print(f"PPT upload response: {response.text[:200]}")
-        
-        # Handle bucket not found error gracefully
-        if response.status_code == 400 and "Bucket not found" in response.text:
-            print("⚠️  Bucket not found - PPT will not be uploaded, but form data will still be saved")
-            return None
-        
-        response.raise_for_status()
-        
-        return file_path
-    except Exception as e:
-        print(f"Error uploading PPT: {str(e)}")
-        if response:
-            print(f"Response status: {response.status_code}")
-            print(f"Response text: {response.text[:500]}")
-        else:
-            print("No response available (error occurred before request)")
-        # Return None instead of raising - allow form submission to continue
-        return None
+# Note: PPT upload functionality has been removed - now using Google Drive links
 
 def insert_registration_data(data):
     """Insert registration data into Supabase table"""
@@ -112,30 +70,22 @@ def insert_registration_data(data):
 def register_team(request):
     """Handle team registration"""
     if request.method == 'POST':
-        form = TeamRegistrationForm(request.POST, request.FILES)
+        form = TeamRegistrationForm(request.POST)
         if form.is_valid():
             try:
-                # Upload PPT first
-                ppt_file = request.FILES.get('ppt_file')
-                team_name = form.cleaned_data['team_name']
-                
-                ppt_path = None
-                if ppt_file:
-                    ppt_path = upload_ppt_to_supabase(ppt_file, team_name)
-                    if ppt_path is None:
-                        # PPT upload failed (likely bucket not found), but continue with form submission
-                        messages.warning(request, 'Note: PPT file could not be uploaded (storage bucket not configured), but your registration will still be saved.')
+                # Get Google Drive link directly from form
+                ppt_drive_link = form.cleaned_data['ppt_file_path']
                 
                 # Prepare data for Supabase - match your table structure exactly
                 registration_data = {
-                    'team_name': team_name,
+                    'team_name': form.cleaned_data['team_name'],
                     'college': form.cleaned_data['college'],
                     'college_code': form.cleaned_data['college_code'],
                     'branch': form.cleaned_data.get('branch', ''),
                     'year_of_study': form.cleaned_data.get('year_of_study', ''),
                     'idea_title': form.cleaned_data['idea_title'],
                     'idea_theme': form.cleaned_data['idea_theme'],
-                    'ppt_file_path': ppt_path or '',  # Ensure it's not None
+                    'ppt_file_path': ppt_drive_link,  # Store Google Drive link directly
                     'youtube_link': form.cleaned_data.get('youtube_link', ''),
                     'member1_name': form.cleaned_data['member1_name'],
                     'member1_email': form.cleaned_data['member1_email'],
