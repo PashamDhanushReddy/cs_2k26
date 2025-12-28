@@ -284,17 +284,22 @@ def dashboard_view(request):
         
         # Process PPT download links
         if ppt_path:
-            try:
-                # Generate a signed URL valid for 1 hour (3600 seconds)
-                res = supabase.storage.from_(settings.SUPABASE_BUCKET_NAME).create_signed_url(ppt_path, 3600)
-                if res and 'signedURL' in res:
-                    essential_data['download_url'] = res['signedURL']
-                    essential_data['download_path'] = base64.b64encode(ppt_path.encode()).decode()
-                    essential_data['download_filename'] = ppt_path.split('/')[-1]
-                else:
-                    essential_data['download_error'] = "No signed URL generated"
-            except Exception as e:
-                essential_data['download_error'] = str(e)
+            # Check if it's a Cloudinary URL (or any full URL)
+            if ppt_path.startswith('http'):
+                essential_data['download_url'] = ppt_path
+                essential_data['download_filename'] = ppt_path.split('/')[-1]
+            else:
+                try:
+                    # Generate a signed URL valid for 1 hour (3600 seconds)
+                    res = supabase.storage.from_(settings.SUPABASE_BUCKET_NAME).create_signed_url(ppt_path, 3600)
+                    if res and 'signedURL' in res:
+                        essential_data['download_url'] = res['signedURL']
+                        essential_data['download_path'] = base64.b64encode(ppt_path.encode()).decode()
+                        essential_data['download_filename'] = ppt_path.split('/')[-1]
+                    else:
+                        essential_data['download_error'] = "No signed URL generated"
+                except Exception as e:
+                    essential_data['download_error'] = str(e)
         else:
             essential_data['download_error'] = "No PPT file uploaded"
             
