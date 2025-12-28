@@ -5,7 +5,18 @@ import requests
 import uuid
 import os
 import json
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 from .forms import TeamRegistrationForm
+
+# Initialize Cloudinary
+cloudinary.config( 
+  cloud_name = settings.CLOUDINARY_STORAGE['CLOUD_NAME'], 
+  api_key = settings.CLOUDINARY_STORAGE['API_KEY'], 
+  api_secret = settings.CLOUDINARY_STORAGE['API_SECRET'],
+  secure = True
+)
 
 def create_supabase_headers():
     """Create headers for Supabase API requests"""
@@ -22,48 +33,32 @@ def create_supabase_headers():
         'Prefer': 'return=representation'
     }
 
-def upload_ppt_to_supabase(ppt_file, team_name):
-    """Upload PPT file to Supabase storage"""
-    response = None
+def upload_ppt_to_cloudinary(ppt_file, team_name):
+    """Upload PPT file to Cloudinary"""
     try:
-        file_extension = ppt_file.name.split('.')[-1]
-        unique_filename = f"{team_name.replace(' ', '_')}_{uuid.uuid4()}.{file_extension}"
-        file_path = f"ppt_submissions/{unique_filename}"
-
-        # Read file content
-        file_content = ppt_file.read()
-
-        # Ensure proper URL format
-        base_url = settings.SUPABASE_URL.rstrip('/')
-        if not base_url.startswith('http'):
-            base_url = f"https://{base_url}"
-            
-        # Upload to Supabase storage
-        storage_url = f"{base_url}/storage/v1/object/{settings.SUPABASE_BUCKET_NAME}/{file_path}"
-        headers = create_supabase_headers()
-        headers['Content-Type'] = ppt_file.content_type
+        # Generate a unique public_id
+        # Cloudinary handles extensions automatically usually, but we can keep it in the name if we want
+        # or just use the team name + uuid
+        unique_filename = f"{team_name.replace(' ', '_')}_{uuid.uuid4()}"
         
-        print(f"Uploading PPT to: {storage_url}")
-        response = requests.post(storage_url, data=file_content, headers=headers)
-        print(f"PPT upload response status: {response.status_code}")
-        print(f"PPT upload response: {response.text[:200]}")
+        print(f"Uploading PPT to Cloudinary: {unique_filename}")
         
-        # Handle bucket not found error gracefully
-        if response.status_code == 400 and "Bucket not found" in response.text:
-            print("⚠️  Bucket not found - PPT will not be uploaded, but form data will still be saved")
-            return None
+        # Upload to Cloudinary
+        # resource_type="auto" allows uploading pdf/ppt as raw or auto-detected
+        response = cloudinary.uploader.upload(
+            ppt_file, 
+            public_id=unique_filename,
+            folder="ppt_submissions",
+            resource_type="auto"
+        )
         
-        response.raise_for_status()
+        print(f"Cloudinary upload success. URL: {response.get('secure_url')}")
         
-        return file_path
+        # Return the secure URL
+        return response.get('secure_url')
+        
     except Exception as e:
-        print(f"Error uploading PPT: {str(e)}")
-        if response:
-            print(f"Response status: {response.status_code}")
-            print(f"Response text: {response.text[:500]}")
-        else:
-            print("No response available (error occurred before request)")
-        # Return None instead of raising - allow form submission to continue
+        print(f"Error uploading PPT to Cloudinary: {str(e)}")
         return None
 
 def insert_registration_data(data):
@@ -121,10 +116,10 @@ def register_team(request):
                 
                 ppt_path = None
                 if ppt_file:
-                    ppt_path = upload_ppt_to_supabase(ppt_file, team_name)
+                    ppt_path = upload_ppt_to_cloudinary(ppt_file, team_name)
                     if ppt_path is None:
-                        # PPT upload failed (likely bucket not found), but continue with form submission
-                        messages.warning(request, 'Note: PPT file could not be uploaded (storage bucket not configured), but your registration will still be saved.')
+                        # PPT upload failed
+                        messages.warning(request, 'Note: PPT file could not be uploaded to Cloudinary, but your registration will still be saved.')
                 
                 # Prepare data for Supabase - match your table structure exactly
                 registration_data = {
