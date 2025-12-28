@@ -203,8 +203,36 @@ def dashboard_view(request):
     
     # Get unique values for dropdowns from all data
     all_college_codes = sorted(set(reg['college_code'] for reg in all_processed if reg['college_code'] != 'N/A'))
-    all_team_sizes = sorted(set(str(reg['team_size']) for reg in all_processed if reg['team_size'] > 0))
-    all_idea_themes = sorted(set(reg['idea_theme'] for reg in all_processed if reg['idea_theme'] != 'N/A'))
+    
+    # Team sizes should show all possible options (4, 5, 6 members)
+    all_team_sizes = ['4', '5', '6']
+    
+    # Get all unique themes from the database, plus add any missing standard themes
+    db_themes = sorted(set(reg['idea_theme'] for reg in all_processed if reg['idea_theme'] != 'N/A'))
+    
+    # Add any missing standard themes that should always be available
+    standard_themes = [
+        'Artificial Intelligence & Machine Learning',
+        'Web Development',
+        'Mobile App Development', 
+        'Blockchain & Cryptocurrency',
+        'Internet of Things (IoT)',
+        'Cybersecurity',
+        'Data Science & Analytics',
+        'Cloud Computing',
+        'Game Development',
+        'Fintech',
+        'Health Tech',
+        'Ed Tech',
+        'E-commerce',
+        'Social Impact',
+        'Environment & Sustainability',
+        'Robotics',
+        'Augmented Reality & Virtual Reality'
+    ]
+    
+    # Combine database themes with standard themes and remove duplicates
+    all_idea_themes = sorted(set(db_themes + standard_themes))
     
     # Process registrations to generate download links and essential data
     processed_registrations = []
@@ -252,6 +280,10 @@ def dashboard_view(request):
                     'is_leader': is_leader
                 })
         
+        # Apply team size filter if specified
+        if team_size_filter and str(team_size) != team_size_filter:
+            continue
+        
         # Parse registration date
         registration_date = reg.get('registration_date', 'N/A')
         if registration_date != 'N/A' and registration_date:
@@ -281,6 +313,7 @@ def dashboard_view(request):
         }
         
         essential_data['team_members'] = team_members
+        essential_data['team_members_json'] = json.dumps(team_members)
         
         # Process PPT download links
         if ppt_path:
@@ -305,6 +338,9 @@ def dashboard_view(request):
             
         processed_registrations.append(essential_data)
     
+    # Get total count of all registrations from database (unfiltered)
+    total_registrations = len(all_registrations) if all_registrations else 0
+    
     context = {
         'registrations': processed_registrations,
         'filters': {
@@ -318,7 +354,7 @@ def dashboard_view(request):
         'college_codes': all_college_codes,
         'team_sizes': all_team_sizes,
         'idea_themes': all_idea_themes,
-        'total_registrations': len(processed_registrations),
+        'total_registrations': total_registrations,
     }
     
     return render(request, 'dashboard/dashboard.html', context)

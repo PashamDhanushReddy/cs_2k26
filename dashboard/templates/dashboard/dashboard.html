@@ -1079,7 +1079,7 @@
                                         <div class="mobile-table-header">Team Members</div>
                                         <div class="team-members-cell" 
                                              data-team-name="{{ reg.team_name }}"
-                                             data-team-members='{{ reg.team_members|safe }}'
+                                             data-team-members='{{ reg.team_members_json }}'
                                              style="cursor: pointer;"
                                              title="Click to view team member details">
                                             {% if reg.team_members %}
@@ -1416,6 +1416,11 @@
                 
                 // Show success message
                 showAlert('Selection status updated successfully!', 'success');
+                
+                // Refresh the page after a short delay to show the success message
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
             })
             .catch(error => {
                 console.error('Error updating selection status:', error);
