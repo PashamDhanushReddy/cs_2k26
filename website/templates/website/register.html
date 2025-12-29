@@ -521,6 +521,45 @@
             background-position: right 20px center;
             background-size: 18px;
             padding-right: 60px;
+            background-color: #1f2937 !important;
+            color: #ffffff !important;
+            border: 2px solid #374151 !important;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        
+        /* Select dropdown options styling */
+        .form-select option {
+            background-color: #1f2937 !important;
+            color: #ffffff !important;
+            padding: 12px 16px !important;
+            border-bottom: 1px solid #374151 !important;
+        }
+        
+        .form-select option:hover {
+            background-color: #374151 !important;
+        }
+        
+        .form-select option:checked {
+            background-color: #f59e0b !important;
+            color: #000000 !important;
+        }
+        
+        /* Fix for browser default select styling */
+        select.form-select::-ms-expand {
+            display: none;
+        }
+        
+        select.form-select {
+            background-color: #1f2937 !important;
+            color: #ffffff !important;
+        }
+        
+        /* Dark theme for select dropdown */
+        select.form-select:focus {
+            background-color: #1f2937 !important;
+            color: #ffffff !important;
         }
         
         /* Input field transitions with better visual feedback */
@@ -890,7 +929,7 @@
                             
                             <!-- Member 1 (Required) -->
                             <div class="member-card">
-                                <h3 class="h5 text-white mb-3">Member 1 (Required) <span class="text-danger">*</span></h3>
+                                <h3 class="h5 text-white mb-3">Member 1 <span class="text-danger">*</span></h3>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <label for="{{ form.member1_name.id_for_label }}" class="form-label required-field">Full Name</label>
@@ -974,7 +1013,7 @@
 
                             <!-- Member 2 (Required) -->
                             <div class="member-card">
-                                <h3 class="h5 text-white mb-3">Member 2 (Required) <span class="text-danger">*</span></h3>
+                                <h3 class="h5 text-white mb-3">Member 2 <span class="text-danger">*</span></h3>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <label for="{{ form.member2_name.id_for_label }}" class="form-label required-field">Full Name</label>
@@ -1058,7 +1097,7 @@
 
                             <!-- Member 3 (Required) -->
                             <div class="member-card">
-                                <h3 class="h5 text-white mb-3">Member 3 (Required) <span class="text-danger">*</span></h3>
+                                <h3 class="h5 text-white mb-3">Member 3 <span class="text-danger">*</span></h3>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <label for="{{ form.member3_name.id_for_label }}" class="form-label required-field">Full Name</label>
@@ -1142,7 +1181,7 @@
 
                             <!-- Member 4 (Required) -->
                             <div class="member-card">
-                                <h3 class="h5 text-white mb-3">Member 4 (Required) <span class="text-danger">*</span></h3>
+                                <h3 class="h5 text-white mb-3">Member 4 <span class="text-danger">*</span></h3>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <label for="{{ form.member4_name.id_for_label }}" class="form-label required-field">Full Name</label>
@@ -1552,12 +1591,58 @@
                     input.addEventListener('input', function() {
                         // Remove non-numeric characters and limit to 10 digits
                         this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+                        
+                        // Validate first digit (must be 6-9)
+                        if (this.value.length > 0 && !/[6-9]/.test(this.value[0])) {
+                            this.value = '';
+                        }
                     });
                     
                     // Prevent non-numeric input
                     input.addEventListener('keypress', function(e) {
                         if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
                             e.preventDefault();
+                        }
+                    });
+                    
+                    // Validate on paste
+                    input.addEventListener('paste', function(e) {
+                        e.preventDefault();
+                        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                        const cleanedText = pastedText.replace(/[^0-9]/g, '').slice(0, 10);
+                        
+                        // Ensure first digit is 6-9
+                        if (cleanedText.length > 0 && !/[6-9]/.test(cleanedText[0])) {
+                            return;
+                        }
+                        
+                        this.value = cleanedText;
+                    });
+                    
+                    // Add visual feedback for invalid first digit
+                    input.addEventListener('blur', function() {
+                        if (this.value.length === 1 && !/[6-9]/.test(this.value[0])) {
+                            this.style.borderColor = '#ef4444';
+                            this.style.boxShadow = '0 0 0 0.2rem rgba(239, 68, 68, 0.25)';
+                            
+                            // Show error message
+                            let errorDiv = this.parentElement.querySelector('.phone-error');
+                            if (!errorDiv) {
+                                errorDiv = document.createElement('div');
+                                errorDiv.className = 'text-danger small phone-error';
+                                errorDiv.textContent = 'Phone number must start with 6, 7, 8, or 9';
+                                this.parentElement.appendChild(errorDiv);
+                            }
+                        } else if (this.value.length === 0 || /[6-9]/.test(this.value[0])) {
+                            // Remove error styling if valid
+                            this.style.borderColor = '';
+                            this.style.boxShadow = '';
+                            
+                            // Remove error message
+                            const errorDiv = this.parentElement.querySelector('.phone-error');
+                            if (errorDiv) {
+                                errorDiv.remove();
+                            }
                         }
                     });
                 });
@@ -1653,6 +1738,141 @@
             // Add mobile class to body for CSS targeting
             if (window.innerWidth <= 768) {
                 document.body.classList.add('mobile-device');
+            }
+        });
+        
+        // Update leader checkbox function (missing from original template)
+        function updateLeaderCheckbox(memberNumber) {
+            const checkbox = document.querySelector(`input[name="is_leader${memberNumber}"]`);
+            if (checkbox && checkbox.checked) {
+                // Uncheck all other leader checkboxes
+                for (let i = 1; i <= 6; i++) {
+                    if (i !== memberNumber) {
+                        const otherCheckbox = document.querySelector(`input[name="is_leader${i}"]`);
+                        if (otherCheckbox) {
+                            otherCheckbox.checked = false;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Email validation function
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        // Phone number validation function
+        function validatePhone(phone) {
+            const phoneRegex = /^[6-9]\d{9}$/;
+            return phoneRegex.test(phone);
+        }
+        
+        // Convert to uppercase function
+        function convertToUppercase(input) {
+            input.value = input.value.toUpperCase();
+        }
+        
+        // Enhanced form validation
+        function validateForm() {
+            const form = document.getElementById('registrationForm');
+            if (!form) return true;
+            
+            let isValid = true;
+            const errors = [];
+            
+            // Validate email fields
+            const emailFields = form.querySelectorAll('input[type="email"]');
+            emailFields.forEach(field => {
+                if (field.value && !validateEmail(field.value)) {
+                    isValid = false;
+                    const fieldName = field.placeholder || field.name;
+                    errors.push(`${fieldName}: Please enter a valid email address`);
+                    field.classList.add('is-invalid');
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            // Validate phone fields
+            const phoneFields = form.querySelectorAll('input[type="tel"]');
+            phoneFields.forEach(field => {
+                if (field.value && !validatePhone(field.value)) {
+                    isValid = false;
+                    const fieldName = field.placeholder || field.name;
+                    errors.push(`${fieldName}: Phone number must be 10 digits starting with 6, 7, 8, or 9`);
+                    field.classList.add('is-invalid');
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            // Validate college code and course name fields (must be uppercase)
+            const collegeCodeFields = form.querySelectorAll('input[name$="_college_code"]');
+            const courseNameFields = form.querySelectorAll('input[name$="_course_name"]');
+            
+            [...collegeCodeFields, ...courseNameFields].forEach(field => {
+                if (field.value && field.value !== field.value.toUpperCase()) {
+                    field.value = field.value.toUpperCase();
+                }
+            });
+            
+            // Display errors if any
+            if (!isValid && errors.length > 0) {
+                alert('Please fix the following errors:\n\n' + errors.join('\n'));
+            }
+            
+            return isValid;
+        }
+        
+        // Setup enhanced validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            if (form) {
+                // Add validation on form submit
+                form.addEventListener('submit', function(e) {
+                    if (!validateForm()) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+                
+                // Add real-time validation for email fields
+                const emailFields = form.querySelectorAll('input[type="email"]');
+                emailFields.forEach(field => {
+                    field.addEventListener('blur', function() {
+                        if (this.value && !validateEmail(this.value)) {
+                            this.classList.add('is-invalid');
+                            alert('Please enter a valid email address');
+                        } else {
+                            this.classList.remove('is-invalid');
+                        }
+                    });
+                });
+                
+                // Add real-time validation for phone fields
+                const phoneFields = form.querySelectorAll('input[type="tel"]');
+                phoneFields.forEach(field => {
+                    field.addEventListener('blur', function() {
+                        if (this.value && !validatePhone(this.value)) {
+                            this.classList.add('is-invalid');
+                            alert('Phone number must be 10 digits starting with 6, 7, 8, or 9');
+                        } else {
+                            this.classList.remove('is-invalid');
+                        }
+                    });
+                });
+                
+                // Add uppercase conversion for college code and course name
+                const collegeCodeFields = form.querySelectorAll('input[name$="_college_code"]');
+                const courseNameFields = form.querySelectorAll('input[name$="_course_name"]');
+                
+                [...collegeCodeFields, ...courseNameFields].forEach(field => {
+                    field.addEventListener('input', function() {
+                        convertToUppercase(this);
+                    });
+                });
             }
         });
         
