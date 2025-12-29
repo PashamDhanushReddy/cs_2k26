@@ -3,809 +3,1039 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CodeStorm 2026 - Team Registration</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Bootstrap CSS for mobile-first design -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Rajdhani', sans-serif;
             background-color: #020617;
             color: #e2e8f0;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
         }
+        
+        .container-fluid {
+            padding: 0 15px;
+        }
+        
         .gradient-text {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-family: 'Orbitron', sans-serif;
         }
+        
         .glass-panel {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
-        .form-input:focus {
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        
+        .form-control, .form-select {
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 16px !important; /* Prevent zoom on iOS */
+            min-height: 44px; /* Minimum touch target */
+            transition: border-color 0.3s ease;
         }
-        .leader-checkbox:checked {
-            background-color: #f59e0b;
+        
+        .form-control:focus, .form-select:focus {
+            background-color: #374151;
             border-color: #f59e0b;
+            box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
+            color: #ffffff;
         }
         
-        /* Mobile-specific fixes */
-        @media (hover: none) and (pointer: coarse) {
-            /* Disable hover effects on touch devices */
-            .hover\:bg-amber-500:hover {
-                background-color: transparent !important;
-            }
-            .hover\:text-black:hover {
-                color: inherit !important;
-            }
-            .hover\:from-amber-600:hover {
-                --tw-gradient-from: #f59e0b !important;
-                --tw-gradient-to: rgb(245 158 11 / 0) !important;
-                --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
-            }
-            .hover\:to-amber-700:hover {
-                --tw-gradient-to: #d97706 !important;
-            }
-            .hover\:scale-105:hover {
-                transform: none !important;
-            }
-            .hover\:shadow-amber-500\/25:hover {
-                --tw-shadow-color: rgb(245 158 11 / 0.25) !important;
-                --tw-shadow: var(--tw-shadow-colored) !important;
-            }
-            
-            /* Ensure form elements are properly sized on mobile */
-            input, select, textarea {
-                font-size: 16px !important; /* Prevent zoom on iOS */
-                min-height: 44px !important; /* Minimum touch target size */
-            }
-            
-            /* Ensure buttons are properly sized */
-            button {
-                min-height: 44px !important;
-                min-width: 44px !important;
-            }
-            
-            /* Prevent horizontal overflow */
-            body {
-                overflow-x: hidden;
-                max-width: 100vw;
-            }
-            
-            /* Ensure glass panels work on mobile */
-            .glass-panel {
-                backdrop-filter: blur(8px) !important; /* Reduced blur for performance */
-            }
+        .form-label {
+            color: #d1d5db;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
         }
         
-        /* Additional mobile optimizations */
+        .btn-submit {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            border: none;
+            color: #000000;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            min-height: 50px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+        
+        .navbar {
+            background-color: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+        }
+        
+        .section-title {
+            color: #f59e0b;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #4b5563;
+            padding-bottom: 10px;
+        }
+        
+        .member-card {
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid #4b5563;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .required-field::after {
+            content: ' *';
+            color: #ef4444;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        /* Mobile-specific optimizations to prevent fluttering */
         @media (max-width: 768px) {
-            .container {
-                padding-left: 1rem !important;
-                padding-right: 1rem !important;
+            /* Disable button scaling on mobile */
+            .btn-submit:active {
+                transform: none;
             }
             
-            /* Ensure form doesn't overflow on small screens */
-            .max-w-4xl {
-                max-width: 100% !important;
-                margin-left: 0.5rem !important;
-                margin-right: 0.5rem !important;
+            /* Prevent form elements from causing layout shifts */
+            .form-control, .form-select {
+                transition: none;
             }
             
-            /* Adjust grid layouts for mobile */
-            .grid-cols-1.md\:grid-cols-2 {
-                grid-template-columns: 1fr !important;
+            /* Disable any hover effects that might cause flicker */
+            .btn-submit:hover {
+                background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             }
-            .grid-cols-1.md\:grid-cols-4 {
-                grid-template-columns: 1fr !important;
+            
+            /* Ensure smooth scrolling */
+            html {
+                scroll-behavior: smooth;
             }
+            
+            /* Prevent tap highlight color */
+            .btn-submit {
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+            }
+        }
+            .container-fluid {
+                padding: 0 10px;
+            }
+            
+            .glass-panel {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .member-card {
+                padding: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .form-control, .form-select {
+                padding: 10px 12px;
+                font-size: 16px !important;
+            }
+        
+        
+        /* Ensure proper touch targets */
+        .form-check-input {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            min-height: 20px;
+        }
+        
+        /* Prevent horizontal scroll */
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Loading state */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            border-width: 0.15em;
         }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
     <!-- Navigation -->
-    <nav class="bg-gray-900/90 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex items-center justify-between">
-                <a href="{% url 'home' %}" class="flex items-center gap-3 group">
-                    <img src="{% static 'images/logo.jpg' %}" alt="CodeStorm Logo" class="w-10 h-10 rounded-lg object-cover">
-                    <div>
-                        <span class="text-xl font-bold font-orbitron text-white">CODESTORM</span>
-                        <span class="text-xs text-amber-500 font-rajdhani block">2K26 EDITION</span>
-                    </div>
-                </a>
-                <a href="{% url 'home' %}" class="px-4 py-2 border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black font-bold rounded transition-all duration-300">
-                    Back to Home
-                </a>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                <img src="{% static 'images/logo.jpg' %}" alt="CodeStorm Logo" class="me-2" style="width: 40px; height: 40px; border-radius: 8px;">
+                <div>
+                    <div class="fw-bold text-white" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem;">CODESTORM</div>
+                    <div class="text-warning" style="font-size: 0.7rem;">2K26 EDITION</div>
+                </div>
+            </a>
+            <a class="btn btn-outline-warning btn-sm" href="{% url 'home' %}">Back to Home</a>
         </div>
     </nav>
 
-    <!-- Registration Form -->
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-4xl mx-auto">
-            <!-- Header -->
-            <div class="text-center mb-8">
-                <h1 class="text-4xl md:text-5xl font-bold font-orbitron gradient-text mb-4">Team Registration</h1>
-                <p class="text-gray-400 text-lg">Register your team for CodeStorm 2026 - The Ultimate 36-Hour Hackathon</p>
-            </div>
+    <!-- Main Content -->
+    <main class="container-fluid" style="margin-top: 100px; padding-bottom: 50px;">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <h1 class="gradient-text display-5 fw-bold mb-3" style="font-family: 'Orbitron', sans-serif;">Team Registration</h1>
+                    <p class="text-muted">Register your team for CodeStorm 2026 - The Ultimate 36-Hour Hackathon</p>
+                </div>
 
-            <!-- Messages -->
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="mb-6 p-4 rounded-lg {% if message.tags == 'success' %}bg-green-900/50 border border-green-500 text-green-300{% else %}bg-red-900/50 border border-red-500 text-red-300{% endif %}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
+                <!-- Messages -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
 
-            <!-- Form -->
-            <div class="glass-panel rounded-2xl p-8 shadow-2xl">
-                <form method="post" enctype="multipart/form-data" class="space-y-8">
-                    {% csrf_token %}
-                    
-                    <!-- Team Details Section -->
-                    <div class="space-y-6">
-                        <h2 class="text-2xl font-bold font-orbitron text-amber-500 border-b border-gray-600 pb-2">Team Details</h2>
+                <!-- Registration Form -->
+                <div class="glass-panel">
+                    <form method="post" enctype="multipart/form-data" id="registrationForm">
+                        {% csrf_token %}
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Team Name *</label>
-                                {{ form.team_name }}
-                                {% if form.team_name.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.team_name.errors.0 }}</p>
-                                {% endif %}
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">College Name *</label>
-                                {{ form.college }}
-                                {% if form.college.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.college.errors.0 }}</p>
-                                {% endif %}
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">College Code *</label>
-                                {{ form.college_code }}
-                                {% if form.college_code.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.college_code.errors.0 }}</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Branch</label>
-                                {{ form.branch }}
-                                {% if form.branch.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.branch.errors.0 }}</p>
-                                {% endif %}
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Team Size *</label>
-                                {{ form.team_size }}
-                                {% if form.team_size.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.team_size.errors.0 }}</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Idea Details Section -->
-                    <div class="space-y-6">
-                        <h2 class="text-2xl font-bold font-orbitron text-amber-500 border-b border-gray-600 pb-2">Idea Details</h2>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Idea Title *</label>
-                                {{ form.idea_title }}
-                                {% if form.idea_title.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.idea_title.errors.0 }}</p>
-                                {% endif %}
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Idea Theme/Track *</label>
-                                {{ form.idea_theme }}
-                                {% if form.idea_theme.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.idea_theme.errors.0 }}</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">PPT File * (.ppt, .pptx, .pdf)</label>
-                                {{ form.ppt_file }}
-                                {% if form.ppt_file.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.ppt_file.errors.0 }}</p>
-                                {% endif %}
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">YouTube Link <span class="text-amber-500">*</span></label>
-                                {{ form.youtube_link }}
-                                {% if form.youtube_link.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.youtube_link.errors.0 }}</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Team Members Section -->
-                    <div class="space-y-6">
-                        <h2 class="text-2xl font-bold font-orbitron text-amber-500 border-b border-gray-600 pb-2">Team Members</h2>
-                        <p class="text-gray-400 text-sm">Select exactly one member as team leader. Members 1-4 are required, 5-6 are optional.</p>
-                        
-                        <!-- Member 1 (Required) -->
-                        <div class="border border-gray-600 rounded-lg p-6">
-                            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                                Member 1 (Required)
-                                <span class="ml-2 text-amber-500">*</span>
-                            </h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
-                                    {{ form.member1_name }}
-                                    {% if form.member1_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_name.errors.0 }}</p>
+                        <!-- Team Details Section -->
+                        <div class="mb-4">
+                            <h2 class="section-title">Team Details</h2>
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="{{ form.team_name.id_for_label }}" class="form-label required-field">Team Name</label>
+                                    {{ form.team_name }}
+                                    {% if form.team_name.errors %}
+                                        <div class="text-danger small">{{ form.team_name.errors.0 }}</div>
                                     {% endif %}
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email *</label>
-                                    {{ form.member1_email }}
-                                    {% if form.member1_email.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_email.errors.0 }}</p>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="{{ form.college.id_for_label }}" class="form-label required-field">College Name</label>
+                                    {{ form.college }}
+                                    {% if form.college.errors %}
+                                        <div class="text-danger small">{{ form.college.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
-                                    {{ form.member1_phone }}
-                                    {% if form.member1_phone.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_phone.errors.0 }}</p>
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="{{ form.college_code.id_for_label }}" class="form-label required-field">College Code</label>
+                                    {{ form.college_code }}
+                                    {% if form.college_code.errors %}
+                                        <div class="text-danger small">{{ form.college_code.errors.0 }}</div>
                                     {% endif %}
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number *</label>
-                                    {{ form.member1_roll }}
-                                    {% if form.member1_roll.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_roll.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender *</label>
-                                    {{ form.member1_gender }}
-                                    {% if form.member1_gender.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_gender.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
-                                    {{ form.member1_college_name }}
-                                    {% if form.member1_college_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_college_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
-                                    {{ form.member1_course_name }}
-                                    {% if form.member1_course_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_course_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year *</label>
-                                    {{ form.member1_year }}
-                                    {% if form.member1_year.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_year.errors.0 }}</p>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="{{ form.team_size.id_for_label }}" class="form-label required-field">Team Size</label>
+                                    {{ form.team_size }}
+                                    {% if form.team_size.errors %}
+                                        <div class="text-danger small">{{ form.team_size.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="flex items-center">
-                                {{ form.is_leader1 }}
-                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="{{ form.branch.id_for_label }}" class="form-label">Branch</label>
+                                    {{ form.branch }}
+                                    {% if form.branch.errors %}
+                                        <div class="text-danger small">{{ form.branch.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Member 2 (Required) -->
-                        <div class="border border-gray-600 rounded-lg p-6">
-                            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                                Member 2 (Required)
-                                <span class="ml-2 text-amber-500">*</span>
-                            </h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
-                                    {{ form.member2_name }}
-                                    {% if form.member2_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_name.errors.0 }}</p>
+                        <!-- Idea Details Section -->
+                        <div class="mb-4">
+                            <h2 class="section-title">Idea Details</h2>
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="{{ form.idea_title.id_for_label }}" class="form-label required-field">Idea Title</label>
+                                    {{ form.idea_title }}
+                                    {% if form.idea_title.errors %}
+                                        <div class="text-danger small">{{ form.idea_title.errors.0 }}</div>
                                     {% endif %}
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email *</label>
-                                    {{ form.member2_email }}
-                                    {% if form.member2_email.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_email.errors.0 }}</p>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="{{ form.idea_theme.id_for_label }}" class="form-label required-field">Idea Theme/Track</label>
+                                    {{ form.idea_theme }}
+                                    {% if form.idea_theme.errors %}
+                                        <div class="text-danger small">{{ form.idea_theme.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
-                                    {{ form.member2_phone }}
-                                    {% if form.member2_phone.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_phone.errors.0 }}</p>
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="{{ form.ppt_file.id_for_label }}" class="form-label required-field">PPT File (.ppt, .pptx, .pdf)</label>
+                                    {{ form.ppt_file }}
+                                    {% if form.ppt_file.errors %}
+                                        <div class="text-danger small">{{ form.ppt_file.errors.0 }}</div>
                                     {% endif %}
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number *</label>
-                                    {{ form.member2_roll }}
-                                    {% if form.member2_roll.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_roll.errors.0 }}</p>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="{{ form.youtube_link.id_for_label }}" class="form-label required-field">YouTube Link</label>
+                                    {{ form.youtube_link }}
+                                    {% if form.youtube_link.errors %}
+                                        <div class="text-danger small">{{ form.youtube_link.errors.0 }}</div>
                                     {% endif %}
                                 </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender *</label>
-                                    {{ form.member2_gender }}
-                                    {% if form.member2_gender.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_gender.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
-                                    {{ form.member2_college_name }}
-                                    {% if form.member2_college_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_college_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
-                                    {{ form.member2_course_name }}
-                                    {% if form.member2_course_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_course_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year *</label>
-                                    {{ form.member2_year }}
-                                    {% if form.member2_year.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_year.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="flex items-center">
-                                {{ form.is_leader2 }}
-                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
                             </div>
                         </div>
 
-                        <!-- Member 3 (Required) -->
-                        <div class="border border-gray-600 rounded-lg p-6">
-                            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                                Member 3 (Required)
-                                <span class="ml-2 text-amber-500">*</span>
-                            </h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
-                                    {{ form.member3_name }}
-                                    {% if form.member3_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_name.errors.0 }}</p>
-                                    {% endif %}
+                        <!-- Team Members Section -->
+                        <div class="mb-4">
+                            <h2 class="section-title">Team Members</h2>
+                            <p class="text-muted mb-3">Select exactly one member as team leader. Members 1-4 are required, 5-6 are optional.</p>
+                            
+                            <!-- Member 1 (Required) -->
+                            <div class="member-card">
+                                <h3 class="h5 text-white mb-3">Member 1 (Required) <span class="text-danger">*</span></h3>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member1_name.id_for_label }}" class="form-label required-field">Full Name</label>
+                                        {{ form.member1_name }}
+                                        {% if form.member1_name.errors %}
+                                            <div class="text-danger small">{{ form.member1_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member1_email.id_for_label }}" class="form-label required-field">Email</label>
+                                        {{ form.member1_email }}
+                                        {% if form.member1_email.errors %}
+                                            <div class="text-danger small">{{ form.member1_email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email *</label>
-                                    {{ form.member3_email }}
-                                    {% if form.member3_email.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_email.errors.0 }}</p>
-                                    {% endif %}
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member1_phone.id_for_label }}" class="form-label required-field">Phone Number</label>
+                                        {{ form.member1_phone }}
+                                        {% if form.member1_phone.errors %}
+                                            <div class="text-danger small">{{ form.member1_phone.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member1_roll.id_for_label }}" class="form-label required-field">Roll Number</label>
+                                        {{ form.member1_roll }}
+                                        {% if form.member1_roll.errors %}
+                                            <div class="text-danger small">{{ form.member1_roll.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member1_gender.id_for_label }}" class="form-label required-field">Gender</label>
+                                        {{ form.member1_gender }}
+                                        {% if form.member1_gender.errors %}
+                                            <div class="text-danger small">{{ form.member1_gender.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member1_year.id_for_label }}" class="form-label required-field">Year</label>
+                                        {{ form.member1_year }}
+                                        {% if form.member1_year.errors %}
+                                            <div class="text-danger small">{{ form.member1_year.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member1_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        {{ form.member1_college_name }}
+                                        {% if form.member1_college_name.errors %}
+                                            <div class="text-danger small">{{ form.member1_college_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member1_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        {{ form.member1_course_name }}
+                                        {% if form.member1_course_name.errors %}
+                                            <div class="text-danger small">{{ form.member1_course_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <div class="form-check">
+                                            {{ form.is_leader1 }}
+                                            <label class="form-check-label text-white" for="{{ form.is_leader1.id_for_label }}">
+                                                Team Leader
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
-                                    {{ form.member3_phone }}
-                                    {% if form.member3_phone.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_phone.errors.0 }}</p>
-                                    {% endif %}
+
+                            <!-- Member 2 (Required) -->
+                            <div class="member-card">
+                                <h3 class="h5 text-white mb-3">Member 2 (Required) <span class="text-danger">*</span></h3>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member2_name.id_for_label }}" class="form-label required-field">Full Name</label>
+                                        {{ form.member2_name }}
+                                        {% if form.member2_name.errors %}
+                                            <div class="text-danger small">{{ form.member2_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member2_email.id_for_label }}" class="form-label required-field">Email</label>
+                                        {{ form.member2_email }}
+                                        {% if form.member2_email.errors %}
+                                            <div class="text-danger small">{{ form.member2_email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number *</label>
-                                    {{ form.member3_roll }}
-                                    {% if form.member3_roll.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_roll.errors.0 }}</p>
-                                    {% endif %}
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member2_phone.id_for_label }}" class="form-label required-field">Phone Number</label>
+                                        {{ form.member2_phone }}
+                                        {% if form.member2_phone.errors %}
+                                            <div class="text-danger small">{{ form.member2_phone.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member2_roll.id_for_label }}" class="form-label required-field">Roll Number</label>
+                                        {{ form.member2_roll }}
+                                        {% if form.member2_roll.errors %}
+                                            <div class="text-danger small">{{ form.member2_roll.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member2_gender.id_for_label }}" class="form-label required-field">Gender</label>
+                                        {{ form.member2_gender }}
+                                        {% if form.member2_gender.errors %}
+                                            <div class="text-danger small">{{ form.member2_gender.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member2_year.id_for_label }}" class="form-label required-field">Year</label>
+                                        {{ form.member2_year }}
+                                        {% if form.member2_year.errors %}
+                                            <div class="text-danger small">{{ form.member2_year.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member2_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        {{ form.member2_college_name }}
+                                        {% if form.member2_college_name.errors %}
+                                            <div class="text-danger small">{{ form.member2_college_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member2_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        {{ form.member2_course_name }}
+                                        {% if form.member2_course_name.errors %}
+                                            <div class="text-danger small">{{ form.member2_course_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <div class="form-check">
+                                            {{ form.is_leader2 }}
+                                            <label class="form-check-label text-white" for="{{ form.is_leader2.id_for_label }}">
+                                                Team Leader
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender *</label>
-                                    {{ form.member3_gender }}
-                                    {% if form.member3_gender.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_gender.errors.0 }}</p>
-                                    {% endif %}
+
+                            <!-- Member 3 (Required) -->
+                            <div class="member-card">
+                                <h3 class="h5 text-white mb-3">Member 3 (Required) <span class="text-danger">*</span></h3>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member3_name.id_for_label }}" class="form-label required-field">Full Name</label>
+                                        {{ form.member3_name }}
+                                        {% if form.member3_name.errors %}
+                                            <div class="text-danger small">{{ form.member3_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member3_email.id_for_label }}" class="form-label required-field">Email</label>
+                                        {{ form.member3_email }}
+                                        {% if form.member3_email.errors %}
+                                            <div class="text-danger small">{{ form.member3_email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
-                                    {{ form.member3_college_name }}
-                                    {% if form.member3_college_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_college_name.errors.0 }}</p>
-                                    {% endif %}
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member3_phone.id_for_label }}" class="form-label required-field">Phone Number</label>
+                                        {{ form.member3_phone }}
+                                        {% if form.member3_phone.errors %}
+                                            <div class="text-danger small">{{ form.member3_phone.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member3_roll.id_for_label }}" class="form-label required-field">Roll Number</label>
+                                        {{ form.member3_roll }}
+                                        {% if form.member3_roll.errors %}
+                                            <div class="text-danger small">{{ form.member3_roll.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
-                                    {{ form.member3_course_name }}
-                                    {% if form.member3_course_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_course_name.errors.0 }}</p>
-                                    {% endif %}
+                                <div class="row">
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member3_gender.id_for_label }}" class="form-label required-field">Gender</label>
+                                        {{ form.member3_gender }}
+                                        {% if form.member3_gender.errors %}
+                                            <div class="text-danger small">{{ form.member3_gender.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member3_year.id_for_label }}" class="form-label required-field">Year</label>
+                                        {{ form.member3_year }}
+                                        {% if form.member3_year.errors %}
+                                            <div class="text-danger small">{{ form.member3_year.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member3_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        {{ form.member3_college_name }}
+                                        {% if form.member3_college_name.errors %}
+                                            <div class="text-danger small">{{ form.member3_college_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year *</label>
-                                    {{ form.member3_year }}
-                                    {% if form.member3_year.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_year.errors.0 }}</p>
-                                    {% endif %}
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member3_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        {{ form.member3_course_name }}
+                                        {% if form.member3_course_name.errors %}
+                                            <div class="text-danger small">{{ form.member3_course_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <div class="form-check">
+                                            {{ form.is_leader3 }}
+                                            <label class="form-check-label text-white" for="{{ form.is_leader3.id_for_label }}">
+                                                Team Leader
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="flex items-center">
-                                {{ form.is_leader3 }}
-                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
+
+                            <!-- Member 4 (Required) -->
+                            <div class="member-card">
+                                <h3 class="h5 text-white mb-3">Member 4 (Required) <span class="text-danger">*</span></h3>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member4_name.id_for_label }}" class="form-label required-field">Full Name</label>
+                                        {{ form.member4_name }}
+                                        {% if form.member4_name.errors %}
+                                            <div class="text-danger small">{{ form.member4_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member4_email.id_for_label }}" class="form-label required-field">Email</label>
+                                        {{ form.member4_email }}
+                                        {% if form.member4_email.errors %}
+                                            <div class="text-danger small">{{ form.member4_email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member4_phone.id_for_label }}" class="form-label required-field">Phone Number</label>
+                                        {{ form.member4_phone }}
+                                        {% if form.member4_phone.errors %}
+                                            <div class="text-danger small">{{ form.member4_phone.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member4_roll.id_for_label }}" class="form-label required-field">Roll Number</label>
+                                        {{ form.member4_roll }}
+                                        {% if form.member4_roll.errors %}
+                                            <div class="text-danger small">{{ form.member4_roll.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member4_gender.id_for_label }}" class="form-label required-field">Gender</label>
+                                        {{ form.member4_gender }}
+                                        {% if form.member4_gender.errors %}
+                                            <div class="text-danger small">{{ form.member4_gender.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member4_year.id_for_label }}" class="form-label required-field">Year</label>
+                                        {{ form.member4_year }}
+                                        {% if form.member4_year.errors %}
+                                            <div class="text-danger small">{{ form.member4_year.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member4_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        {{ form.member4_college_name }}
+                                        {% if form.member4_college_name.errors %}
+                                            <div class="text-danger small">{{ form.member4_college_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member4_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        {{ form.member4_course_name }}
+                                        {% if form.member4_course_name.errors %}
+                                            <div class="text-danger small">{{ form.member4_course_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <div class="form-check">
+                                            {{ form.is_leader4 }}
+                                            <label class="form-check-label text-white" for="{{ form.is_leader4.id_for_label }}">
+                                                Team Leader
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Member 5 (Optional) -->
+                            <div class="member-card" id="member5-section" style="display: none;">
+                                <h3 class="h5 text-white mb-3">Member 5 (Optional)</h3>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member5_name.id_for_label }}" class="form-label">Full Name</label>
+                                        {{ form.member5_name }}
+                                        {% if form.member5_name.errors %}
+                                            <div class="text-danger small">{{ form.member5_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member5_email.id_for_label }}" class="form-label">Email</label>
+                                        {{ form.member5_email }}
+                                        {% if form.member5_email.errors %}
+                                            <div class="text-danger small">{{ form.member5_email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member5_phone.id_for_label }}" class="form-label">Phone Number</label>
+                                        {{ form.member5_phone }}
+                                        {% if form.member5_phone.errors %}
+                                            <div class="text-danger small">{{ form.member5_phone.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member5_roll.id_for_label }}" class="form-label">Roll Number</label>
+                                        {{ form.member5_roll }}
+                                        {% if form.member5_roll.errors %}
+                                            <div class="text-danger small">{{ form.member5_roll.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member5_gender.id_for_label }}" class="form-label">Gender</label>
+                                        {{ form.member5_gender }}
+                                        {% if form.member5_gender.errors %}
+                                            <div class="text-danger small">{{ form.member5_gender.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member5_year.id_for_label }}" class="form-label">Year</label>
+                                        {{ form.member5_year }}
+                                        {% if form.member5_year.errors %}
+                                            <div class="text-danger small">{{ form.member5_year.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member5_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        {{ form.member5_college_name }}
+                                        {% if form.member5_college_name.errors %}
+                                            <div class="text-danger small">{{ form.member5_college_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member5_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        {{ form.member5_course_name }}
+                                        {% if form.member5_course_name.errors %}
+                                            <div class="text-danger small">{{ form.member5_course_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <div class="form-check">
+                                            {{ form.is_leader5 }}
+                                            <label class="form-check-label text-white" for="{{ form.is_leader5.id_for_label }}">
+                                                Team Leader
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Member 6 (Optional) -->
+                            <div class="member-card" id="member6-section" style="display: none;">
+                                <h3 class="h5 text-white mb-3">Member 6 (Optional)</h3>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member6_name.id_for_label }}" class="form-label">Full Name</label>
+                                        {{ form.member6_name }}
+                                        {% if form.member6_name.errors %}
+                                            <div class="text-danger small">{{ form.member6_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member6_email.id_for_label }}" class="form-label">Email</label>
+                                        {{ form.member6_email }}
+                                        {% if form.member6_email.errors %}
+                                            <div class="text-danger small">{{ form.member6_email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member6_phone.id_for_label }}" class="form-label">Phone Number</label>
+                                        {{ form.member6_phone }}
+                                        {% if form.member6_phone.errors %}
+                                            <div class="text-danger small">{{ form.member6_phone.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member6_roll.id_for_label }}" class="form-label">Roll Number</label>
+                                        {{ form.member6_roll }}
+                                        {% if form.member6_roll.errors %}
+                                            <div class="text-danger small">{{ form.member6_roll.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member6_gender.id_for_label }}" class="form-label">Gender</label>
+                                        {{ form.member6_gender }}
+                                        {% if form.member6_gender.errors %}
+                                            <div class="text-danger small">{{ form.member6_gender.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member6_year.id_for_label }}" class="form-label">Year</label>
+                                        {{ form.member6_year }}
+                                        {% if form.member6_year.errors %}
+                                            <div class="text-danger small">{{ form.member6_year.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member6_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        {{ form.member6_college_name }}
+                                        {% if form.member6_college_name.errors %}
+                                            <div class="text-danger small">{{ form.member6_college_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="{{ form.member6_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        {{ form.member6_course_name }}
+                                        {% if form.member6_course_name.errors %}
+                                            <div class="text-danger small">{{ form.member6_course_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <div class="form-check">
+                                            {{ form.is_leader6 }}
+                                            <label class="form-check-label text-white" for="{{ form.is_leader6.id_for_label }}">
+                                                Team Leader
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Member 4 (Required) -->
-                        <div class="border border-gray-600 rounded-lg p-6">
-                            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
-                                Member 4 (Required)
-                                <span class="ml-2 text-amber-500">*</span>
-                            </h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
-                                    {{ form.member4_name }}
-                                    {% if form.member4_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email *</label>
-                                    {{ form.member4_email }}
-                                    {% if form.member4_email.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_email.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
+                        <!-- Form Errors -->
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
-                                    {{ form.member4_phone }}
-                                    {% if form.member4_phone.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_phone.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number *</label>
-                                    {{ form.member4_roll }}
-                                    {% if form.member4_roll.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_roll.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender *</label>
-                                    {{ form.member4_gender }}
-                                    {% if form.member4_gender.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_gender.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
-                                    {{ form.member4_college_name }}
-                                    {% if form.member4_college_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_college_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
-                                    {{ form.member4_course_name }}
-                                    {% if form.member4_course_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_course_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year *</label>
-                                    {{ form.member4_year }}
-                                    {% if form.member4_year.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_year.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="flex items-center">
-                                {{ form.is_leader4 }}
-                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
-                            </div>
-                        </div>
+                        {% endif %}
 
-                        <!-- Member 5 -->
-                        <div id="member5-section" class="border border-gray-600 rounded-lg p-6" style="display: none;">
-                            <h3 class="text-lg font-semibold text-white mb-4">Member 5</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
-                                    {{ form.member5_name }}
-                                    {% if form.member5_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                                    {{ form.member5_email }}
-                                    {% if form.member5_email.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_email.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
-                                    {{ form.member5_phone }}
-                                    {% if form.member5_phone.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_phone.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number</label>
-                                    {{ form.member5_roll }}
-                                    {% if form.member5_roll.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_roll.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender</label>
-                                    {{ form.member5_gender }}
-                                    {% if form.member5_gender.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_gender.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
-                                    {{ form.member5_college_name }}
-                                    {% if form.member5_college_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_college_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
-                                    {{ form.member5_course_name }}
-                                    {% if form.member5_course_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_course_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year</label>
-                                    {{ form.member5_year }}
-                                    {% if form.member5_year.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_year.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="flex items-center">
-                                {{ form.is_leader5 }}
-                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
-                            </div>
+                        <!-- Submit Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn-submit" id="submitBtn">
+                                <span id="submitText">SUBMIT REGISTRATION</span>
+                                <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
+                            </button>
                         </div>
-
-                        <!-- Member 6 -->
-                        <div id="member6-section" class="border border-gray-600 rounded-lg p-6" style="display: none;">
-                            <h3 class="text-lg font-semibold text-white mb-4">Member 6</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
-                                    {{ form.member6_name }}
-                                    {% if form.member6_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                                    {{ form.member6_email }}
-                                    {% if form.member6_email.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_email.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
-                                    {{ form.member6_phone }}
-                                    {% if form.member6_phone.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_phone.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Roll Number</label>
-                                    {{ form.member6_roll }}
-                                    {% if form.member6_roll.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_roll.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender</label>
-                                    {{ form.member6_gender }}
-                                    {% if form.member6_gender.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_gender.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
-                                    {{ form.member6_college_name }}
-                                    {% if form.member6_college_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_college_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
-                                    {{ form.member6_course_name }}
-                                    {% if form.member6_course_name.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_course_name.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year</label>
-                                    {{ form.member6_year }}
-                                    {% if form.member6_year.errors %}
-                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_year.errors.0 }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="flex items-center">
-                                {{ form.is_leader6 }}
-                                <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Form Errors -->
-                    {% if form.non_field_errors %}
-                        <div class="bg-red-900/50 border border-red-500 text-red-300 p-4 rounded-lg">
-                            {{ form.non_field_errors }}
-                        </div>
-                    {% endif %}
-
-                    <!-- Submit Button -->
-                    <div class="text-center pt-6">
-                        <button type="submit" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-bold py-4 px-12 rounded-lg text-lg font-orbitron transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-amber-500/25">
-                            SUBMIT REGISTRATION
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-gray-700 mt-16">
-        <div class="container mx-auto px-4 py-8 text-center">
-            <p class="text-gray-400">&copy; 2025 CodeStorm 2026. All rights reserved.</p>
-            <p class="text-gray-500 text-sm mt-2">Developed by R.Varshith Reddy(23X01A05V7) & P.Dhanush Reddy(23X01A05S4)</p>
-        </div>
-    </footer>
-
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
-        // Ensure only one leader checkbox is checked at a time
-        function updateLeaderCheckbox(selectedMember) {
-            // Uncheck all other leader checkboxes
-            for (let i = 1; i <= 6; i++) {
-                if (i !== selectedMember) {
-                    const checkbox = document.querySelector(`input[name="is_leader${i}"]`);
-                    if (checkbox) checkbox.checked = false;
-                }
-            }
-        }
-
-        // Add event listeners to all leader checkboxes
+        // Mobile-first JavaScript
         document.addEventListener('DOMContentLoaded', function() {
-            for (let i = 1; i <= 6; i++) {
-                const checkbox = document.querySelector(`input[name="is_leader${i}"]`);
-                if (checkbox) {
-                    checkbox.addEventListener('change', function() {
-                        if (this.checked) {
-                            updateLeaderCheckbox(i);
-                        }
-                    });
-                }
-            }
-            
-            // Team size functionality
-            const teamSizeSelect = document.getElementById('team_size');
+            // Team size change handler
+            const teamSizeSelect = document.querySelector('[name="team_size"]');
             if (teamSizeSelect) {
                 teamSizeSelect.addEventListener('change', updateMemberVisibility);
-                updateMemberVisibility(); // Initialize on page load
+                updateMemberVisibility(); // Initialize
             }
             
-            // Mobile-specific optimizations
-            if (window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
-                // Disable hover effects on mobile by removing hover classes
-                const buttons = document.querySelectorAll('button[type="submit"]');
-                buttons.forEach(button => {
-                    button.classList.remove('hover:scale-105', 'hover:shadow-amber-500/25');
-                });
-                
-                // Ensure proper touch handling for form elements
-                const formElements = document.querySelectorAll('input, select, textarea, button');
-                formElements.forEach(element => {
-                    element.style.touchAction = 'manipulation';
-                });
-            }
+            // Leader checkbox handler
+            setupLeaderCheckboxes();
             
-            // Prevent zoom on input focus for iOS
-            const inputs = document.querySelectorAll('input, select, textarea');
-            inputs.forEach(input => {
-                input.addEventListener('touchstart', function(e) {
-                    e.stopPropagation();
-                }, { passive: true });
+            // Prevent double-tap zoom on mobile
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+
+            // Prevent zoom on double tap for iOS
+            document.addEventListener('gesturestart', function (e) {
+                e.preventDefault();
             });
+
+            // Smooth scrolling for better mobile experience
+            document.documentElement.style.scrollBehavior = 'smooth';
             
-            // Ensure form submission works properly on mobile
-            const form = document.querySelector('form');
+            // Form submission handler
+            const form = document.getElementById('registrationForm');
             if (form) {
-                form.addEventListener('submit', function(e) {
-                    // Add a small delay to ensure mobile browsers process the submission
-                    const submitButton = document.querySelector('button[type="submit"]');
-                    if (submitButton) {
-                        submitButton.disabled = true;
-                        submitButton.textContent = 'SUBMITTING...';
+                form.addEventListener('submit', handleFormSubmit);
+            }
+            
+            // Phone number input handlers
+            setupPhoneNumberHandlers();
+            
+            // Prevent double submission
+            let isSubmitting = false;
+            
+            function updateMemberVisibility() {
+                const teamSize = teamSizeSelect ? teamSizeSelect.value : '4';
+                const member5Section = document.getElementById('member5-section');
+                const member6Section = document.getElementById('member6-section');
+                
+                // Hide all optional members first
+                if (member5Section) member5Section.style.display = 'none';
+                if (member6Section) member6Section.style.display = 'none';
+                
+                // Show based on team size
+                if (teamSize === '5' || teamSize === '6') {
+                    if (member5Section) {
+                        member5Section.style.display = 'block';
+                        // Make fields required for 5+ members
+                        makeFieldsRequired(member5Section, true);
+                    }
+                } else {
+                    if (member5Section) {
+                        makeFieldsRequired(member5Section, false);
+                    }
+                }
+                
+                if (teamSize === '6') {
+                    if (member6Section) {
+                        member6Section.style.display = 'block';
+                        makeFieldsRequired(member6Section, true);
+                    }
+                } else {
+                    if (member6Section) {
+                        makeFieldsRequired(member6Section, false);
+                    }
+                }
+            }
+            
+            function makeFieldsRequired(section, required) {
+                const inputs = section.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    if (input.type !== 'checkbox') {
+                        input.required = required;
+                        const label = section.querySelector(`label[for="${input.id}"]`);
+                        if (label) {
+                            if (required) {
+                                label.classList.add('required-field');
+                            } else {
+                                label.classList.remove('required-field');
+                            }
+                        }
                     }
                 });
             }
+            
+            function setupLeaderCheckboxes() {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="is_leader"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            // Uncheck all other leader checkboxes
+                            checkboxes.forEach(other => {
+                                if (other !== this) {
+                                    other.checked = false;
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+            
+            function setupPhoneNumberHandlers() {
+                const phoneInputs = document.querySelectorAll('input[type="tel"]');
+                phoneInputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                        // Remove non-numeric characters and limit to 10 digits
+                        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+                    });
+                    
+                    // Prevent non-numeric input
+                    input.addEventListener('keypress', function(e) {
+                        if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                            e.preventDefault();
+                        }
+                    });
+                });
+            }
+            
+            function handleFormSubmit(e) {
+                if (isSubmitting) {
+                    e.preventDefault();
+                    return;
+                }
+                
+                // Validate that exactly one leader is selected
+                const leaderCheckboxes = document.querySelectorAll('input[type="checkbox"][name^="is_leader"]:checked');
+                if (leaderCheckboxes.length !== 1) {
+                    e.preventDefault();
+                    alert('Please select exactly one team leader.');
+                    return;
+                }
+                
+                // Show loading state
+                isSubmitting = true;
+                const submitBtn = document.getElementById('submitBtn');
+                const submitText = document.getElementById('submitText');
+                const submitSpinner = document.getElementById('submitSpinner');
+                
+                if (submitBtn) submitBtn.classList.add('loading');
+                if (submitText) submitText.textContent = 'SUBMITTING...';
+                if (submitSpinner) submitSpinner.classList.remove('d-none');
+                
+                // Disable all form inputs
+                const formInputs = form.querySelectorAll('input, select, textarea, button');
+                formInputs.forEach(input => {
+                    input.disabled = true;
+                });
+                
+                // Re-enable submit button after 3 seconds as fallback
+                setTimeout(() => {
+                    if (isSubmitting) {
+                        isSubmitting = false;
+                        if (submitBtn) submitBtn.classList.remove('loading');
+                        if (submitText) submitText.textContent = 'SUBMIT REGISTRATION';
+                        if (submitSpinner) submitSpinner.classList.add('d-none');
+                        formInputs.forEach(input => {
+                            input.disabled = false;
+                        });
+                    }
+                }, 3000);
+            }
         });
         
-        function updateMemberVisibility() {
-            const teamSizeSelect = document.getElementById('team_size');
-            const teamSize = teamSizeSelect ? teamSizeSelect.value : '4';
-            
-            // Hide all optional members first
-            const member5Section = document.querySelector('#member5-section');
-            const member6Section = document.querySelector('#member6-section');
-            
-            if (member5Section) member5Section.style.display = 'none';
-            if (member6Section) member6Section.style.display = 'none';
-            
-            // Show members based on team size
-            if (teamSize === '5' || teamSize === '6') {
-                if (member5Section) {
-                    member5Section.style.display = 'block';
-                    member5Section.style.opacity = '1';
-                    member5Section.classList.remove('opacity-75');
-                }
+        // Handle visibility change (when user switches tabs/apps)
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                // Force repaint when returning to the page
+                document.body.style.display = 'none';
+                document.body.offsetHeight; // Trigger reflow
+                document.body.style.display = '';
             }
-            
-            if (teamSize === '6') {
-                if (member6Section) {
-                    member6Section.style.display = 'block';
-                    member6Section.style.opacity = '1';
-                    member6Section.classList.remove('opacity-75');
-                }
-            }
-        }
+        });
         
-        // Handle potential mobile browser issues
+        // Handle orientation change
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 100);
+        });
+        
+        // Prevent zoom on double tap for iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Prevent pull-to-refresh on iOS
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        });
+        
+        // Ensure proper viewport on mobile
         window.addEventListener('load', function() {
-            // Force repaint to ensure proper rendering on mobile
-            document.body.style.display = 'none';
-            document.body.offsetHeight; // Trigger reflow
-            document.body.style.display = '';
+            // Force correct viewport
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+            }
         });
     </script>
 </body>

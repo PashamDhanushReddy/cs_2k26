@@ -74,6 +74,23 @@
             .animate-blob {
                 animation: none !important;
             }
+            
+            /* Disable heavy animations on mobile */
+            .animation-delay-2000 {
+                animation: none !important;
+            }
+            .animation-delay-4000 {
+                animation: none !important;
+            }
+            
+            /* Reduce motion for mobile devices */
+            @media (prefers-reduced-motion: reduce) {
+                * {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
         }
         
         /* Prevent horizontal overflow on mobile */
@@ -128,8 +145,40 @@
             }
         }
         
-        /* Additional mobile overflow fixes */
+        /* Additional mobile fixes for button fluttering */
         @media (max-width: 768px) {
+            /* Disable hover effects on mobile */
+            .btn-neon:hover::before {
+                display: none;
+            }
+            
+            .btn-neon:hover {
+                box-shadow: none;
+                text-shadow: none;
+            }
+            
+            /* Disable transform animations on mobile */
+            .glass-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            /* Disable glitch effect on mobile */
+            .glitch-hover:hover {
+                animation: none;
+            }
+            
+            /* Ensure smooth scrolling and prevent jitter */
+            html {
+                scroll-behavior: smooth;
+            }
+            
+            /* Prevent tap highlight that might cause flicker */
+            .btn-neon, .btn-submit {
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+            }
+        }
             /* Fix timeline positioning */
             .absolute.left-0.md:left-1\/2 {
                 left: 1rem !important;
