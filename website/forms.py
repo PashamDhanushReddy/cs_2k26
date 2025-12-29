@@ -162,7 +162,7 @@ class TeamRegistrationForm(forms.Form):
     is_leader1 = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
-            'class': 'w-4 h-4 text-amber-600 bg-gray-800 border-gray-600 rounded focus:ring-amber-500',
+            'class': 'form-check-input',
             'onchange': 'updateLeaderCheckbox(1)'
         })
     )
@@ -244,7 +244,7 @@ class TeamRegistrationForm(forms.Form):
     is_leader2 = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
-            'class': 'w-4 h-4 text-amber-600 bg-gray-800 border-gray-600 rounded focus:ring-amber-500',
+            'class': 'form-check-input',
             'onchange': 'updateLeaderCheckbox(2)'
         })
     )
@@ -326,7 +326,7 @@ class TeamRegistrationForm(forms.Form):
     is_leader3 = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
-            'class': 'w-4 h-4 text-amber-600 bg-gray-800 border-gray-600 rounded focus:ring-amber-500',
+            'class': 'form-check-input',
             'onchange': 'updateLeaderCheckbox(3)'
         })
     )
@@ -408,7 +408,7 @@ class TeamRegistrationForm(forms.Form):
     is_leader4 = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
-            'class': 'w-4 h-4 text-amber-600 bg-gray-800 border-gray-600 rounded focus:ring-amber-500',
+            'class': 'form-check-input',
             'onchange': 'updateLeaderCheckbox(4)'
         })
     )
@@ -499,7 +499,7 @@ class TeamRegistrationForm(forms.Form):
     is_leader5 = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
-            'class': 'w-4 h-4 text-amber-600 bg-gray-800 border-gray-600 rounded focus:ring-amber-500',
+            'class': 'form-check-input',
             'onchange': 'updateLeaderCheckbox(5)'
         })
     )
@@ -590,7 +590,7 @@ class TeamRegistrationForm(forms.Form):
     is_leader6 = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
-            'class': 'w-4 h-4 text-amber-600 bg-gray-800 border-gray-600 rounded focus:ring-amber-500',
+            'class': 'form-check-input',
             'onchange': 'updateLeaderCheckbox(6)'
         })
     )

@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>CodeStorm 2026 - Team Registration</title>
     
     <!-- Bootstrap CSS for mobile-first design -->
@@ -325,8 +325,51 @@
             border: none;
         }
         
-        /* Mobile-specific optimizations to prevent fluttering */
+        /* Critical mobile fixes */
         @media (max-width: 768px) {
+            /* Prevent horizontal overflow */
+            html, body {
+                overflow-x: hidden;
+                width: 100%;
+                max-width: 100vw;
+            }
+            
+            /* Ensure proper viewport behavior */
+            .container-fluid {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            
+            /* Fix for iOS Safari rendering issues */
+            .glass-panel {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+            
+            /* Prevent zoom on input focus */
+            input, select, textarea {
+                font-size: 16px !important;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+            }
+            
+            /* Ensure proper touch scrolling */
+            .container-fluid {
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Fix for mobile viewport issues */
+            body {
+                position: relative;
+                min-height: 100vh;
+                margin: 0;
+                padding: 0;
+            }
+            
+            /* Mobile-specific optimizations to prevent fluttering */
             /* Disable button scaling on mobile */
             .btn-submit:active {
                 transform: none;
@@ -768,6 +811,51 @@
             scroll-behavior: smooth;
         }
         
+        /* Fix for mobile Safari and Chrome rendering issues */
+        @media screen and (max-width: 768px) {
+            /* Force hardware acceleration for better mobile performance */
+            .glass-panel, .member-card {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+                -webkit-perspective: 1000;
+                perspective: 1000;
+            }
+            
+            /* Ensure proper text rendering on mobile */
+            body {
+                -webkit-text-size-adjust: 100%;
+                -moz-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+                text-size-adjust: 100%;
+            }
+            
+            /* Fix for mobile form rendering */
+            .form-control, .form-select {
+                -webkit-border-radius: 8px;
+                -moz-border-radius: 8px;
+                border-radius: 8px;
+            }
+            
+            /* Ensure proper stacking context */
+            .container-fluid {
+                position: relative;
+                z-index: 1;
+            }
+            
+            /* Fix for mobile viewport height issues */
+            .min-vh-100 {
+                min-height: 100vh;
+                min-height: -webkit-fill-available;
+            }
+            
+            /* Prevent text selection issues on mobile */
+            .form-control, .form-select, .btn-submit {
+                -webkit-user-select: text;
+                -moz-user-select: text;
+                -ms-user-select: text;
+                user-select: text;
+            }
+            
         /* Final mobile compatibility fixes */
         @media screen and (max-width: 768px) {
             /* Prevent zoom on input focus */
@@ -805,6 +893,51 @@
         @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
             .form-control, .form-select {
                 border-width: 1px;
+            }
+        }
+        
+        /* Emergency mobile fixes - highest priority */
+        @media screen and (max-width: 768px) {
+            /* Force proper mobile rendering */
+            * {
+                box-sizing: border-box !important;
+            }
+            
+            /* Ensure proper viewport behavior */
+            html {
+                -webkit-text-size-adjust: none;
+                -moz-text-size-adjust: none;
+                -ms-text-size-adjust: none;
+                text-size-adjust: none;
+            }
+            
+            /* Force mobile-friendly font sizes */
+            body {
+                font-size: 16px !important;
+                line-height: 1.5 !important;
+            }
+            
+            /* Ensure proper form rendering */
+            input, select, textarea, button {
+                font-size: 16px !important;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                border-radius: 8px !important;
+            }
+            
+            /* Prevent horizontal scrolling */
+            .container-fluid {
+                overflow-x: hidden;
+                max-width: 100vw;
+            }
+            
+            /* Ensure proper touch targets */
+            .btn-submit,
+            .form-control,
+            .form-select {
+                min-height: 44px !important;
+                min-width: 44px !important;
             }
         }
         
@@ -1457,6 +1590,8 @@
     
     <script>
         // Mobile-first JavaScript
+        let isSubmitting = false; // Global variable for form submission state
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Team size change handler
             const teamSizeSelect = document.querySelector('[name="team_size"]');
@@ -1494,204 +1629,243 @@
             
             // Phone number input handlers
             setupPhoneNumberHandlers();
+        });
+        
+        // Function definitions (moved outside DOMContentLoaded)
+        
+        function updateMemberVisibility() {
+            const teamSizeSelect = document.querySelector('[name="team_size"]');
+            const teamSize = teamSizeSelect ? teamSizeSelect.value : '4';
+            const member5Section = document.getElementById('member5-section');
+            const member6Section = document.getElementById('member6-section');
             
-            // Prevent double submission
-            let isSubmitting = false;
+            // Hide all optional members first
+            if (member5Section) member5Section.style.display = 'none';
+            if (member6Section) member6Section.style.display = 'none';
             
-            function updateMemberVisibility() {
-                const teamSize = teamSizeSelect ? teamSizeSelect.value : '4';
-                const member5Section = document.getElementById('member5-section');
-                const member6Section = document.getElementById('member6-section');
-                
-                // Hide all optional members first
-                if (member5Section) member5Section.style.display = 'none';
-                if (member6Section) member6Section.style.display = 'none';
-                
-                // Show based on team size and update labels
-                if (teamSize === '5' || teamSize === '6') {
-                    if (member5Section) {
-                        member5Section.style.display = 'block';
-                        // Make fields required for 5+ members
-                        makeFieldsRequired(member5Section, true);
-                        // Update Member 5 label to remove "(Optional)"
-                        const member5Label = member5Section.querySelector('h3');
-                        if (member5Label) {
-                            member5Label.innerHTML = 'Member 5 <span class="text-danger">*</span>';
-                        }
-                    }
-                } else {
-                    if (member5Section) {
-                        makeFieldsRequired(member5Section, false);
-                        // Restore "(Optional)" label
-                        const member5Label = member5Section.querySelector('h3');
-                        if (member5Label) {
-                            member5Label.innerHTML = 'Member 5 (Optional)';
-                        }
-                    }
-                }
-                
-                if (teamSize === '6') {
-                    if (member6Section) {
-                        member6Section.style.display = 'block';
-                        makeFieldsRequired(member6Section, true);
-                        // Update Member 6 label to remove "(Optional)"
-                        const member6Label = member6Section.querySelector('h3');
-                        if (member6Label) {
-                            member6Label.innerHTML = 'Member 6 <span class="text-danger">*</span>';
-                        }
-                    }
-                } else {
-                    if (member6Section) {
-                        makeFieldsRequired(member6Section, false);
-                        // Restore "(Optional)" label
-                        const member6Label = member6Section.querySelector('h3');
-                        if (member6Label) {
-                            member6Label.innerHTML = 'Member 6 (Optional)';
-                        }
+            // Show based on team size and update labels
+            if (teamSize === '5' || teamSize === '6') {
+                if (member5Section) {
+                    member5Section.style.display = 'block';
+                    // Make fields required for 5+ members
+                    makeFieldsRequired(member5Section, true);
+                    // Update Member 5 label to remove "(Optional)"
+                    const member5Label = member5Section.querySelector('h3');
+                    if (member5Label) {
+                        member5Label.innerHTML = 'Member 5 <span class="text-danger">*</span>';
                     }
                 }
             }
             
-            function makeFieldsRequired(section, required) {
-                const inputs = section.querySelectorAll('input, select');
-                inputs.forEach(input => {
-                    if (input.type !== 'checkbox') {
-                        input.required = required;
-                        const label = section.querySelector(`label[for="${input.id}"]`);
-                        if (label) {
-                            if (required) {
-                                label.classList.add('required-field');
-                            } else {
-                                label.classList.remove('required-field');
+            if (teamSize === '6') {
+                if (member6Section) {
+                    member6Section.style.display = 'block';
+                    // Make fields required for 6 members
+                    makeFieldsRequired(member6Section, true);
+                    // Update Member 6 label to remove "(Optional)"
+                    const member6Label = member6Section.querySelector('h3');
+                    if (member6Label) {
+                        member6Label.innerHTML = 'Member 6 <span class="text-danger">*</span>';
+                    }
+                }
+            }
+            
+            // Reset labels for optional members when team size is smaller
+            if (teamSize === '4' || teamSize === '3' || teamSize === '2') {
+                if (member5Section) {
+                    makeFieldsRequired(member5Section, false);
+                    const member5Label = member5Section.querySelector('h3');
+                    if (member5Label) {
+                        member5Label.innerHTML = 'Member 5 <span class="text-muted">(Optional)</span>';
+                    }
+                }
+                if (member6Section) {
+                    makeFieldsRequired(member6Section, false);
+                    const member6Label = member6Section.querySelector('h3');
+                    if (member6Label) {
+                        member6Label.innerHTML = 'Member 6 <span class="text-muted">(Optional)</span>';
+                    }
+                }
+            }
+        }
+        
+        function makeFieldsRequired(section, required) {
+            const inputs = section.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (input.type !== 'checkbox') {
+                    input.required = required;
+                    const label = section.querySelector(`label[for="${input.id}"]`);
+                    if (label) {
+                        if (required) {
+                            label.classList.add('required-field');
+                        } else {
+                            label.classList.remove('required-field');
+                        }
+                    }
+                }
+            });
+        }
+        
+        function setupLeaderCheckboxes() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="is_leader"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Uncheck all other leader checkboxes
+                        checkboxes.forEach(other => {
+                            if (other !== this) {
+                                other.checked = false;
                             }
-                        }
-                    }
-                });
-            }
-            
-            function setupLeaderCheckboxes() {
-                const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="is_leader"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener('change', function() {
-                        if (this.checked) {
-                            // Uncheck all other leader checkboxes
-                            checkboxes.forEach(other => {
-                                if (other !== this) {
-                                    other.checked = false;
-                                }
-                            });
-                        }
-                    });
-                });
-            }
-            
-            function setupPhoneNumberHandlers() {
-                const phoneInputs = document.querySelectorAll('input[type="tel"]');
-                phoneInputs.forEach(input => {
-                    input.addEventListener('input', function() {
-                        // Remove non-numeric characters and limit to 10 digits
-                        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
-                        
-                        // Validate first digit (must be 6-9)
-                        if (this.value.length > 0 && !/[6-9]/.test(this.value[0])) {
-                            this.value = '';
-                        }
-                    });
-                    
-                    // Prevent non-numeric input
-                    input.addEventListener('keypress', function(e) {
-                        if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
-                            e.preventDefault();
-                        }
-                    });
-                    
-                    // Validate on paste
-                    input.addEventListener('paste', function(e) {
-                        e.preventDefault();
-                        const pastedText = (e.clipboardData || window.clipboardData).getData('text');
-                        const cleanedText = pastedText.replace(/[^0-9]/g, '').slice(0, 10);
-                        
-                        // Ensure first digit is 6-9
-                        if (cleanedText.length > 0 && !/[6-9]/.test(cleanedText[0])) {
-                            return;
-                        }
-                        
-                        this.value = cleanedText;
-                    });
-                    
-                    // Add visual feedback for invalid first digit
-                    input.addEventListener('blur', function() {
-                        if (this.value.length === 1 && !/[6-9]/.test(this.value[0])) {
-                            this.style.borderColor = '#ef4444';
-                            this.style.boxShadow = '0 0 0 0.2rem rgba(239, 68, 68, 0.25)';
-                            
-                            // Show error message
-                            let errorDiv = this.parentElement.querySelector('.phone-error');
-                            if (!errorDiv) {
-                                errorDiv = document.createElement('div');
-                                errorDiv.className = 'text-danger small phone-error';
-                                errorDiv.textContent = 'Phone number must start with 6, 7, 8, or 9';
-                                this.parentElement.appendChild(errorDiv);
-                            }
-                        } else if (this.value.length === 0 || /[6-9]/.test(this.value[0])) {
-                            // Remove error styling if valid
-                            this.style.borderColor = '';
-                            this.style.boxShadow = '';
-                            
-                            // Remove error message
-                            const errorDiv = this.parentElement.querySelector('.phone-error');
-                            if (errorDiv) {
-                                errorDiv.remove();
-                            }
-                        }
-                    });
-                });
-            }
-            
-            function handleFormSubmit(e) {
-                if (isSubmitting) {
-                    e.preventDefault();
-                    return;
-                }
-                
-                // Validate that exactly one leader is selected
-                const leaderCheckboxes = document.querySelectorAll('input[type="checkbox"][name^="is_leader"]:checked');
-                if (leaderCheckboxes.length !== 1) {
-                    e.preventDefault();
-                    alert('Please select exactly one team leader.');
-                    return;
-                }
-                
-                // Show loading state
-                isSubmitting = true;
-                const submitBtn = document.getElementById('submitBtn');
-                const submitText = document.getElementById('submitText');
-                const submitSpinner = document.getElementById('submitSpinner');
-                
-                if (submitBtn) submitBtn.classList.add('loading');
-                if (submitText) submitText.textContent = 'SUBMITTING...';
-                if (submitSpinner) submitSpinner.classList.remove('d-none');
-                
-                // Disable all form inputs
-                const formInputs = form.querySelectorAll('input, select, textarea, button');
-                formInputs.forEach(input => {
-                    input.disabled = true;
-                });
-                
-                // Re-enable submit button after 3 seconds as fallback
-                setTimeout(() => {
-                    if (isSubmitting) {
-                        isSubmitting = false;
-                        if (submitBtn) submitBtn.classList.remove('loading');
-                        if (submitText) submitText.textContent = 'SUBMIT REGISTRATION';
-                        if (submitSpinner) submitSpinner.classList.add('d-none');
-                        formInputs.forEach(input => {
-                            input.disabled = false;
                         });
                     }
-                }, 3000);
+                });
+            });
+        }
+        
+        function setupPhoneNumberHandlers() {
+            const phoneInputs = document.querySelectorAll('input[type="tel"]');
+            phoneInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    // Remove non-numeric characters and limit to 10 digits
+                    this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+                    
+                    // Validate first digit (must be 6-9)
+                    if (this.value.length > 0 && !/[6-9]/.test(this.value[0])) {
+                        this.value = '';
+                    }
+                });
+                
+                // Prevent non-numeric input
+                input.addEventListener('keypress', function(e) {
+                    if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                        e.preventDefault();
+                    }
+                });
+                
+                // Validate on paste
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                    const cleanedText = pastedText.replace(/[^0-9]/g, '').slice(0, 10);
+                    
+                    // Validate first digit (must be 6-9)
+                    if (cleanedText.length > 0 && !/[6-9]/.test(cleanedText[0])) {
+                        return;
+                    }
+                    
+                    this.value = cleanedText;
+                });
+                
+                // Add visual feedback for invalid first digit
+                input.addEventListener('blur', function() {
+                    if (this.value.length === 1 && !/[6-9]/.test(this.value[0])) {
+                        this.style.borderColor = '#ef4444';
+                        this.style.boxShadow = '0 0 0 0.2rem rgba(239, 68, 68, 0.25)';
+                        
+                        // Show error message
+                        let errorDiv = this.parentElement.querySelector('.phone-error');
+                        if (!errorDiv) {
+                            errorDiv = document.createElement('div');
+                            errorDiv.className = 'text-danger small phone-error';
+                            errorDiv.textContent = 'Phone number must start with 6, 7, 8, or 9';
+                            this.parentElement.appendChild(errorDiv);
+                        }
+                    } else if (this.value.length === 0 || /[6-9]/.test(this.value[0])) {
+                        // Remove error styling if valid
+                        this.style.borderColor = '';
+                        this.style.boxShadow = '';
+                        
+                        // Remove error message
+                        const errorDiv = this.parentElement.querySelector('.phone-error');
+                        if (errorDiv) {
+                            errorDiv.remove();
+                        }
+                    }
+                });
+            });
+        }
+        
+        function handleFormSubmit(e) {
+            if (isSubmitting) {
+                e.preventDefault();
+                return;
             }
-        });
+            
+            // Validate that exactly one leader is selected
+            const leaderCheckboxes = document.querySelectorAll('input[type="checkbox"][name^="is_leader"]:checked');
+            if (leaderCheckboxes.length !== 1) {
+                e.preventDefault();
+                alert('Please select exactly one team leader.');
+                return;
+            }
+            
+            // Validate email fields
+            const emailFields = document.querySelectorAll('input[type="email"]');
+            for (let field of emailFields) {
+                if (field.value && !validateEmail(field.value)) {
+                    e.preventDefault();
+                    field.classList.add('is-invalid');
+                    alert('Please enter a valid email address');
+                    field.focus();
+                    return;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            }
+            
+            // Validate phone fields
+            const phoneFields = document.querySelectorAll('input[type="tel"]');
+            for (let field of phoneFields) {
+                if (field.value && !validatePhone(field.value)) {
+                    e.preventDefault();
+                    field.classList.add('is-invalid');
+                    alert('Phone number must be 10 digits starting with 6, 7, 8, or 9');
+                    field.focus();
+                    return;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            }
+            
+            // Convert college codes and course names to uppercase
+            const collegeCodeFields = document.querySelectorAll('input[name$="_college_code"]');
+            const courseNameFields = document.querySelectorAll('input[name$="_course_name"]');
+            [...collegeCodeFields, ...courseNameFields].forEach(field => {
+                if (field.value && field.value !== field.value.toUpperCase()) {
+                    field.value = field.value.toUpperCase();
+                }
+            });
+            
+            // Show loading state
+            const submitBtn = document.querySelector('.btn-submit');
+            const submitText = document.querySelector('.submit-text');
+            const submitSpinner = document.querySelector('.submit-spinner');
+            const formInputs = document.querySelectorAll('input, select, textarea, button');
+            
+            isSubmitting = true;
+            
+            if (submitBtn) submitBtn.classList.add('loading');
+            if (submitText) submitText.textContent = 'SUBMITTING...';
+            if (submitSpinner) submitSpinner.classList.remove('d-none');
+            
+            // Disable all form inputs during submission
+            formInputs.forEach(input => {
+                input.disabled = true;
+            });
+            
+            // Re-enable submit button after 3 seconds as fallback
+            setTimeout(() => {
+                if (isSubmitting) {
+                    isSubmitting = false;
+                    if (submitBtn) submitBtn.classList.remove('loading');
+                    if (submitText) submitText.textContent = 'SUBMIT REGISTRATION';
+                    if (submitSpinner) submitSpinner.classList.add('d-none');
+                    formInputs.forEach(input => {
+                        input.disabled = false;
+                    });
+                }
+            }, 3000);
+        }
         
         // Handle visibility change (when user switches tabs/apps)
         document.addEventListener('visibilitychange', function() {
@@ -1710,16 +1884,6 @@
             }, 100);
         });
         
-        // Prevent zoom on double tap for iOS
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function (event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
-        
         // Prevent pull-to-refresh on iOS
         document.addEventListener('touchstart', function(e) {
             if (e.touches.length > 1) {
@@ -1732,12 +1896,35 @@
             // Ensure proper viewport without restricting zoom
             const viewport = document.querySelector('meta[name="viewport"]');
             if (viewport) {
-                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
             }
             
             // Add mobile class to body for CSS targeting
             if (window.innerWidth <= 768) {
                 document.body.classList.add('mobile-device');
+            }
+            
+            // Force mobile layout recalculation
+            setTimeout(function() {
+                document.body.style.display = 'none';
+                document.body.offsetHeight; // Trigger reflow
+                document.body.style.display = '';
+            }, 100);
+        });
+        
+        // Handle orientation changes
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 100);
+        });
+        
+        // Handle resize events
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('mobile-device');
+            } else {
+                document.body.classList.remove('mobile-device');
             }
         });
         
@@ -1826,18 +2013,10 @@
             return isValid;
         }
         
-        // Setup enhanced validation
+        // Add real-time validation for email fields
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('registrationForm');
             if (form) {
-                // Add validation on form submit
-                form.addEventListener('submit', function(e) {
-                    if (!validateForm()) {
-                        e.preventDefault();
-                        return false;
-                    }
-                });
-                
                 // Add real-time validation for email fields
                 const emailFields = form.querySelectorAll('input[type="email"]');
                 emailFields.forEach(field => {
