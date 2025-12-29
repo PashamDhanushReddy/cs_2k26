@@ -102,7 +102,7 @@
             }
             
             /* Ensure buttons don't overflow */
-            .btn-neon, .px-6, .px-10 {
+            .btn-neon {
                 padding-left: 1rem;
                 padding-right: 1rem;
             }
@@ -248,6 +248,22 @@
         .btn-neon:hover {
             box-shadow: 0 0 15px var(--tw-shadow-color);
             text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+        @media (hover: none) and (pointer: coarse) {
+            .btn-neon::before {
+                display: none;
+            }
+            .btn-neon:hover {
+                box-shadow: none;
+                text-shadow: none;
+            }
+            .glass-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            .glitch-hover:hover {
+                animation: none;
+            }
         }
         .glitch-hover:hover {
             animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
@@ -1259,12 +1275,14 @@
             duration: 800,
             easing: 'ease-out-cubic',
         });
-        VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
-            max: 15,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
-        });
+        if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+                max: 15,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.2,
+            });
+        }
         
         // Initialize navbar with correct size based on screen width
         document.addEventListener('DOMContentLoaded', function() {
