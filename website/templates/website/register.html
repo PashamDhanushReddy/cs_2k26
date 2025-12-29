@@ -31,6 +31,78 @@
             background-color: #f59e0b;
             border-color: #f59e0b;
         }
+        
+        /* Mobile-specific fixes */
+        @media (hover: none) and (pointer: coarse) {
+            /* Disable hover effects on touch devices */
+            .hover\:bg-amber-500:hover {
+                background-color: transparent !important;
+            }
+            .hover\:text-black:hover {
+                color: inherit !important;
+            }
+            .hover\:from-amber-600:hover {
+                --tw-gradient-from: #f59e0b !important;
+                --tw-gradient-to: rgb(245 158 11 / 0) !important;
+                --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+            }
+            .hover\:to-amber-700:hover {
+                --tw-gradient-to: #d97706 !important;
+            }
+            .hover\:scale-105:hover {
+                transform: none !important;
+            }
+            .hover\:shadow-amber-500\/25:hover {
+                --tw-shadow-color: rgb(245 158 11 / 0.25) !important;
+                --tw-shadow: var(--tw-shadow-colored) !important;
+            }
+            
+            /* Ensure form elements are properly sized on mobile */
+            input, select, textarea {
+                font-size: 16px !important; /* Prevent zoom on iOS */
+                min-height: 44px !important; /* Minimum touch target size */
+            }
+            
+            /* Ensure buttons are properly sized */
+            button {
+                min-height: 44px !important;
+                min-width: 44px !important;
+            }
+            
+            /* Prevent horizontal overflow */
+            body {
+                overflow-x: hidden;
+                max-width: 100vw;
+            }
+            
+            /* Ensure glass panels work on mobile */
+            .glass-panel {
+                backdrop-filter: blur(8px) !important; /* Reduced blur for performance */
+            }
+        }
+        
+        /* Additional mobile optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+            
+            /* Ensure form doesn't overflow on small screens */
+            .max-w-4xl {
+                max-width: 100% !important;
+                margin-left: 0.5rem !important;
+                margin-right: 0.5rem !important;
+            }
+            
+            /* Adjust grid layouts for mobile */
+            .grid-cols-1.md\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+            .grid-cols-1.md\:grid-cols-4 {
+                grid-template-columns: 1fr !important;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -661,6 +733,42 @@
                 teamSizeSelect.addEventListener('change', updateMemberVisibility);
                 updateMemberVisibility(); // Initialize on page load
             }
+            
+            // Mobile-specific optimizations
+            if (window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+                // Disable hover effects on mobile by removing hover classes
+                const buttons = document.querySelectorAll('button[type="submit"]');
+                buttons.forEach(button => {
+                    button.classList.remove('hover:scale-105', 'hover:shadow-amber-500/25');
+                });
+                
+                // Ensure proper touch handling for form elements
+                const formElements = document.querySelectorAll('input, select, textarea, button');
+                formElements.forEach(element => {
+                    element.style.touchAction = 'manipulation';
+                });
+            }
+            
+            // Prevent zoom on input focus for iOS
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('touchstart', function(e) {
+                    e.stopPropagation();
+                }, { passive: true });
+            });
+            
+            // Ensure form submission works properly on mobile
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    // Add a small delay to ensure mobile browsers process the submission
+                    const submitButton = document.querySelector('button[type="submit"]');
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                        submitButton.textContent = 'SUBMITTING...';
+                    }
+                });
+            }
         });
         
         function updateMemberVisibility() {
@@ -691,6 +799,14 @@
                 }
             }
         }
+        
+        // Handle potential mobile browser issues
+        window.addEventListener('load', function() {
+            // Force repaint to ensure proper rendering on mobile
+            document.body.style.display = 'none';
+            document.body.offsetHeight; // Trigger reflow
+            document.body.style.display = '';
+        });
     </script>
 </body>
 </html>
