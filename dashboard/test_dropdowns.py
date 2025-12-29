@@ -43,9 +43,9 @@ class DashboardDropdownTests(TestCase):
             
             # Check that idea themes include standard themes
             idea_themes = context['idea_themes']
-            self.assertIn('Web Development', idea_themes)
-            self.assertIn('Mobile App Development', idea_themes)
-            self.assertIn('Artificial Intelligence & Machine Learning', idea_themes)
+            self.assertIn('Generative AI & LLM Applications', idea_themes)
+            self.assertIn('Smart Cities, IoT & Edge Computing', idea_themes)
+            self.assertIn('Cybersecurity & Threat Intelligence', idea_themes)
             
             print(f"Available team sizes: {context['team_sizes']}")
             print(f"Number of idea themes: {len(idea_themes)}")
@@ -53,7 +53,7 @@ class DashboardDropdownTests(TestCase):
 
     @patch('dashboard.views.get_supabase_client')
     def test_dropdowns_with_database_themes(self, mock_get_supabase):
-        """Test that dropdowns include both database themes and standard themes"""
+        """Test that dropdowns show only standard themes, ignoring database themes"""
         mock_supabase = MagicMock()
         mock_get_supabase.return_value = mock_supabase
         
@@ -87,9 +87,9 @@ class DashboardDropdownTests(TestCase):
             # Check team sizes show all options
             self.assertEqual(context['team_sizes'], ['4', '5', '6'])
             
-            # Check that both database themes and standard themes are included
+            # Check that only standard themes are included (database themes ignored)
             idea_themes = context['idea_themes']
-            self.assertIn('Custom Theme 1', idea_themes)
-            self.assertIn('Custom Theme 2', idea_themes)
-            self.assertIn('Web Development', idea_themes)
-            self.assertIn('Artificial Intelligence & Machine Learning', idea_themes)
+            self.assertNotIn('Custom Theme 1', idea_themes)
+            self.assertNotIn('Custom Theme 2', idea_themes)
+            self.assertIn('Generative AI & LLM Applications', idea_themes)
+            self.assertIn('Cybersecurity & Threat Intelligence', idea_themes)

@@ -207,32 +207,19 @@ def dashboard_view(request):
     # Team sizes should show all possible options (4, 5, 6 members)
     all_team_sizes = ['4', '5', '6']
     
-    # Get all unique themes from the database, plus add any missing standard themes
-    db_themes = sorted(set(reg['idea_theme'] for reg in all_processed if reg['idea_theme'] != 'N/A'))
-    
-    # Add any missing standard themes that should always be available
     standard_themes = [
-        'Artificial Intelligence & Machine Learning',
-        'Web Development',
-        'Mobile App Development', 
-        'Blockchain & Cryptocurrency',
-        'Internet of Things (IoT)',
-        'Cybersecurity',
-        'Data Science & Analytics',
-        'Cloud Computing',
-        'Game Development',
-        'Fintech',
-        'Health Tech',
-        'Ed Tech',
-        'E-commerce',
-        'Social Impact',
-        'Environment & Sustainability',
-        'Robotics',
-        'Augmented Reality & Virtual Reality'
+        'Generative AI & LLM Applications',
+        'Smart Cities, IoT & Edge Computing',
+        'Robotics, Drones & Autonomous Systems',
+        'Green Tech & Energy Optimization',
+        'Cybersecurity & Threat Intelligence',
+        'Agritech & Rural Innovation',
+        'HealthTech, MedAI & Diagnostics',
+        'Transportation & Logistics (AI-Driven)',
+        'FinTech, Blockchain & Digital Trust',
+        'Open Innovation Challenge (Wildcard Track)'
     ]
-    
-    # Combine database themes with standard themes and remove duplicates
-    all_idea_themes = sorted(set(db_themes + standard_themes))
+    all_idea_themes = standard_themes
     
     # Process registrations to generate download links and essential data
     processed_registrations = []
