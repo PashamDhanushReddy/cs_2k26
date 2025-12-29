@@ -21,27 +21,6 @@ class TeamRegistrationForm(forms.Form):
             'placeholder': 'Enter your team name'
         })
     )
-    college = forms.CharField(
-        max_length=255,
-        widget=forms.TextInput(attrs={
-            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Enter your college name'
-        })
-    )
-    branch = forms.CharField(
-        max_length=255,
-        widget=forms.TextInput(attrs={
-            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Enter your branch'
-        })
-    )
-    year_of_study = forms.CharField(
-        max_length=50,
-        widget=forms.TextInput(attrs={
-            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Enter year of study'
-        })
-    )
     
     # Idea details
     idea_title = forms.CharField(
@@ -145,8 +124,8 @@ class TeamRegistrationForm(forms.Form):
             ('1st Year', '1st Year'),
             ('2nd Year', '2nd Year'),
             ('3rd Year', '3rd Year'),
-            ('4th Year', '4th Year'),
-            ('5th Year', '5th Year')
+            ('4th Year', '4th Year')
+            
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -809,5 +788,25 @@ class TeamRegistrationForm(forms.Form):
         
         if cleaned_data.get('is_leader6') and not cleaned_data.get('member6_name'):
             raise forms.ValidationError('Member 6 cannot be leader if not provided.')
+        
+        # Validate that at least one female member is in the team
+        team_size_str = cleaned_data.get('team_size', '4')
+        try:
+            team_size = int(team_size_str)
+        except (ValueError, TypeError):
+            team_size = 4
+        
+        female_count = 0
+        
+        for i in range(1, team_size + 1):
+            gender = cleaned_data.get(f'member{i}_gender', '')
+            member_name = cleaned_data.get(f'member{i}_name', '')
+            # Only count if member exists and is female
+            # Check both with and without stripping whitespace
+            if member_name and str(gender).strip() == 'Female':
+                female_count += 1
+        
+        if female_count == 0:
+            raise forms.ValidationError('At least one team member must be female.')
         
         return cleaned_data

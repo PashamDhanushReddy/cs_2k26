@@ -107,7 +107,37 @@ def insert_registration_data(data):
 def register_team(request):
     """Handle team registration"""
     if request.method == 'POST':
+        # Debug CSRF token
+        csrf_token = request.POST.get('csrfmiddlewaretoken')
+        print(f"=== CSRF DEBUG ===")
+        print(f"CSRF token in POST: {csrf_token[:20] if csrf_token else 'MISSING'}...")
+        print(f"CSRF cookie: {request.COOKIES.get('csrftoken', 'MISSING')[:20] if request.COOKIES.get('csrftoken') else 'MISSING'}...")
+        print(f"==================")
+        
         form = TeamRegistrationForm(request.POST, request.FILES)
+        
+        # Debug: Print form errors if validation fails
+        if not form.is_valid():
+            print(f"=== FORM VALIDATION ERRORS ===")
+            print(f"Form errors: {form.errors}")
+            print(f"Non-field errors: {form.non_field_errors()}")
+            for field, errors in form.errors.items():
+                print(f"Field '{field}': {errors}")
+            # Print some key form data for debugging
+            print(f"Team size: {request.POST.get('team_size', 'NOT SET')}")
+            print(f"Leader checkboxes: is_leader1={request.POST.get('is_leader1')}, is_leader2={request.POST.get('is_leader2')}, is_leader3={request.POST.get('is_leader3')}, is_leader4={request.POST.get('is_leader4')}")
+            for i in range(1, 5):
+                gender = request.POST.get(f'member{i}_gender', 'NOT SET')
+                name = request.POST.get(f'member{i}_name', 'NOT SET')
+                print(f"Member {i}: name={name[:20] if name != 'NOT SET' else 'NOT SET'}, gender={gender}")
+            print(f"=============================")
+            # Add error messages to be displayed
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+            for error in form.non_field_errors():
+                messages.error(request, error)
+        
         if form.is_valid():
             try:
                 # Upload PPT first
@@ -123,33 +153,57 @@ def register_team(request):
                 
                 # Find the team leader to get default values
                 leader_data = None
-                if form.cleaned_data['is_leader1']:
+                if form.cleaned_data.get('is_leader1'):
                     leader_data = {
                         'college_name': form.cleaned_data['member1_college_name'],
                         'course_name': form.cleaned_data['member1_course_name'],
                         'year': form.cleaned_data['member1_year']
                     }
-                elif form.cleaned_data['is_leader2']:
+                elif form.cleaned_data.get('is_leader2'):
                     leader_data = {
                         'college_name': form.cleaned_data['member2_college_name'],
                         'course_name': form.cleaned_data['member2_course_name'],
                         'year': form.cleaned_data['member2_year']
                     }
-                elif form.cleaned_data['is_leader3']:
+                elif form.cleaned_data.get('is_leader3'):
                     leader_data = {
                         'college_name': form.cleaned_data['member3_college_name'],
                         'course_name': form.cleaned_data['member3_course_name'],
                         'year': form.cleaned_data['member3_year']
                     }
-                elif form.cleaned_data['is_leader4']:
+                elif form.cleaned_data.get('is_leader4'):
                     leader_data = {
                         'college_name': form.cleaned_data['member4_college_name'],
                         'course_name': form.cleaned_data['member4_course_name'],
                         'year': form.cleaned_data['member4_year']
                     }
+                elif form.cleaned_data.get('is_leader5') and form.cleaned_data.get('member5_name'):
+                    leader_data = {
+                        'college_name': form.cleaned_data.get('member5_college_name', ''),
+                        'course_name': form.cleaned_data.get('member5_course_name', ''),
+                        'year': form.cleaned_data.get('member5_year', '')
+                    }
+                elif form.cleaned_data.get('is_leader6') and form.cleaned_data.get('member6_name'):
+                    leader_data = {
+                        'college_name': form.cleaned_data.get('member6_college_name', ''),
+                        'course_name': form.cleaned_data.get('member6_course_name', ''),
+                        'year': form.cleaned_data.get('member6_year', '')
+                    }
                 
                 # Helper function to get member data with leader defaults
                 def get_member_data(member_num, prefix=''):
+                    # For optional members (5 and 6), check if member exists
+                    if member_num >= 5:
+                        member_name = form.cleaned_data.get(f'{prefix}member{member_num}_name')
+                        # If member name is not provided, return None for all fields
+                        if not member_name:
+                            return {
+                                f'member{member_num}_college_name': None,
+                                f'member{member_num}_college_code': None,
+                                f'member{member_num}_course_name': None,
+                                f'member{member_num}_year': None
+                            }
+                    
                     if leader_data:
                         college_key = f'{prefix}member{member_num}_college_name'
                         college_code_key = f'{prefix}member{member_num}_college_code'
@@ -161,13 +215,13 @@ def register_team(request):
                         course_val = form.cleaned_data.get(course_key, '')
                         year_val = form.cleaned_data.get(year_key, '')
                         
-                        # For optional members (5 and 6), return None if no data provided
-                        if member_num >= 5 and not college_val and not college_code_val and not course_val and not year_val:
+                        # For optional members (5 and 6), if no values provided, use None
+                        if member_num >= 5:
                             return {
-                                f'member{member_num}_college_name': None,
-                                f'member{member_num}_college_code': None,
-                                f'member{member_num}_course_name': None,
-                                f'member{member_num}_year': None
+                                f'member{member_num}_college_name': college_val if college_val else None,
+                                f'member{member_num}_college_code': college_code_val if college_code_val else None,
+                                f'member{member_num}_course_name': course_val if course_val else None,
+                                f'member{member_num}_year': year_val if year_val else None
                             }
                         
                         return {
@@ -183,13 +237,13 @@ def register_team(request):
                         course_val = form.cleaned_data.get(f'{prefix}member{member_num}_course_name', '')
                         year_val = form.cleaned_data.get(f'{prefix}member{member_num}_year', '')
                         
-                        # For optional members (5 and 6), return None if no data provided
-                        if member_num >= 5 and not college_val and not college_code_val and not course_val and not year_val:
+                        # For optional members (5 and 6), if no values provided, use None
+                        if member_num >= 5:
                             return {
-                                f'member{member_num}_college_name': None,
-                                f'member{member_num}_college_code': None,
-                                f'member{member_num}_course_name': None,
-                                f'member{member_num}_year': None
+                                f'member{member_num}_college_name': college_val if college_val else None,
+                                f'member{member_num}_college_code': college_code_val if college_code_val else None,
+                                f'member{member_num}_course_name': course_val if course_val else None,
+                                f'member{member_num}_year': year_val if year_val else None
                             }
                         
                         return {
@@ -241,6 +295,7 @@ def register_team(request):
                     'member4_college_code': form.cleaned_data['member4_college_code'],
                     **get_member_data(4),  # college_name, course_name, year with leader defaults
                     'is_leader4': form.cleaned_data['is_leader4'],
+                    # Member 5 (Optional) - set all to None if member not provided
                     'member5_name': form.cleaned_data.get('member5_name') or None,
                     'member5_email': form.cleaned_data.get('member5_email') or None,
                     'member5_phone': form.cleaned_data.get('member5_phone') or None,
@@ -249,6 +304,7 @@ def register_team(request):
                     'member5_college_code': form.cleaned_data.get('member5_college_code') or None,
                     **get_member_data(5),  # college_name, course_name, year with leader defaults for optional member
                     'is_leader5': form.cleaned_data.get('is_leader5', False),
+                    # Member 6 (Optional) - set all to None if member not provided
                     'member6_name': form.cleaned_data.get('member6_name') or None,
                     'member6_email': form.cleaned_data.get('member6_email') or None,
                     'member6_phone': form.cleaned_data.get('member6_phone') or None,
@@ -267,12 +323,15 @@ def register_team(request):
             except Exception as e:
                 error_msg = str(e)
                 print(f"Registration error: {error_msg}")
+                print(f"Full error details: {repr(e)}")
                 
-                # Handle specific CSRF errors
+                # Handle specific errors with helpful messages
                 if 'CSRF' in error_msg.upper():
-                    messages.error(request, 'CSRF verification failed. Please refresh the page and try again.')
+                    messages.error(request, 'Security verification failed. Please refresh the page (Ctrl+F5 or Cmd+Shift+R) and try submitting again.')
                 elif 'cannot access local variable' in error_msg:
                     messages.error(request, 'Server configuration error. Please try again or contact support.')
+                elif 'conflict' in error_msg.lower():
+                    messages.error(request, 'A registration with this information already exists. Please check your team details.')
                 else:
                     messages.error(request, f'Error submitting registration: {error_msg}')
                 

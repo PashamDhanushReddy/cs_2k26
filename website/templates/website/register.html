@@ -1,22 +1,28 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>CodeStorm 2026 - Team Registration</title>
-    
+
     <!-- Bootstrap CSS for mobile-first design -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         * {
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Rajdhani', sans-serif;
             background-color: #020617;
@@ -27,11 +33,11 @@
             -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
         }
-        
+
         .container-fluid {
             padding: 0 15px;
         }
-        
+
         .gradient-text {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             -webkit-background-clip: text;
@@ -39,7 +45,7 @@
             background-clip: text;
             font-family: 'Orbitron', sans-serif;
         }
-        
+
         .glass-panel {
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
             border: 2px solid rgba(255, 255, 255, 0.1);
@@ -50,42 +56,47 @@
             backdrop-filter: blur(20px);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         .glass-panel:hover {
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
             transform: translateY(-4px);
         }
-        
-        .form-control, .form-select {
+
+        .form-control,
+        .form-select {
             background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
             border: 2px solid #374151 !important;
             color: #ffffff;
             border-radius: 16px;
             padding: 16px 20px;
-            font-size: 16px !important; /* Prevent zoom on iOS */
-            min-height: 52px; /* Minimum touch target */
+            font-size: 16px !important;
+            /* Prevent zoom on iOS */
+            min-height: 52px;
+            /* Minimum touch target */
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            box-shadow: 
+            box-shadow:
                 0 4px 6px rgba(0, 0, 0, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
             font-weight: 500;
             letter-spacing: 0.3px;
         }
-        
-        .form-control:hover, .form-select:hover {
+
+        .form-control:hover,
+        .form-select:hover {
             border-color: #4b5563 !important;
-            box-shadow: 
+            box-shadow:
                 0 8px 25px rgba(0, 0, 0, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
             background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
         }
-        
-        .form-control:focus, .form-select:focus {
+
+        .form-control:focus,
+        .form-select:focus {
             background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
             border-color: #fbbf24 !important;
-            box-shadow: 
+            box-shadow:
                 0 0 0 0.4rem rgba(251, 191, 36, 0.4),
                 0 0 20px rgba(251, 191, 36, 0.3),
                 0 8px 30px rgba(0, 0, 0, 0.3);
@@ -94,7 +105,7 @@
             outline: none;
             border-width: 3px;
         }
-        
+
         /* Input placeholder styling */
         .form-control::placeholder {
             color: #6b7280;
@@ -103,12 +114,12 @@
             font-size: 15px;
             letter-spacing: 0.5px;
         }
-        
+
         .form-control:focus::placeholder {
             opacity: 0.4;
             color: #9ca3af;
         }
-        
+
         /* Override Tailwind classes with custom styling */
         [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"],
         input[type="text"][class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"],
@@ -126,7 +137,7 @@
             min-height: 52px !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
             position: relative !important;
-            box-shadow: 
+            box-shadow:
                 0 4px 6px rgba(0, 0, 0, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
             font-weight: 500 !important;
@@ -134,17 +145,17 @@
             width: 100% !important;
             outline: none !important;
         }
-        
+
         /* Hover state for Tailwind inputs */
         [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:hover {
             border-color: #4b5563 !important;
-            box-shadow: 
+            box-shadow:
                 0 8px 25px rgba(0, 0, 0, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
             transform: translateY(-2px) !important;
             background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
         }
-        
+
         /* Focus state for Tailwind inputs */
         .w-full.px-4.py-3.bg-gray-800.border.border-gray-600.rounded-lg.text-white:focus,
         .w-full.px-4.py-3.bg-gray-800.border.border-gray-600.rounded-lg:focus,
@@ -156,7 +167,7 @@
         textarea[class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:focus {
             background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
             border-color: #fbbf24 !important;
-            box-shadow: 
+            box-shadow:
                 0 0 0 0.4rem rgba(251, 191, 36, 0.4),
                 0 0 20px rgba(251, 191, 36, 0.3),
                 0 8px 30px rgba(0, 0, 0, 0.3) !important;
@@ -165,17 +176,23 @@
             border-width: 3px !important;
             outline: none !important;
         }
-        
+
         /* Placeholder styling for Tailwind inputs */
         [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]::placeholder {
             color: #9ca3af !important;
             opacity: 0.7 !important;
             font-weight: 400 !important;
         }
-        
+
         /* Universal form input styling - applies to all form inputs */
-        input[type="text"], input[type="email"], input[type="tel"], input[type="url"], 
-        input[type="number"], input[type="file"], select, textarea {
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="url"],
+        input[type="number"],
+        input[type="file"],
+        select,
+        textarea {
             background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
             border: 2px solid #374151 !important;
             color: #ffffff !important;
@@ -185,7 +202,7 @@
             min-height: 52px !important;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
             position: relative !important;
-            box-shadow: 
+            box-shadow:
                 0 4px 6px rgba(0, 0, 0, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
             font-weight: 500 !important;
@@ -193,26 +210,36 @@
             width: 100% !important;
             outline: none !important;
         }
-        
+
         /* Hover state for all form inputs */
-        input[type="text"]:hover, input[type="email"]:hover, input[type="tel"]:hover, 
-        input[type="url"]:hover, input[type="number"]:hover, input[type="file"]:hover, 
-        select:hover, textarea:hover {
+        input[type="text"]:hover,
+        input[type="email"]:hover,
+        input[type="tel"]:hover,
+        input[type="url"]:hover,
+        input[type="number"]:hover,
+        input[type="file"]:hover,
+        select:hover,
+        textarea:hover {
             border-color: #4b5563 !important;
-            box-shadow: 
+            box-shadow:
                 0 8px 25px rgba(0, 0, 0, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
             transform: translateY(-2px) !important;
             background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
         }
-        
+
         /* Focus state for all form inputs */
-        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, 
-        input[type="url"]:focus, input[type="number"]:focus, input[type="file"]:focus, 
-        select:focus, textarea:focus {
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="url"]:focus,
+        input[type="number"]:focus,
+        input[type="file"]:focus,
+        select:focus,
+        textarea:focus {
             background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
             border-color: #fbbf24 !important;
-            box-shadow: 
+            box-shadow:
                 0 0 0 0.4rem rgba(251, 191, 36, 0.4),
                 0 0 20px rgba(251, 191, 36, 0.3),
                 0 8px 30px rgba(0, 0, 0, 0.3) !important;
@@ -221,7 +248,51 @@
             border-width: 3px !important;
             outline: none !important;
         }
-        
+
+        /* File input specific styling */
+        input[type="file"] {
+            padding: 12px 16px !important;
+            cursor: pointer !important;
+        }
+
+        input[type="file"]::file-selector-button {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
+            color: #000000 !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            margin-right: 12px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4) !important;
+        }
+
+        /* Mobile-specific file input styling */
+        @media (max-width: 768px) {
+            input[type="file"] {
+                font-size: 14px !important;
+                padding: 10px 12px !important;
+            }
+
+            input[type="file"]::file-selector-button {
+                padding: 6px 12px !important;
+                font-size: 12px !important;
+                margin-right: 8px !important;
+            }
+        }
+
+        /* File selected indicator */
+        input[type="file"]:valid {
+            border-color: #10b981 !important;
+            background: linear-gradient(135deg, #1f2937 0%, #064e3b 100%) !important;
+        }
+
         .form-label {
             color: #fbbf24;
             font-weight: 700;
@@ -232,19 +303,19 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
         }
-        
-        .form-control:focus + .form-label,
-        .form-select:focus + .form-label {
+
+        .form-control:focus+.form-label,
+        .form-select:focus+.form-label {
             color: #f59e0b;
             transform: translateY(-2px);
         }
-        
+
         .required-field::after {
             content: " *";
             color: #f59e0b;
             font-weight: 700;
         }
-        
+
         .btn-submit {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             border: none;
@@ -261,30 +332,30 @@
             letter-spacing: 1px;
             text-transform: uppercase;
         }
-        
+
         .btn-submit:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
         }
-        
+
         .btn-submit:active {
             transform: translateY(0) scale(0.98);
         }
-        
+
         .btn-submit:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
             box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
         }
-        
+
         .navbar {
             background-color: rgba(17, 24, 39, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding: 15px 0;
         }
-        
+
         .section-title {
             color: #fbbf24;
             font-family: 'Orbitron', sans-serif;
@@ -297,7 +368,7 @@
             letter-spacing: 1px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
-        
+
         .member-card {
             background: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(17, 24, 39, 0.9) 100%);
             border: 2px solid #374151;
@@ -308,38 +379,40 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(10px);
         }
-        
+
         .member-card:hover {
             border-color: #4b5563;
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
             transform: translateY(-2px);
         }
-        
+
         .required-field::after {
             content: ' *';
             color: #ef4444;
         }
-        
+
         .alert {
             border-radius: 10px;
             border: none;
         }
-        
+
         /* Critical mobile fixes */
         @media (max-width: 768px) {
+
             /* Prevent horizontal overflow */
-            html, body {
+            html,
+            body {
                 overflow-x: hidden;
                 width: 100%;
                 max-width: 100vw;
             }
-            
+
             /* Ensure proper viewport behavior */
             .container-fluid {
                 padding-left: 15px;
                 padding-right: 15px;
             }
-            
+
             /* Fix for iOS Safari rendering issues */
             .glass-panel {
                 -webkit-transform: translateZ(0);
@@ -347,20 +420,22 @@
                 -webkit-backface-visibility: hidden;
                 backface-visibility: hidden;
             }
-            
+
             /* Prevent zoom on input focus */
-            input, select, textarea {
+            input,
+            select,
+            textarea {
                 font-size: 16px !important;
                 -webkit-appearance: none;
                 -moz-appearance: none;
                 appearance: none;
             }
-            
+
             /* Ensure proper touch scrolling */
             .container-fluid {
                 -webkit-overflow-scrolling: touch;
             }
-            
+
             /* Fix for mobile viewport issues */
             body {
                 position: relative;
@@ -368,127 +443,134 @@
                 margin: 0;
                 padding: 0;
             }
-            
+
             /* Mobile-specific optimizations to prevent fluttering */
             /* Disable button scaling on mobile */
             .btn-submit:active {
                 transform: none;
             }
-            
+
             /* Prevent form elements from causing layout shifts */
-            .form-control, .form-select {
+            .form-control,
+            .form-select {
                 transition: none;
             }
-            
+
             /* Mobile optimizations for Tailwind inputs */
             [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"] {
                 transition: none !important;
                 padding: 12px 15px !important;
                 min-height: 50px !important;
             }
-            
+
             /* Disable any hover effects that might cause flicker */
             .btn-submit:hover {
                 background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             }
-            
+
             /* Ensure smooth scrolling */
             html {
                 scroll-behavior: smooth;
             }
-            
+
             /* Prevent tap highlight color */
             .btn-submit {
                 -webkit-tap-highlight-color: transparent;
                 touch-action: manipulation;
             }
-            
+
             /* Mobile-optimized spacing */
             .glass-panel {
                 padding: 20px;
                 border-radius: 16px;
             }
-            
+
             .member-card {
                 padding: 20px;
                 border-radius: 12px;
             }
-            
+
             .section-title {
                 font-size: 1.5rem;
             }
-            
+
             /* Disable animations on mobile for performance */
-            .form-control:focus, .form-select:focus {
+            .form-control:focus,
+            .form-select:focus {
                 animation: none;
                 transform: translateY(-1px);
                 scale: 1;
-                box-shadow: 
+                box-shadow:
                     0 0 0 0.3rem rgba(251, 191, 36, 0.3),
                     inset 0 2px 4px rgba(0, 0, 0, 0.2);
             }
-            
-            .glass-panel:hover, .member-card:hover {
+
+            .glass-panel:hover,
+            .member-card:hover {
                 transform: none;
             }
-            
+
             /* Optimize touch targets for mobile */
-            .form-control, .form-select, .btn-submit {
+            .form-control,
+            .form-select,
+            .btn-submit {
                 min-height: 50px;
                 font-size: 16px !important;
             }
-            
+
             /* Fix mobile layout issues */
             .row {
                 margin-left: 0;
                 margin-right: 0;
             }
-            
-            .col-12, .col-md-6 {
+
+            .col-12,
+            .col-md-6 {
                 padding-left: 10px;
                 padding-right: 10px;
             }
-            
+
             /* Ensure proper form width */
             .container-fluid {
                 padding-left: 10px;
                 padding-right: 10px;
             }
-            
+
             /* Prevent text overflow */
-            .form-control, .form-select {
+            .form-control,
+            .form-select {
                 word-wrap: break-word;
                 overflow-wrap: break-word;
             }
-            
+
             /* Mobile-optimized margins */
             .mb-3 {
                 margin-bottom: 1rem !important;
             }
-            
+
             /* Ensure buttons are full width on very small screens */
             .btn-submit {
                 width: 100%;
                 margin-top: 10px;
             }
-            
+
             /* Fix checkbox alignment on mobile */
             .form-check {
                 display: flex;
                 align-items: center;
                 margin-bottom: 0.5rem;
             }
-            
+
             .form-check-input {
                 margin-right: 0.5rem;
             }
-            
+
             /* Ensure proper spacing between sections */
-            .glass-panel + .glass-panel {
+            .glass-panel+.glass-panel {
                 margin-top: 1.5rem;
             }
         }
-        
+
         /* Enhanced error styling */
         .text-danger {
             color: #ef4444 !important;
@@ -500,34 +582,34 @@
             border-radius: 6px;
             border-left: 3px solid #ef4444;
         }
-        
+
         /* Success state for valid inputs */
         .form-control.is-valid {
             border-color: #10b981;
             background-color: rgba(16, 185, 129, 0.05);
         }
-        
+
         .form-control.is-valid:focus {
             border-color: #10b981;
             box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
         }
-        
+
         /* Input group styling for better visual hierarchy */
         .input-group {
             margin-bottom: 20px;
         }
-        
+
         .input-group .form-control {
             border-radius: 12px;
             margin-bottom: 0;
         }
-        
+
         /* Floating label effect on focus */
         .form-group {
             position: relative;
             margin-bottom: 20px;
         }
-        
+
         /* Enhanced select dropdown arrow */
         .form-select {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23f59e0b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
@@ -535,7 +617,7 @@
             background-size: 16px;
             padding-right: 48px;
         }
-        
+
         /* File input styling */
         .form-control[type="file"] {
             padding: 12px 16px;
@@ -543,21 +625,78 @@
             cursor: pointer;
             border-style: dashed;
             border-color: #4b5563;
+            min-height: 60px !important;
+            /* Ensure minimum height for touch targets */
+            position: relative;
         }
-        
+
         .form-control[type="file"]:focus {
             background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
             border-style: solid;
+            border-color: #fbbf24 !important;
+            box-shadow: 0 0 0 0.2rem rgba(251, 191, 36, 0.25) !important;
         }
-        
+
+        /* Enhanced file input button */
+        .form-control[type="file"]::file-selector-button {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
+            color: #000000 !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            margin-right: 12px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            min-width: 140px !important;
+            height: 40px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .form-control[type="file"]::file-selector-button:hover {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3) !important;
+        }
+
+        /* File input with selected file styling */
+        .form-control[type="file"].has-file {
+            border-color: #fbbf24 !important;
+            border-style: solid !important;
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%) !important;
+        }
+
+        /* Enhanced file info display */
+        .file-info {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(251, 191, 36, 0.15);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            word-break: break-all;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .file-info::before {
+            content: "📎";
+            font-size: 1rem;
+        }
+
         /* Premium inset shadow for depth */
-        .form-control, .form-select {
-            box-shadow: 
+        .form-control,
+        .form-select {
+            box-shadow:
                 0 4px 6px rgba(0, 0, 0, 0.1),
                 inset 0 2px 4px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
-        
+
         /* Enhanced select dropdown styling */
         .form-select {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fbbf24' viewBox='0 0 20 20'%3e%3cpath stroke='%23fbbf24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
@@ -571,7 +710,7 @@
             -moz-appearance: none;
             appearance: none;
         }
-        
+
         /* Select dropdown options styling */
         .form-select option {
             background-color: #1f2937 !important;
@@ -579,37 +718,38 @@
             padding: 12px 16px !important;
             border-bottom: 1px solid #374151 !important;
         }
-        
+
         .form-select option:hover {
             background-color: #374151 !important;
         }
-        
+
         .form-select option:checked {
             background-color: #f59e0b !important;
             color: #000000 !important;
         }
-        
+
         /* Fix for browser default select styling */
         select.form-select::-ms-expand {
             display: none;
         }
-        
+
         select.form-select {
             background-color: #1f2937 !important;
             color: #ffffff !important;
         }
-        
+
         /* Dark theme for select dropdown */
         select.form-select:focus {
             background-color: #1f2937 !important;
             color: #ffffff !important;
         }
-        
+
         /* Input field transitions with better visual feedback */
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
             border-color: #fbbf24;
-            box-shadow: 
+            box-shadow:
                 0 0 0 0.4rem rgba(251, 191, 36, 0.4),
                 0 0 25px rgba(251, 191, 36, 0.3),
                 0 10px 40px rgba(0, 0, 0, 0.4),
@@ -620,135 +760,142 @@
             border-width: 3px;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
+
         /* Enhanced error state */
         .form-control.is-invalid {
             border-color: #ef4444;
-            box-shadow: 
+            box-shadow:
                 0 0 0 0.3rem rgba(239, 68, 68, 0.3),
                 inset 0 2px 4px rgba(239, 68, 68, 0.1);
         }
-        
+
         /* Enhanced success state */
         .form-control.is-valid {
             border-color: #10b981;
-            box-shadow: 
+            box-shadow:
                 0 0 0 0.3rem rgba(16, 185, 129, 0.3),
                 inset 0 2px 4px rgba(16, 185, 129, 0.1);
         }
-        
+
         /* Custom scrollbar for webkit browsers */
         .form-control::-webkit-scrollbar {
             width: 8px;
         }
-        
+
         .form-control::-webkit-scrollbar-track {
             background: #1f2937;
             border-radius: 4px;
         }
-        
+
         .form-control::-webkit-scrollbar-thumb {
             background: #4b5563;
             border-radius: 4px;
         }
-        
+
         .form-control::-webkit-scrollbar-thumb:hover {
             background: #6b7280;
         }
-        
+
         /* Loading state for form */
         .form-loading {
             opacity: 0.7;
             pointer-events: none;
         }
-        
+
         /* Animated border on focus */
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             animation: focusGlow 0.3s ease-in-out;
         }
-        
+
         @keyframes focusGlow {
             0% {
                 box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
             }
+
             50% {
                 box-shadow: 0 0 0 0.4rem rgba(245, 158, 11, 0.2);
             }
+
             100% {
                 box-shadow: 0 0 0 0.3rem rgba(245, 158, 11, 0.3), 0 4px 12px rgba(245, 158, 11, 0.2);
             }
         }
-            .container-fluid {
-                padding: 0 10px;
-            }
-            
-            .glass-panel {
-                padding: 15px;
-                margin-bottom: 15px;
-            }
-            
-            .member-card {
-                padding: 15px;
-            }
-            
-            .section-title {
-                font-size: 1.3rem;
-            }
-            
-            .form-control, .form-select {
-                padding: 10px 12px;
-                font-size: 16px !important;
-            }
-        
-        
+
+        .container-fluid {
+            padding: 0 10px;
+        }
+
+        .glass-panel {
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .member-card {
+            padding: 15px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+        }
+
+        .form-control,
+        .form-select {
+            padding: 10px 12px;
+            font-size: 16px !important;
+        }
+
+
         /* Extra small screen optimizations */
         @media (max-width: 480px) {
             .glass-panel {
                 padding: 15px;
                 margin: 0 -5px 15px -5px;
             }
-            
+
             .section-title {
                 font-size: 1.2rem;
             }
-            
-            .form-control, .form-select {
+
+            .form-control,
+            .form-select {
                 padding: 12px 10px;
                 font-size: 16px !important;
             }
-            
+
             /* Extra small screen optimizations for Tailwind inputs */
             [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"] {
                 padding: 12px 10px !important;
                 font-size: 16px !important;
                 min-height: 48px !important;
             }
-            
+
             /* Ensure form elements don't overflow */
-            
+
             /* Ensure form elements don't overflow */
-            .col-12, .col-md-6 {
+            .col-12,
+            .col-md-6 {
                 padding-left: 5px;
                 padding-right: 5px;
             }
-            
+
             /* Reduce spacing on very small screens */
             .mb-3 {
                 margin-bottom: 0.75rem !important;
             }
-            
+
             /* Smaller text for labels on mobile */
             .form-label {
                 font-size: 0.9rem;
             }
-            
+
             /* Ensure proper button sizing */
             .btn-submit {
                 padding: 12px 20px;
                 font-size: 1rem;
             }
         }
-        
+
         /* Mobile device specific styles */
         .mobile-device .glass-panel {
             margin-left: -10px;
@@ -757,12 +904,12 @@
             border-left: none;
             border-right: none;
         }
-        
+
         .mobile-device .container-fluid {
             padding-left: 5px;
             padding-right: 5px;
         }
-        
+
         /* Ensure proper form rendering on mobile */
         .mobile-device .form-control,
         .mobile-device .form-select {
@@ -770,14 +917,15 @@
             -moz-appearance: none;
             appearance: none;
         }
-        
+
         /* Fix for iOS Safari */
         @supports (-webkit-touch-callout: none) {
+
             .mobile-device .form-control,
             .mobile-device .form-select {
                 font-size: 16px !important;
             }
-            
+
             /* iOS Safari fixes for Tailwind inputs */
             [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"] {
                 font-size: 16px !important;
@@ -785,42 +933,47 @@
                 appearance: none !important;
             }
         }
-        
+
         /* Android Chrome fixes */
         @media screen and (-webkit-min-device-pixel-ratio: 0) {
+
             .mobile-device .form-control,
             .mobile-device .form-select {
                 -webkit-tap-highlight-color: transparent;
             }
         }
+
         .form-check-input {
             width: 20px;
             height: 20px;
             min-width: 20px;
             min-height: 20px;
         }
-        
+
         /* Prevent horizontal scroll */
-        html, body {
+        html,
+        body {
             max-width: 100vw;
             overflow-x: hidden;
         }
-        
+
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
         }
-        
+
         /* Fix for mobile Safari and Chrome rendering issues */
         @media screen and (max-width: 768px) {
+
             /* Force hardware acceleration for better mobile performance */
-            .glass-panel, .member-card {
+            .glass-panel,
+            .member-card {
                 -webkit-transform: translate3d(0, 0, 0);
                 transform: translate3d(0, 0, 0);
                 -webkit-perspective: 1000;
                 perspective: 1000;
             }
-            
+
             /* Ensure proper text rendering on mobile */
             body {
                 -webkit-text-size-adjust: 100%;
@@ -828,140 +981,159 @@
                 -ms-text-size-adjust: 100%;
                 text-size-adjust: 100%;
             }
-            
+
             /* Fix for mobile form rendering */
-            .form-control, .form-select {
+            .form-control,
+            .form-select {
                 -webkit-border-radius: 8px;
                 -moz-border-radius: 8px;
                 border-radius: 8px;
             }
-            
+
             /* Ensure proper stacking context */
             .container-fluid {
                 position: relative;
                 z-index: 1;
             }
-            
+
             /* Fix for mobile viewport height issues */
             .min-vh-100 {
                 min-height: 100vh;
                 min-height: -webkit-fill-available;
             }
-            
+
             /* Prevent text selection issues on mobile */
-            .form-control, .form-select, .btn-submit {
+            .form-control,
+            .form-select,
+            .btn-submit {
                 -webkit-user-select: text;
                 -moz-user-select: text;
                 -ms-user-select: text;
                 user-select: text;
             }
-            
-        /* Final mobile compatibility fixes */
-        @media screen and (max-width: 768px) {
-            /* Prevent zoom on input focus */
-            input, select, textarea {
-                font-size: 16px !important;
-            }
-            
-            /* Ensure proper form width */
-            #registrationForm {
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            /* Fix for mobile Safari */
-            @supports (-webkit-appearance: none) {
-                .form-control, .form-select {
-                    -webkit-appearance: none;
-                    appearance: none;
+
+            /* Final mobile compatibility fixes */
+            @media screen and (max-width: 768px) {
+
+                /* Prevent zoom on input focus */
+                input,
+                select,
+                textarea {
+                    font-size: 16px !important;
+                }
+
+                /* Ensure proper form width */
+                #registrationForm {
+                    width: 100%;
+                    max-width: 100%;
+                }
+
+                /* Fix for mobile Safari */
+                @supports (-webkit-appearance: none) {
+
+                    .form-control,
+                    .form-select {
+                        -webkit-appearance: none;
+                        appearance: none;
+                    }
+                }
+
+                /* Ensure proper layout containment */
+                .glass-panel {
+                    contain: layout style;
+                    will-change: transform;
+                }
+
+                /* Prevent layout shifts */
+                .form-control,
+                .form-select {
+                    contain: layout style;
                 }
             }
-            
-            /* Ensure proper layout containment */
-            .glass-panel {
-                contain: layout style;
-                will-change: transform;
+
+            /* High DPI screen fixes */
+            @media (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 192dpi) {
+
+                .form-control,
+                .form-select {
+                    border-width: 1px;
+                }
             }
-            
-            /* Prevent layout shifts */
-            .form-control, .form-select {
-                contain: layout style;
+
+            /* Emergency mobile fixes - highest priority */
+            @media screen and (max-width: 768px) {
+
+                /* Force proper mobile rendering */
+                * {
+                    box-sizing: border-box !important;
+                }
+
+                /* Ensure proper viewport behavior */
+                html {
+                    -webkit-text-size-adjust: none;
+                    -moz-text-size-adjust: none;
+                    -ms-text-size-adjust: none;
+                    text-size-adjust: none;
+                }
+
+                /* Force mobile-friendly font sizes */
+                body {
+                    font-size: 16px !important;
+                    line-height: 1.5 !important;
+                }
+
+                /* Ensure proper form rendering */
+                input,
+                select,
+                textarea,
+                button {
+                    font-size: 16px !important;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                    border-radius: 8px !important;
+                }
+
+                /* Prevent horizontal scrolling */
+                .container-fluid {
+                    overflow-x: hidden;
+                    max-width: 100vw;
+                }
+
+                /* Ensure proper touch targets */
+                .btn-submit,
+                .form-control,
+                .form-select {
+                    min-height: 44px !important;
+                    min-width: 44px !important;
+                }
             }
-        }
-        
-        /* High DPI screen fixes */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .form-control, .form-select {
-                border-width: 1px;
+
+            /* Loading state */
+            .loading {
+                opacity: 0.7;
+                pointer-events: none;
             }
-        }
-        
-        /* Emergency mobile fixes - highest priority */
-        @media screen and (max-width: 768px) {
-            /* Force proper mobile rendering */
-            * {
-                box-sizing: border-box !important;
+
+            .spinner-border {
+                width: 1rem;
+                height: 1rem;
+                border-width: 0.15em;
             }
-            
-            /* Ensure proper viewport behavior */
-            html {
-                -webkit-text-size-adjust: none;
-                -moz-text-size-adjust: none;
-                -ms-text-size-adjust: none;
-                text-size-adjust: none;
-            }
-            
-            /* Force mobile-friendly font sizes */
-            body {
-                font-size: 16px !important;
-                line-height: 1.5 !important;
-            }
-            
-            /* Ensure proper form rendering */
-            input, select, textarea, button {
-                font-size: 16px !important;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                appearance: none;
-                border-radius: 8px !important;
-            }
-            
-            /* Prevent horizontal scrolling */
-            .container-fluid {
-                overflow-x: hidden;
-                max-width: 100vw;
-            }
-            
-            /* Ensure proper touch targets */
-            .btn-submit,
-            .form-control,
-            .form-select {
-                min-height: 44px !important;
-                min-width: 44px !important;
-            }
-        }
-        
-        /* Loading state */
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
-        }
-        
-        .spinner-border {
-            width: 1rem;
-            height: 1rem;
-            border-width: 0.15em;
-        }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-                <img src="{% static 'images/logo.jpg' %}" alt="CodeStorm Logo" class="me-2" style="width: 40px; height: 40px; border-radius: 8px;">
+                <img src="{% static 'images/logo.jpg' %}" alt="CodeStorm Logo" class="me-2"
+                    style="width: 40px; height: 40px; border-radius: 8px;">
                 <div>
-                    <div class="fw-bold text-white" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem;">CODESTORM</div>
+                    <div class="fw-bold text-white" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem;">
+                        CODESTORM</div>
                     <div class="text-warning" style="font-size: 0.7rem;">2K26 EDITION</div>
                 </div>
             </a>
@@ -975,43 +1147,57 @@
             <div class="col-12 col-lg-10 col-xl-8">
                 <!-- Header -->
                 <div class="text-center mb-4">
-                    <h1 class="gradient-text display-5 fw-bold mb-3" style="font-family: 'Orbitron', sans-serif;">Team Registration</h1>
+                    <h1 class="gradient-text display-5 fw-bold mb-3" style="font-family: 'Orbitron', sans-serif;">Team
+                        Registration</h1>
                     <p class="text-muted">Register your team for CodeStorm 2026 - The Ultimate 36-Hour Hackathon</p>
                 </div>
 
                 <!-- Messages -->
                 {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert">
-                            {{ message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    {% endfor %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
                 {% endif %}
 
                 <!-- Registration Form -->
                 <div class="glass-panel">
-                    <form method="post" enctype="multipart/form-data" id="registrationForm" autocomplete="off">
+                    <form method="post" enctype="multipart/form-data" id="registrationForm" action="">
                         {% csrf_token %}
-                        
+                        <script>
+                            // Debug CSRF token on page load
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+                                if (csrfToken) {
+                                    console.log('CSRF Token found:', csrfToken.value);
+                                } else {
+                                    console.error('CSRF Token NOT found in form!');
+                                }
+                            });
+                        </script>
+
                         <!-- Team Details Section -->
                         <div class="mb-4">
                             <h2 class="section-title">Team Details</h2>
                             <div class="row">
                                 <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.team_name.id_for_label }}" class="form-label required-field">Team Name</label>
+                                    <label for="{{ form.team_name.id_for_label }}"
+                                        class="form-label required-field">Team Name</label>
                                     {{ form.team_name }}
                                     {% if form.team_name.errors %}
-                                        <div class="text-danger small">{{ form.team_name.errors.0 }}</div>
+                                    <div class="text-danger small">{{ form.team_name.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.team_size.id_for_label }}" class="form-label required-field">Team Size</label>
+                                    <label for="{{ form.team_size.id_for_label }}"
+                                        class="form-label required-field">Team Size</label>
                                     {{ form.team_size }}
                                     {% if form.team_size.errors %}
-                                        <div class="text-danger small">{{ form.team_size.errors.0 }}</div>
+                                    <div class="text-danger small">{{ form.team_size.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
@@ -1022,33 +1208,41 @@
                             <h2 class="section-title">Idea Details</h2>
                             <div class="row">
                                 <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.idea_title.id_for_label }}" class="form-label required-field">Idea Title</label>
+                                    <label for="{{ form.idea_title.id_for_label }}"
+                                        class="form-label required-field">Idea Title</label>
                                     {{ form.idea_title }}
                                     {% if form.idea_title.errors %}
-                                        <div class="text-danger small">{{ form.idea_title.errors.0 }}</div>
+                                    <div class="text-danger small">{{ form.idea_title.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                                 <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.idea_theme.id_for_label }}" class="form-label required-field">Idea Theme/Track</label>
+                                    <label for="{{ form.idea_theme.id_for_label }}"
+                                        class="form-label required-field">Idea Theme/Track</label>
                                     {{ form.idea_theme }}
                                     {% if form.idea_theme.errors %}
-                                        <div class="text-danger small">{{ form.idea_theme.errors.0 }}</div>
+                                    <div class="text-danger small">{{ form.idea_theme.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.ppt_file.id_for_label }}" class="form-label required-field">PPT File (.ppt, .pptx, .pdf)</label>
+                                    <label for="{{ form.ppt_file.id_for_label }}" class="form-label required-field">PPT
+                                        File (.ppt, .pptx, .pdf)</label>
                                     {{ form.ppt_file }}
+                                    <div id="ppt-file-info" class="file-info text-muted small mt-1"
+                                        style="display: none;">
+                                        <i class="fas fa-file-alt"></i> <span id="ppt-file-name"></span>
+                                    </div>
                                     {% if form.ppt_file.errors %}
-                                        <div class="text-danger small">{{ form.ppt_file.errors.0 }}</div>
+                                    <div class="text-danger small">{{ form.ppt_file.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                                 <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.youtube_link.id_for_label }}" class="form-label required-field">YouTube Link</label>
+                                    <label for="{{ form.youtube_link.id_for_label }}"
+                                        class="form-label required-field">YouTube Link</label>
                                     {{ form.youtube_link }}
                                     {% if form.youtube_link.errors %}
-                                        <div class="text-danger small">{{ form.youtube_link.errors.0 }}</div>
+                                    <div class="text-danger small">{{ form.youtube_link.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
@@ -1057,86 +1251,96 @@
                         <!-- Team Members Section -->
                         <div class="mb-4">
                             <h2 class="section-title">Team Members</h2>
-                            <p class="text-muted mb-3">Select exactly one member as team leader. Members 1-4 are required, 5-6 are optional.</p>
-                            <p class="text-warning mb-3"><i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> At least one team member must be female.</p>
-                            
+                            <p class="text-muted mb-3">Select exactly one member as team leader. Members 1-4 are
+                                required, 5-6 are optional.</p>
+
                             <!-- Member 1 (Required) -->
                             <div class="member-card">
                                 <h3 class="h5 text-white mb-3">Member 1 <span class="text-danger">*</span></h3>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member1_name.id_for_label }}" class="form-label required-field">Full Name</label>
+                                        <label for="{{ form.member1_name.id_for_label }}"
+                                            class="form-label required-field">Full Name</label>
                                         {{ form.member1_name }}
                                         {% if form.member1_name.errors %}
-                                            <div class="text-danger small">{{ form.member1_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member1_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member1_email.id_for_label }}" class="form-label required-field">Email</label>
+                                        <label for="{{ form.member1_email.id_for_label }}"
+                                            class="form-label required-field">Email</label>
                                         {{ form.member1_email }}
                                         {% if form.member1_email.errors %}
-                                            <div class="text-danger small">{{ form.member1_email.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member1_email.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member1_phone.id_for_label }}" class="form-label required-field">Phone Number</label>
+                                        <label for="{{ form.member1_phone.id_for_label }}"
+                                            class="form-label required-field">Phone Number</label>
                                         {{ form.member1_phone }}
                                         {% if form.member1_phone.errors %}
-                                            <div class="text-danger small">{{ form.member1_phone.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member1_phone.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member1_roll.id_for_label }}" class="form-label required-field">Roll Number</label>
+                                        <label for="{{ form.member1_roll.id_for_label }}"
+                                            class="form-label required-field">Roll Number</label>
                                         {{ form.member1_roll }}
                                         {% if form.member1_roll.errors %}
-                                            <div class="text-danger small">{{ form.member1_roll.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member1_roll.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member1_gender.id_for_label }}" class="form-label required-field">Gender</label>
+                                        <label for="{{ form.member1_gender.id_for_label }}"
+                                            class="form-label required-field">Gender</label>
                                         {{ form.member1_gender }}
                                         {% if form.member1_gender.errors %}
-                                            <div class="text-danger small">{{ form.member1_gender.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member1_gender.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member1_year.id_for_label }}" class="form-label required-field">Year</label>
+                                        <label for="{{ form.member1_year.id_for_label }}"
+                                            class="form-label required-field">Year</label>
                                         {{ form.member1_year }}
                                         {% if form.member1_year.errors %}
-                                            <div class="text-danger small">{{ form.member1_year.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member1_year.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member1_college_name.id_for_label }}" class="form-label required-field">College Name</label>
+                                        <label for="{{ form.member1_college_name.id_for_label }}"
+                                            class="form-label required-field">College Name</label>
                                         {{ form.member1_college_name }}
                                         {% if form.member1_college_name.errors %}
-                                            <div class="text-danger small">{{ form.member1_college_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member1_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member1_college_code.id_for_label }}" class="form-label required-field">College Code</label>
+                                        <label for="{{ form.member1_college_code.id_for_label }}"
+                                            class="form-label required-field">College Code</label>
                                         {{ form.member1_college_code }}
                                         {% if form.member1_college_code.errors %}
-                                            <div class="text-danger small">{{ form.member1_college_code.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member1_college_code.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member1_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
+                                        <label for="{{ form.member1_course_name.id_for_label }}"
+                                            class="form-label required-field">Course Name</label>
                                         {{ form.member1_course_name }}
                                         {% if form.member1_course_name.errors %}
-                                            <div class="text-danger small">{{ form.member1_course_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member1_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader1 }}
-                                            <label class="form-check-label text-white" for="{{ form.is_leader1.id_for_label }}">
+                                            <label class="form-check-label text-white"
+                                                for="{{ form.is_leader1.id_for_label }}">
                                                 Team Leader
                                             </label>
                                         </div>
@@ -1149,78 +1353,88 @@
                                 <h3 class="h5 text-white mb-3">Member 2 <span class="text-danger">*</span></h3>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member2_name.id_for_label }}" class="form-label required-field">Full Name</label>
+                                        <label for="{{ form.member2_name.id_for_label }}"
+                                            class="form-label required-field">Full Name</label>
                                         {{ form.member2_name }}
                                         {% if form.member2_name.errors %}
-                                            <div class="text-danger small">{{ form.member2_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member2_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member2_email.id_for_label }}" class="form-label required-field">Email</label>
+                                        <label for="{{ form.member2_email.id_for_label }}"
+                                            class="form-label required-field">Email</label>
                                         {{ form.member2_email }}
                                         {% if form.member2_email.errors %}
-                                            <div class="text-danger small">{{ form.member2_email.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member2_email.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member2_phone.id_for_label }}" class="form-label required-field">Phone Number</label>
+                                        <label for="{{ form.member2_phone.id_for_label }}"
+                                            class="form-label required-field">Phone Number</label>
                                         {{ form.member2_phone }}
                                         {% if form.member2_phone.errors %}
-                                            <div class="text-danger small">{{ form.member2_phone.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member2_phone.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member2_roll.id_for_label }}" class="form-label required-field">Roll Number</label>
+                                        <label for="{{ form.member2_roll.id_for_label }}"
+                                            class="form-label required-field">Roll Number</label>
                                         {{ form.member2_roll }}
                                         {% if form.member2_roll.errors %}
-                                            <div class="text-danger small">{{ form.member2_roll.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member2_roll.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member2_gender.id_for_label }}" class="form-label required-field">Gender</label>
+                                        <label for="{{ form.member2_gender.id_for_label }}"
+                                            class="form-label required-field">Gender</label>
                                         {{ form.member2_gender }}
                                         {% if form.member2_gender.errors %}
-                                            <div class="text-danger small">{{ form.member2_gender.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member2_gender.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member2_year.id_for_label }}" class="form-label required-field">Year</label>
+                                        <label for="{{ form.member2_year.id_for_label }}"
+                                            class="form-label required-field">Year</label>
                                         {{ form.member2_year }}
                                         {% if form.member2_year.errors %}
-                                            <div class="text-danger small">{{ form.member2_year.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member2_year.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member2_college_name.id_for_label }}" class="form-label required-field">College Name</label>
+                                        <label for="{{ form.member2_college_name.id_for_label }}"
+                                            class="form-label required-field">College Name</label>
                                         {{ form.member2_college_name }}
                                         {% if form.member2_college_name.errors %}
-                                            <div class="text-danger small">{{ form.member2_college_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member2_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member2_college_code.id_for_label }}" class="form-label required-field">College Code</label>
+                                        <label for="{{ form.member2_college_code.id_for_label }}"
+                                            class="form-label required-field">College Code</label>
                                         {{ form.member2_college_code }}
                                         {% if form.member2_college_code.errors %}
-                                            <div class="text-danger small">{{ form.member2_college_code.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member2_college_code.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member2_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
+                                        <label for="{{ form.member2_course_name.id_for_label }}"
+                                            class="form-label required-field">Course Name</label>
                                         {{ form.member2_course_name }}
                                         {% if form.member2_course_name.errors %}
-                                            <div class="text-danger small">{{ form.member2_course_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member2_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader2 }}
-                                            <label class="form-check-label text-white" for="{{ form.is_leader2.id_for_label }}">
+                                            <label class="form-check-label text-white"
+                                                for="{{ form.is_leader2.id_for_label }}">
                                                 Team Leader
                                             </label>
                                         </div>
@@ -1233,78 +1447,88 @@
                                 <h3 class="h5 text-white mb-3">Member 3 <span class="text-danger">*</span></h3>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member3_name.id_for_label }}" class="form-label required-field">Full Name</label>
+                                        <label for="{{ form.member3_name.id_for_label }}"
+                                            class="form-label required-field">Full Name</label>
                                         {{ form.member3_name }}
                                         {% if form.member3_name.errors %}
-                                            <div class="text-danger small">{{ form.member3_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member3_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member3_email.id_for_label }}" class="form-label required-field">Email</label>
+                                        <label for="{{ form.member3_email.id_for_label }}"
+                                            class="form-label required-field">Email</label>
                                         {{ form.member3_email }}
                                         {% if form.member3_email.errors %}
-                                            <div class="text-danger small">{{ form.member3_email.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member3_email.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member3_phone.id_for_label }}" class="form-label required-field">Phone Number</label>
+                                        <label for="{{ form.member3_phone.id_for_label }}"
+                                            class="form-label required-field">Phone Number</label>
                                         {{ form.member3_phone }}
                                         {% if form.member3_phone.errors %}
-                                            <div class="text-danger small">{{ form.member3_phone.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member3_phone.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member3_roll.id_for_label }}" class="form-label required-field">Roll Number</label>
+                                        <label for="{{ form.member3_roll.id_for_label }}"
+                                            class="form-label required-field">Roll Number</label>
                                         {{ form.member3_roll }}
                                         {% if form.member3_roll.errors %}
-                                            <div class="text-danger small">{{ form.member3_roll.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member3_roll.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member3_gender.id_for_label }}" class="form-label required-field">Gender</label>
+                                        <label for="{{ form.member3_gender.id_for_label }}"
+                                            class="form-label required-field">Gender</label>
                                         {{ form.member3_gender }}
                                         {% if form.member3_gender.errors %}
-                                            <div class="text-danger small">{{ form.member3_gender.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member3_gender.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member3_year.id_for_label }}" class="form-label required-field">Year</label>
+                                        <label for="{{ form.member3_year.id_for_label }}"
+                                            class="form-label required-field">Year</label>
                                         {{ form.member3_year }}
                                         {% if form.member3_year.errors %}
-                                            <div class="text-danger small">{{ form.member3_year.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member3_year.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member3_college_name.id_for_label }}" class="form-label required-field">College Name</label>
+                                        <label for="{{ form.member3_college_name.id_for_label }}"
+                                            class="form-label required-field">College Name</label>
                                         {{ form.member3_college_name }}
                                         {% if form.member3_college_name.errors %}
-                                            <div class="text-danger small">{{ form.member3_college_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member3_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member3_college_code.id_for_label }}" class="form-label required-field">College Code</label>
+                                        <label for="{{ form.member3_college_code.id_for_label }}"
+                                            class="form-label required-field">College Code</label>
                                         {{ form.member3_college_code }}
                                         {% if form.member3_college_code.errors %}
-                                            <div class="text-danger small">{{ form.member3_college_code.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member3_college_code.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member3_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
+                                        <label for="{{ form.member3_course_name.id_for_label }}"
+                                            class="form-label required-field">Course Name</label>
                                         {{ form.member3_course_name }}
                                         {% if form.member3_course_name.errors %}
-                                            <div class="text-danger small">{{ form.member3_course_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member3_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader3 }}
-                                            <label class="form-check-label text-white" for="{{ form.is_leader3.id_for_label }}">
+                                            <label class="form-check-label text-white"
+                                                for="{{ form.is_leader3.id_for_label }}">
                                                 Team Leader
                                             </label>
                                         </div>
@@ -1317,78 +1541,88 @@
                                 <h3 class="h5 text-white mb-3">Member 4 <span class="text-danger">*</span></h3>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member4_name.id_for_label }}" class="form-label required-field">Full Name</label>
+                                        <label for="{{ form.member4_name.id_for_label }}"
+                                            class="form-label required-field">Full Name</label>
                                         {{ form.member4_name }}
                                         {% if form.member4_name.errors %}
-                                            <div class="text-danger small">{{ form.member4_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member4_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member4_email.id_for_label }}" class="form-label required-field">Email</label>
+                                        <label for="{{ form.member4_email.id_for_label }}"
+                                            class="form-label required-field">Email</label>
                                         {{ form.member4_email }}
                                         {% if form.member4_email.errors %}
-                                            <div class="text-danger small">{{ form.member4_email.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member4_email.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member4_phone.id_for_label }}" class="form-label required-field">Phone Number</label>
+                                        <label for="{{ form.member4_phone.id_for_label }}"
+                                            class="form-label required-field">Phone Number</label>
                                         {{ form.member4_phone }}
                                         {% if form.member4_phone.errors %}
-                                            <div class="text-danger small">{{ form.member4_phone.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member4_phone.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member4_roll.id_for_label }}" class="form-label required-field">Roll Number</label>
+                                        <label for="{{ form.member4_roll.id_for_label }}"
+                                            class="form-label required-field">Roll Number</label>
                                         {{ form.member4_roll }}
                                         {% if form.member4_roll.errors %}
-                                            <div class="text-danger small">{{ form.member4_roll.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member4_roll.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member4_gender.id_for_label }}" class="form-label required-field">Gender</label>
+                                        <label for="{{ form.member4_gender.id_for_label }}"
+                                            class="form-label required-field">Gender</label>
                                         {{ form.member4_gender }}
                                         {% if form.member4_gender.errors %}
-                                            <div class="text-danger small">{{ form.member4_gender.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member4_gender.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member4_year.id_for_label }}" class="form-label required-field">Year</label>
+                                        <label for="{{ form.member4_year.id_for_label }}"
+                                            class="form-label required-field">Year</label>
                                         {{ form.member4_year }}
                                         {% if form.member4_year.errors %}
-                                            <div class="text-danger small">{{ form.member4_year.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member4_year.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member4_college_name.id_for_label }}" class="form-label required-field">College Name</label>
+                                        <label for="{{ form.member4_college_name.id_for_label }}"
+                                            class="form-label required-field">College Name</label>
                                         {{ form.member4_college_name }}
                                         {% if form.member4_college_name.errors %}
-                                            <div class="text-danger small">{{ form.member4_college_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member4_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member4_college_code.id_for_label }}" class="form-label required-field">College Code</label>
+                                        <label for="{{ form.member4_college_code.id_for_label }}"
+                                            class="form-label required-field">College Code</label>
                                         {{ form.member4_college_code }}
                                         {% if form.member4_college_code.errors %}
-                                            <div class="text-danger small">{{ form.member4_college_code.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member4_college_code.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member4_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
+                                        <label for="{{ form.member4_course_name.id_for_label }}"
+                                            class="form-label required-field">Course Name</label>
                                         {{ form.member4_course_name }}
                                         {% if form.member4_course_name.errors %}
-                                            <div class="text-danger small">{{ form.member4_course_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member4_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader4 }}
-                                            <label class="form-check-label text-white" for="{{ form.is_leader4.id_for_label }}">
+                                            <label class="form-check-label text-white"
+                                                for="{{ form.is_leader4.id_for_label }}">
                                                 Team Leader
                                             </label>
                                         </div>
@@ -1401,78 +1635,88 @@
                                 <h3 class="h5 text-white mb-3">Member 5 (Optional)</h3>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member5_name.id_for_label }}" class="form-label">Full Name</label>
+                                        <label for="{{ form.member5_name.id_for_label }}" class="form-label">Full
+                                            Name</label>
                                         {{ form.member5_name }}
                                         {% if form.member5_name.errors %}
-                                            <div class="text-danger small">{{ form.member5_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member5_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member5_email.id_for_label }}" class="form-label">Email</label>
+                                        <label for="{{ form.member5_email.id_for_label }}"
+                                            class="form-label">Email</label>
                                         {{ form.member5_email }}
                                         {% if form.member5_email.errors %}
-                                            <div class="text-danger small">{{ form.member5_email.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member5_email.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member5_phone.id_for_label }}" class="form-label">Phone Number</label>
+                                        <label for="{{ form.member5_phone.id_for_label }}" class="form-label">Phone
+                                            Number</label>
                                         {{ form.member5_phone }}
                                         {% if form.member5_phone.errors %}
-                                            <div class="text-danger small">{{ form.member5_phone.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member5_phone.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member5_roll.id_for_label }}" class="form-label">Roll Number</label>
+                                        <label for="{{ form.member5_roll.id_for_label }}" class="form-label">Roll
+                                            Number</label>
                                         {{ form.member5_roll }}
                                         {% if form.member5_roll.errors %}
-                                            <div class="text-danger small">{{ form.member5_roll.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member5_roll.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member5_gender.id_for_label }}" class="form-label">Gender</label>
+                                        <label for="{{ form.member5_gender.id_for_label }}"
+                                            class="form-label">Gender</label>
                                         {{ form.member5_gender }}
                                         {% if form.member5_gender.errors %}
-                                            <div class="text-danger small">{{ form.member5_gender.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member5_gender.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member5_year.id_for_label }}" class="form-label">Year</label>
+                                        <label for="{{ form.member5_year.id_for_label }}"
+                                            class="form-label">Year</label>
                                         {{ form.member5_year }}
                                         {% if form.member5_year.errors %}
-                                            <div class="text-danger small">{{ form.member5_year.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member5_year.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member5_college_name.id_for_label }}" class="form-label required-field">College Name</label>
+                                        <label for="{{ form.member5_college_name.id_for_label }}"
+                                            class="form-label required-field">College Name</label>
                                         {{ form.member5_college_name }}
                                         {% if form.member5_college_name.errors %}
-                                            <div class="text-danger small">{{ form.member5_college_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member5_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member5_college_code.id_for_label }}" class="form-label">College Code</label>
+                                        <label for="{{ form.member5_college_code.id_for_label }}"
+                                            class="form-label">College Code</label>
                                         {{ form.member5_college_code }}
                                         {% if form.member5_college_code.errors %}
-                                            <div class="text-danger small">{{ form.member5_college_code.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member5_college_code.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member5_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
+                                        <label for="{{ form.member5_course_name.id_for_label }}"
+                                            class="form-label required-field">Course Name</label>
                                         {{ form.member5_course_name }}
                                         {% if form.member5_course_name.errors %}
-                                            <div class="text-danger small">{{ form.member5_course_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member5_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader5 }}
-                                            <label class="form-check-label text-white" for="{{ form.is_leader5.id_for_label }}">
+                                            <label class="form-check-label text-white"
+                                                for="{{ form.is_leader5.id_for_label }}">
                                                 Team Leader
                                             </label>
                                         </div>
@@ -1485,78 +1729,88 @@
                                 <h3 class="h5 text-white mb-3">Member 6 (Optional)</h3>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member6_name.id_for_label }}" class="form-label">Full Name</label>
+                                        <label for="{{ form.member6_name.id_for_label }}" class="form-label">Full
+                                            Name</label>
                                         {{ form.member6_name }}
                                         {% if form.member6_name.errors %}
-                                            <div class="text-danger small">{{ form.member6_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member6_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member6_email.id_for_label }}" class="form-label">Email</label>
+                                        <label for="{{ form.member6_email.id_for_label }}"
+                                            class="form-label">Email</label>
                                         {{ form.member6_email }}
                                         {% if form.member6_email.errors %}
-                                            <div class="text-danger small">{{ form.member6_email.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member6_email.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member6_phone.id_for_label }}" class="form-label">Phone Number</label>
+                                        <label for="{{ form.member6_phone.id_for_label }}" class="form-label">Phone
+                                            Number</label>
                                         {{ form.member6_phone }}
                                         {% if form.member6_phone.errors %}
-                                            <div class="text-danger small">{{ form.member6_phone.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member6_phone.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member6_roll.id_for_label }}" class="form-label">Roll Number</label>
+                                        <label for="{{ form.member6_roll.id_for_label }}" class="form-label">Roll
+                                            Number</label>
                                         {{ form.member6_roll }}
                                         {% if form.member6_roll.errors %}
-                                            <div class="text-danger small">{{ form.member6_roll.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member6_roll.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member6_gender.id_for_label }}" class="form-label">Gender</label>
+                                        <label for="{{ form.member6_gender.id_for_label }}"
+                                            class="form-label">Gender</label>
                                         {{ form.member6_gender }}
                                         {% if form.member6_gender.errors %}
-                                            <div class="text-danger small">{{ form.member6_gender.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member6_gender.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member6_year.id_for_label }}" class="form-label">Year</label>
+                                        <label for="{{ form.member6_year.id_for_label }}"
+                                            class="form-label">Year</label>
                                         {{ form.member6_year }}
                                         {% if form.member6_year.errors %}
-                                            <div class="text-danger small">{{ form.member6_year.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member6_year.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member6_college_name.id_for_label }}" class="form-label required-field">College Name</label>
+                                        <label for="{{ form.member6_college_name.id_for_label }}"
+                                            class="form-label required-field">College Name</label>
                                         {{ form.member6_college_name }}
                                         {% if form.member6_college_name.errors %}
-                                            <div class="text-danger small">{{ form.member6_college_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member6_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-3 mb-3">
-                                        <label for="{{ form.member6_college_code.id_for_label }}" class="form-label">College Code</label>
+                                        <label for="{{ form.member6_college_code.id_for_label }}"
+                                            class="form-label">College Code</label>
                                         {{ form.member6_college_code }}
                                         {% if form.member6_college_code.errors %}
-                                            <div class="text-danger small">{{ form.member6_college_code.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member6_college_code.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member6_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
+                                        <label for="{{ form.member6_course_name.id_for_label }}"
+                                            class="form-label required-field">Course Name</label>
                                         {{ form.member6_course_name }}
                                         {% if form.member6_course_name.errors %}
-                                            <div class="text-danger small">{{ form.member6_course_name.errors.0 }}</div>
+                                        <div class="text-danger small">{{ form.member6_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader6 }}
-                                            <label class="form-check-label text-white" for="{{ form.is_leader6.id_for_label }}">
+                                            <label class="form-check-label text-white"
+                                                for="{{ form.is_leader6.id_for_label }}">
                                                 Team Leader
                                             </label>
                                         </div>
@@ -1567,16 +1821,17 @@
 
                         <!-- Form Errors -->
                         {% if form.non_field_errors %}
-                            <div class="alert alert-danger">
-                                {{ form.non_field_errors }}
-                            </div>
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
                         {% endif %}
 
                         <!-- Submit Button -->
                         <div class="text-center mt-4">
                             <button type="submit" class="btn-submit" id="submitBtn">
                                 <span id="submitText">SUBMIT REGISTRATION</span>
-                                <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
+                                <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2 d-none"
+                                    role="status"></span>
                             </button>
                         </div>
                     </form>
@@ -1587,22 +1842,198 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
         // Mobile-first JavaScript
         let isSubmitting = false; // Global variable for form submission state
-        
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', function () {
             // Team size change handler
             const teamSizeSelect = document.querySelector('[name="team_size"]');
             if (teamSizeSelect) {
                 teamSizeSelect.addEventListener('change', updateMemberVisibility);
                 updateMemberVisibility(); // Initialize
             }
-            
+
             // Leader checkbox handler
             setupLeaderCheckboxes();
-            
+
+            // File input selection feedback with multiple preservation methods
+            const pptFileInput = document.querySelector('input[name="ppt_file"]');
+            if (pptFileInput) {
+                // Store the current file selection globally to preserve it
+                let currentFile = null;
+                let fileDataUrl = null;
+
+                pptFileInput.addEventListener('change', function () {
+                    const fileInfo = document.getElementById('ppt-file-info');
+                    const fileName = document.getElementById('ppt-file-name');
+
+                    if (this.files.length > 0) {
+                        const file = this.files[0];
+                        currentFile = file; // Store for preservation
+
+                        const fileSize = (file.size / 1024 / 1024).toFixed(2); // Size in MB
+                        fileName.textContent = `${file.name} (${fileSize} MB)`;
+                        fileInfo.style.display = 'block';
+
+                        // Add visual indicator that file is selected
+                        this.classList.add('has-file');
+
+                        // Update label to show file selected
+                        const label = document.querySelector(`label[for="${this.id}"]`);
+                        if (label) {
+                            label.innerHTML = 'PPT File (.ppt, .pptx, .pdf) <span style="color: #10b981;">✓ Selected</span>';
+                        }
+
+                        // Validate file size (max 10MB)
+                        if (file.size > 10 * 1024 * 1024) {
+                            alert('File size must be less than 10MB');
+                            this.value = ''; // Clear the file
+                            fileInfo.style.display = 'none';
+                            this.classList.remove('has-file');
+
+                            // Reset label
+                            const label = document.querySelector(`label[for="${this.id}"]`);
+                            if (label) {
+                                label.innerHTML = 'PPT File (.ppt, .pptx, .pdf)';
+                            }
+
+                            currentFile = null;
+                            fileDataUrl = null;
+                            return;
+                        }
+
+                        // Validate file type
+                        const fileExtension = file.name.split('.').pop().toLowerCase();
+                        const allowedExtensions = ['pdf', 'ppt', 'pptx'];
+
+                        if (!allowedExtensions.includes(fileExtension)) {
+                            alert('Only .ppt, .pptx, and .pdf files are allowed');
+                            this.value = ''; // Clear the file
+                            fileInfo.style.display = 'none';
+                            this.classList.remove('has-file');
+
+                            // Reset label
+                            const label = document.querySelector(`label[for="${this.id}"]`);
+                            if (label) {
+                                label.innerHTML = 'PPT File (.ppt, .pptx, .pdf)';
+                            }
+
+                            currentFile = null;
+                            fileDataUrl = null;
+                            return;
+                        }
+
+                        // Store file data in localStorage as backup
+                        localStorage.setItem('pptFileName', file.name);
+                        localStorage.setItem('pptFileSize', file.size);
+
+                        // Create data URL as backup
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            fileDataUrl = e.target.result;
+                            localStorage.setItem('pptFileData', fileDataUrl);
+                        };
+                        reader.readAsDataURL(file);
+
+                        console.log('File selected and validated:', file.name);
+                    } else {
+                        fileInfo.style.display = 'none';
+                        this.classList.remove('has-file');
+
+                        // Reset label
+                        const label = document.querySelector(`label[for="${this.id}"]`);
+                        if (label) {
+                            label.innerHTML = 'PPT File (.ppt, .pptx, .pdf)';
+                        }
+
+                        currentFile = null;
+                        fileDataUrl = null;
+                        localStorage.removeItem('pptFileName');
+                        localStorage.removeItem('pptFileSize');
+                        localStorage.removeItem('pptFileData');
+                    }
+                });
+
+                // Add a method to restore the file if needed
+                pptFileInput.restoreFile = function () {
+                    console.log('Attempting to restore file...');
+
+                    // Try multiple restoration methods
+                    if (currentFile && !this.files.length) {
+                        console.log('Restoring from currentFile variable');
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(currentFile);
+                        this.files = dataTransfer.files;
+
+                        // Add visual indicator
+                        this.classList.add('has-file');
+
+                        // Update label to show file selected
+                        const label = document.querySelector(`label[for="${this.id}"]`);
+                        if (label) {
+                            label.innerHTML = 'PPT File (.ppt, .pptx, .pdf) <span style="color: #10b981;">✓ Selected</span>';
+                        }
+
+                        // Update display
+                        const fileInfo = document.getElementById('ppt-file-info');
+                        const fileName = document.getElementById('ppt-file-name');
+                        if (fileInfo && fileName) {
+                            const fileSize = (currentFile.size / 1024 / 1024).toFixed(2);
+                            fileName.textContent = `${currentFile.name} (${fileSize} MB)`;
+                            fileInfo.style.display = 'block';
+                        }
+                        return true;
+                    }
+
+                    // Try to restore from localStorage
+                    const storedFileName = localStorage.getItem('pptFileName');
+                    const storedFileSize = localStorage.getItem('pptFileSize');
+                    const storedFileData = localStorage.getItem('pptFileData');
+
+                    if (storedFileName && storedFileData && !this.files.length) {
+                        console.log('Restoring from localStorage');
+                        try {
+                            // Convert data URL back to file
+                            const byteString = atob(storedFileData.split(',')[1]);
+                            const mimeString = storedFileData.split(',')[0].split(':')[1].split(';')[0];
+                            const ab = new ArrayBuffer(byteString.length);
+                            const ia = new Uint8Array(ab);
+                            for (let i = 0; i < byteString.length; i++) {
+                                ia[i] = byteString.charCodeAt(i);
+                            }
+                            const blob = new Blob([ab], { type: mimeString });
+                            const file = new File([blob], storedFileName, { type: mimeString });
+
+                            const dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(file);
+                            this.files = dataTransfer.files;
+
+                            // Add visual indicator
+                            this.classList.add('has-file');
+
+                            // Update display
+                            const fileInfo = document.getElementById('ppt-file-info');
+                            const fileName = document.getElementById('ppt-file-name');
+                            if (fileInfo && fileName) {
+                                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                                fileName.textContent = `${file.name} (${fileSize} MB)`;
+                                fileInfo.style.display = 'block';
+                            }
+
+                            console.log('File restored from localStorage');
+                            return true;
+                        } catch (error) {
+                            console.warn('Could not restore from localStorage:', error);
+                        }
+                    }
+
+                    console.log('No file to restore');
+                    return false;
+                };
+            }
+
             // Prevent double-tap zoom on mobile
             let lastTouchEnd = 0;
             document.addEventListener('touchend', function (event) {
@@ -1620,29 +2051,122 @@
 
             // Smooth scrolling for better mobile experience
             document.documentElement.style.scrollBehavior = 'smooth';
-            
+
             // Form submission handler
             const form = document.getElementById('registrationForm');
             if (form) {
-                form.addEventListener('submit', handleFormSubmit);
+                form.addEventListener('submit', function (event) {
+                    console.log('Form submission started...');
+
+                    // Store current file selections BEFORE any validation
+                    const fileInputs = document.querySelectorAll('input[type="file"]');
+                    globalFileData.clear();
+                    fileInputs.forEach(input => {
+                        if (input.files.length > 0) {
+                            globalFileData.set(input.name, Array.from(input.files));
+                        }
+                    });
+                    console.log('Stored file data:', globalFileData.size, 'files');
+
+                    // Validate leader selection
+                    const leaderCheckboxes = document.querySelectorAll('input[type="checkbox"][name^="is_leader"]:checked');
+                    if (leaderCheckboxes.length !== 1) {
+                        alert('Please select exactly one team leader.');
+                        restoreFilesAfterValidation();
+                        event.preventDefault(); // Prevent submission
+                        return;
+                    }
+
+                    // Validate female members
+                    const teamSize = parseInt(document.getElementById('team_size').value) || 0;
+                    let femaleCount = 0;
+                    for (let i = 1; i <= teamSize; i++) {
+                        const genderSelect = document.querySelector(`select[name="member${i}_gender"]`);
+                        if (genderSelect && genderSelect.value === 'Female') {
+                            femaleCount++;
+                        }
+                    }
+                    if (femaleCount === 0) {
+                        alert('At least one team member must be female.');
+                        restoreFilesAfterValidation();
+                        event.preventDefault(); // Prevent submission
+                        return;
+                    }
+
+                    // Validate email fields
+                    const emailFields = document.querySelectorAll('input[type="email"]');
+                    for (let field of emailFields) {
+                        if (field.value && !validateEmail(field.value)) {
+                            field.classList.add('is-invalid');
+                            alert('Please enter a valid email address');
+                            field.focus();
+                            restoreFilesAfterValidation();
+                            event.preventDefault(); // Prevent submission
+                            return;
+                        } else {
+                            field.classList.remove('is-invalid');
+                        }
+                    }
+
+                    // Validate phone fields
+                    const phoneFields = document.querySelectorAll('input[type="tel"]');
+                    for (let field of phoneFields) {
+                        if (field.value && !validatePhone(field.value)) {
+                            field.classList.add('is-invalid');
+                            alert('Phone number must be 10 digits starting with 6, 7, 8, or 9');
+                            field.focus();
+                            restoreFilesAfterValidation();
+                            event.preventDefault(); // Prevent submission
+                            return;
+                        } else {
+                            field.classList.remove('is-invalid');
+                        }
+                    }
+
+                    console.log('All validations passed!');
+
+                    // Show loading state
+                    const submitBtn = document.querySelector('.btn-submit');
+                    const submitText = document.getElementById('submitText');
+                    const submitSpinner = document.getElementById('submitSpinner');
+
+                    if (submitBtn) submitBtn.classList.add('loading');
+                    if (submitText) submitText.textContent = 'SUBMITTING...';
+                    if (submitSpinner) submitSpinner.classList.remove('d-none');
+
+                    // Allow form to submit normally - don't prevent default
+                    console.log('Form will submit normally now...');
+
+                    // Don't prevent default - let the form submit
+                    // Don't return anything - just let the event continue
+                });
             }
-            
+
             // Phone number input handlers
             setupPhoneNumberHandlers();
+
+            // Auto-restore files on page load (for browser refresh scenarios)
+            setTimeout(() => {
+                const pptFileInput = document.querySelector('input[name="ppt_file"]');
+                if (pptFileInput && pptFileInput.restoreFile) {
+                    console.log('Attempting auto-restore of files on page load...');
+                    pptFileInput.restoreFile();
+                }
+            }, 100); // Small delay to ensure DOM is fully ready
         });
-        
+
         // Function definitions (moved outside DOMContentLoaded)
-        
+
         function updateMemberVisibility() {
             const teamSizeSelect = document.querySelector('[name="team_size"]');
             const teamSize = teamSizeSelect ? teamSizeSelect.value : '4';
             const member5Section = document.getElementById('member5-section');
             const member6Section = document.getElementById('member6-section');
-            
+
             // Hide all optional members first
             if (member5Section) member5Section.style.display = 'none';
             if (member6Section) member6Section.style.display = 'none';
-            
+
             // Show based on team size and update labels
             if (teamSize === '5' || teamSize === '6') {
                 if (member5Section) {
@@ -1656,7 +2180,7 @@
                     }
                 }
             }
-            
+
             if (teamSize === '6') {
                 if (member6Section) {
                     member6Section.style.display = 'block';
@@ -1669,7 +2193,7 @@
                     }
                 }
             }
-            
+
             // Reset labels for optional members when team size is smaller
             if (teamSize === '4' || teamSize === '3' || teamSize === '2') {
                 if (member5Section) {
@@ -1688,7 +2212,7 @@
                 }
             }
         }
-        
+
         function makeFieldsRequired(section, required) {
             const inputs = section.querySelectorAll('input, select');
             inputs.forEach(input => {
@@ -1705,11 +2229,11 @@
                 }
             });
         }
-        
+
         function setupLeaderCheckboxes() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="is_leader"]');
             checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
+                checkbox.addEventListener('change', function () {
                     if (this.checked) {
                         // Uncheck all other leader checkboxes
                         checkboxes.forEach(other => {
@@ -1721,47 +2245,47 @@
                 });
             });
         }
-        
+
         function setupPhoneNumberHandlers() {
             const phoneInputs = document.querySelectorAll('input[type="tel"]');
             phoneInputs.forEach(input => {
-                input.addEventListener('input', function() {
+                input.addEventListener('input', function () {
                     // Remove non-numeric characters and limit to 10 digits
                     this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
-                    
+
                     // Validate first digit (must be 6-9)
                     if (this.value.length > 0 && !/[6-9]/.test(this.value[0])) {
                         this.value = '';
                     }
                 });
-                
+
                 // Prevent non-numeric input
-                input.addEventListener('keypress', function(e) {
+                input.addEventListener('keypress', function (e) {
                     if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
                         e.preventDefault();
                     }
                 });
-                
+
                 // Validate on paste
-                input.addEventListener('paste', function(e) {
+                input.addEventListener('paste', function (e) {
                     e.preventDefault();
                     const pastedText = (e.clipboardData || window.clipboardData).getData('text');
                     const cleanedText = pastedText.replace(/[^0-9]/g, '').slice(0, 10);
-                    
+
                     // Validate first digit (must be 6-9)
                     if (cleanedText.length > 0 && !/[6-9]/.test(cleanedText[0])) {
                         return;
                     }
-                    
+
                     this.value = cleanedText;
                 });
-                
+
                 // Add visual feedback for invalid first digit
-                input.addEventListener('blur', function() {
+                input.addEventListener('blur', function () {
                     if (this.value.length === 1 && !/[6-9]/.test(this.value[0])) {
                         this.style.borderColor = '#ef4444';
                         this.style.boxShadow = '0 0 0 0.2rem rgba(239, 68, 68, 0.25)';
-                        
+
                         // Show error message
                         let errorDiv = this.parentElement.querySelector('.phone-error');
                         if (!errorDiv) {
@@ -1774,7 +2298,7 @@
                         // Remove error styling if valid
                         this.style.borderColor = '';
                         this.style.boxShadow = '';
-                        
+
                         // Remove error message
                         const errorDiv = this.parentElement.querySelector('.phone-error');
                         if (errorDiv) {
@@ -1784,49 +2308,271 @@
                 });
             });
         }
-        
-        function handleFormSubmit(e) {
-            if (isSubmitting) {
-                e.preventDefault();
-                return;
-            }
-            
-            // Validate that exactly one leader is selected
+
+        // Global variable to store file data for preservation
+        let globalFileData = new Map();
+
+        // New validation function for form onsubmit
+        function validateForm(event) {
+            console.log('Form validation started...');
+
+            // Store current file selections BEFORE any validation
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            globalFileData.clear();
+            fileInputs.forEach(input => {
+                if (input.files.length > 0) {
+                    globalFileData.set(input.name, Array.from(input.files));
+                }
+            });
+            console.log('Stored file data:', globalFileData.size, 'files');
+
+            // Validate leader selection
             const leaderCheckboxes = document.querySelectorAll('input[type="checkbox"][name^="is_leader"]:checked');
             if (leaderCheckboxes.length !== 1) {
-                e.preventDefault();
                 alert('Please select exactly one team leader.');
-                return;
+                restoreFilesAfterValidation();
+                event.preventDefault(); // Prevent form submission
+                return false;
             }
-            
+
+            // Validate female members
+            const teamSize = parseInt(document.getElementById('team_size').value) || 0;
+            let femaleCount = 0;
+            for (let i = 1; i <= teamSize; i++) {
+                const genderSelect = document.querySelector(`select[name="member${i}_gender"]`);
+                if (genderSelect && genderSelect.value === 'Female') {
+                    femaleCount++;
+                }
+            }
+            if (femaleCount === 0) {
+                alert('At least one team member must be female.');
+                restoreFilesAfterValidation();
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+
             // Validate email fields
             const emailFields = document.querySelectorAll('input[type="email"]');
             for (let field of emailFields) {
                 if (field.value && !validateEmail(field.value)) {
-                    e.preventDefault();
                     field.classList.add('is-invalid');
                     alert('Please enter a valid email address');
                     field.focus();
-                    return;
+                    restoreFilesAfterValidation();
+                    event.preventDefault(); // Prevent form submission
+                    return false;
                 } else {
                     field.classList.remove('is-invalid');
                 }
             }
-            
+
             // Validate phone fields
             const phoneFields = document.querySelectorAll('input[type="tel"]');
             for (let field of phoneFields) {
                 if (field.value && !validatePhone(field.value)) {
-                    e.preventDefault();
                     field.classList.add('is-invalid');
                     alert('Phone number must be 10 digits starting with 6, 7, 8, or 9');
                     field.focus();
-                    return;
+                    restoreFilesAfterValidation();
+                    event.preventDefault(); // Prevent form submission
+                    return false;
                 } else {
                     field.classList.remove('is-invalid');
                 }
             }
-            
+
+            console.log('All validations passed!');
+
+            // Show loading state
+            const submitBtn = document.querySelector('.btn-submit');
+            const submitText = document.getElementById('submitText');
+            const submitSpinner = document.getElementById('submitSpinner');
+
+            if (submitBtn) submitBtn.classList.add('loading');
+            if (submitText) submitText.textContent = 'SUBMITTING...';
+            if (submitSpinner) submitSpinner.classList.remove('d-none');
+
+            // Allow form to submit normally - don't prevent default
+            console.log('Form will submit normally now...');
+
+            // Return true to allow form submission
+            return true;
+        }
+
+        // Function to restore files after validation fails
+        function restoreFilesAfterValidation() {
+            console.log('Restoring files after validation failure...');
+
+            globalFileData.forEach((files, inputName) => {
+                const input = document.querySelector(`input[name="${inputName}"]`);
+                if (input && files.length > 0) {
+                    try {
+                        // Use the restoreFile method if available
+                        if (input.restoreFile) {
+                            input.restoreFile();
+                        } else {
+                            // Fallback method
+                            const dataTransfer = new DataTransfer();
+                            files.forEach(file => {
+                                dataTransfer.items.add(file);
+                            });
+                            input.files = dataTransfer.files;
+
+                            // Add visual indicator for fallback method
+                            if (inputName === 'ppt_file') {
+                                input.classList.add('has-file');
+
+                                // Update label to show file selected
+                                const label = document.querySelector(`label[for="${input.id}"]`);
+                                if (label) {
+                                    label.innerHTML = 'PPT File (.ppt, .pptx, .pdf) <span style="color: #10b981;">✓ Selected</span>';
+                                }
+                            }
+                        }
+
+                        // Update file info display
+                        if (inputName === 'ppt_file' && files[0]) {
+                            const fileInfo = document.getElementById('ppt-file-info');
+                            const fileName = document.getElementById('ppt-file-name');
+                            if (fileInfo && fileName) {
+                                const fileSize = (files[0].size / 1024 / 1024).toFixed(2);
+                                fileName.textContent = `${files[0].name} (${fileSize} MB)`;
+                                fileInfo.style.display = 'block';
+                            }
+                        }
+                    } catch (error) {
+                        console.warn('Could not restore file selection:', error);
+                    }
+                }
+            });
+        }
+
+        // Helper function to restore file selections
+        function restoreFileSelections(fileData) {
+            fileData.forEach((files, inputName) => {
+                const input = document.querySelector(`input[name="${inputName}"]`);
+                if (input && files.length > 0) {
+                    try {
+                        // Use the restoreFile method if available (for ppt_file)
+                        if (input.restoreFile) {
+                            input.restoreFile();
+                        } else {
+                            // Fallback for other file inputs
+                            const dataTransfer = new DataTransfer();
+                            files.forEach(file => {
+                                dataTransfer.items.add(file);
+                            });
+                            input.files = dataTransfer.files;
+                        }
+
+                        // Update file info display if it exists
+                        if (inputName === 'ppt_file' && files[0]) {
+                            const fileInfo = document.getElementById('ppt-file-info');
+                            const fileName = document.getElementById('ppt-file-name');
+                            if (fileInfo && fileName) {
+                                const fileSize = (files[0].size / 1024 / 1024).toFixed(2);
+                                fileName.textContent = `${files[0].name} (${fileSize} MB)`;
+                                fileInfo.style.display = 'block';
+                            }
+                        }
+                    } catch (error) {
+                        console.warn('Could not restore file selection:', error);
+                    }
+                }
+            });
+        }
+
+        function handleFormSubmit(e) {
+            console.log('Form submission started...');
+
+            // Always prevent default first - we'll manually submit if validation passes
+            e.preventDefault();
+
+            // Debug CSRF token before submission
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+            if (!csrfToken) {
+                console.error('CSRF token missing before form submission!');
+                alert('CSRF token missing. Please refresh the page and try again.');
+                return false;
+            }
+
+            console.log('CSRF token found:', csrfToken.value);
+
+            if (isSubmitting) {
+                return false;
+            }
+
+            // Store current file selections to preserve them if validation fails
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            const fileData = new Map();
+            fileInputs.forEach(input => {
+                if (input.files.length > 0) {
+                    fileData.set(input.name, Array.from(input.files));
+                }
+            });
+
+            // Validate that exactly one leader is selected
+            const leaderCheckboxes = document.querySelectorAll('input[type="checkbox"][name^="is_leader"]:checked');
+            console.log('Leader checkboxes found:', leaderCheckboxes.length);
+            if (leaderCheckboxes.length !== 1) {
+                alert('Please select exactly one team leader.');
+                // Restore file selections
+                restoreFileSelections(fileData);
+                return false;
+            }
+
+            // Validate that at least one team member is female
+            const teamSize = document.querySelector('[name="team_size"]')?.value || '4';
+            const size = parseInt(teamSize);
+            let femaleCount = 0;
+
+            for (let i = 1; i <= size; i++) {
+                const memberName = document.querySelector(`[name="member${i}_name"]`)?.value;
+                const memberGender = document.querySelector(`[name="member${i}_gender"]`)?.value;
+
+                if (memberName && memberGender === 'Female') {
+                    femaleCount++;
+                }
+            }
+
+            console.log('Female members found:', femaleCount);
+            if (femaleCount === 0) {
+                alert('At least one team member must be female.');
+                // Restore file selections
+                restoreFileSelections(fileData);
+                return false;
+            }
+
+            // Validate email fields
+            const emailFields = document.querySelectorAll('input[type="email"]');
+            for (let field of emailFields) {
+                if (field.value && !validateEmail(field.value)) {
+                    field.classList.add('is-invalid');
+                    alert('Please enter a valid email address');
+                    field.focus();
+                    // Restore file selections
+                    restoreFileSelections(fileData);
+                    return false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            }
+
+            // Validate phone fields
+            const phoneFields = document.querySelectorAll('input[type="tel"]');
+            for (let field of phoneFields) {
+                if (field.value && !validatePhone(field.value)) {
+                    field.classList.add('is-invalid');
+                    alert('Phone number must be 10 digits starting with 6, 7, 8, or 9');
+                    field.focus();
+                    // Restore file selections
+                    restoreFileSelections(fileData);
+                    return false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            }
+
             // Convert college codes and course names to uppercase
             const collegeCodeFields = document.querySelectorAll('input[name$="_college_code"]');
             const courseNameFields = document.querySelectorAll('input[name$="_course_name"]');
@@ -1835,40 +2581,33 @@
                     field.value = field.value.toUpperCase();
                 }
             });
-            
+
+            console.log('All validations passed. Form will submit normally.');
+
+            // If we reach here, all validations passed - submit the form manually
+            isSubmitting = true;
+
             // Show loading state
             const submitBtn = document.querySelector('.btn-submit');
             const submitText = document.querySelector('.submit-text');
             const submitSpinner = document.querySelector('.submit-spinner');
-            const formInputs = document.querySelectorAll('input, select, textarea, button');
-            
-            isSubmitting = true;
-            
+
             if (submitBtn) submitBtn.classList.add('loading');
             if (submitText) submitText.textContent = 'SUBMITTING...';
             if (submitSpinner) submitSpinner.classList.remove('d-none');
-            
-            // Disable all form inputs during submission
-            formInputs.forEach(input => {
-                input.disabled = true;
-            });
-            
-            // Re-enable submit button after 3 seconds as fallback
-            setTimeout(() => {
-                if (isSubmitting) {
-                    isSubmitting = false;
-                    if (submitBtn) submitBtn.classList.remove('loading');
-                    if (submitText) submitText.textContent = 'SUBMIT REGISTRATION';
-                    if (submitSpinner) submitSpinner.classList.add('d-none');
-                    formInputs.forEach(input => {
-                        input.disabled = false;
-                    });
-                }
-            }, 3000);
+
+            // Submit the form using the native submit method
+            const form = document.getElementById('registrationForm');
+            if (form) {
+                console.log('Submitting form manually...');
+                form.submit();
+            }
+
+            return false; // Prevent default form submission since we're handling it manually
         }
-        
+
         // Handle visibility change (when user switches tabs/apps)
-        document.addEventListener('visibilitychange', function() {
+        document.addEventListener('visibilitychange', function () {
             if (document.visibilityState === 'visible') {
                 // Force repaint when returning to the page
                 document.body.style.display = 'none';
@@ -1876,58 +2615,58 @@
                 document.body.style.display = '';
             }
         });
-        
+
         // Handle orientation change
-        window.addEventListener('orientationchange', function() {
-            setTimeout(function() {
+        window.addEventListener('orientationchange', function () {
+            setTimeout(function () {
                 window.scrollTo(0, 0);
             }, 100);
         });
-        
+
         // Prevent pull-to-refresh on iOS
-        document.addEventListener('touchstart', function(e) {
+        document.addEventListener('touchstart', function (e) {
             if (e.touches.length > 1) {
                 e.preventDefault();
             }
         });
-        
+
         // Mobile-friendly viewport handling
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             // Ensure proper viewport without restricting zoom
             const viewport = document.querySelector('meta[name="viewport"]');
             if (viewport) {
                 viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
             }
-            
+
             // Add mobile class to body for CSS targeting
             if (window.innerWidth <= 768) {
                 document.body.classList.add('mobile-device');
             }
-            
+
             // Force mobile layout recalculation
-            setTimeout(function() {
+            setTimeout(function () {
                 document.body.style.display = 'none';
                 document.body.offsetHeight; // Trigger reflow
                 document.body.style.display = '';
             }, 100);
         });
-        
+
         // Handle orientation changes
-        window.addEventListener('orientationchange', function() {
-            setTimeout(function() {
+        window.addEventListener('orientationchange', function () {
+            setTimeout(function () {
                 window.scrollTo(0, 0);
             }, 100);
         });
-        
+
         // Handle resize events
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             if (window.innerWidth <= 768) {
                 document.body.classList.add('mobile-device');
             } else {
                 document.body.classList.remove('mobile-device');
             }
         });
-        
+
         // Update leader checkbox function (missing from original template)
         function updateLeaderCheckbox(memberNumber) {
             const checkbox = document.querySelector(`input[name="is_leader${memberNumber}"]`);
@@ -1943,32 +2682,32 @@
                 }
             }
         }
-        
+
         // Email validation function
         function validateEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);
         }
-        
+
         // Phone number validation function
         function validatePhone(phone) {
             const phoneRegex = /^[6-9]\d{9}$/;
             return phoneRegex.test(phone);
         }
-        
+
         // Convert to uppercase function
         function convertToUppercase(input) {
             input.value = input.value.toUpperCase();
         }
-        
+
         // Enhanced form validation
         function validateForm() {
             const form = document.getElementById('registrationForm');
             if (!form) return true;
-            
+
             let isValid = true;
             const errors = [];
-            
+
             // Validate email fields
             const emailFields = form.querySelectorAll('input[type="email"]');
             emailFields.forEach(field => {
@@ -1981,7 +2720,7 @@
                     field.classList.remove('is-invalid');
                 }
             });
-            
+
             // Validate phone fields
             const phoneFields = form.querySelectorAll('input[type="tel"]');
             phoneFields.forEach(field => {
@@ -1994,33 +2733,33 @@
                     field.classList.remove('is-invalid');
                 }
             });
-            
+
             // Validate college code and course name fields (must be uppercase)
             const collegeCodeFields = form.querySelectorAll('input[name$="_college_code"]');
             const courseNameFields = form.querySelectorAll('input[name$="_course_name"]');
-            
+
             [...collegeCodeFields, ...courseNameFields].forEach(field => {
                 if (field.value && field.value !== field.value.toUpperCase()) {
                     field.value = field.value.toUpperCase();
                 }
             });
-            
+
             // Display errors if any
             if (!isValid && errors.length > 0) {
                 alert('Please fix the following errors:\n\n' + errors.join('\n'));
             }
-            
+
             return isValid;
         }
-        
+
         // Add real-time validation for email fields
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('registrationForm');
             if (form) {
                 // Add real-time validation for email fields
                 const emailFields = form.querySelectorAll('input[type="email"]');
                 emailFields.forEach(field => {
-                    field.addEventListener('blur', function() {
+                    field.addEventListener('blur', function () {
                         if (this.value && !validateEmail(this.value)) {
                             this.classList.add('is-invalid');
                             alert('Please enter a valid email address');
@@ -2029,11 +2768,11 @@
                         }
                     });
                 });
-                
+
                 // Add real-time validation for phone fields
                 const phoneFields = form.querySelectorAll('input[type="tel"]');
                 phoneFields.forEach(field => {
-                    field.addEventListener('blur', function() {
+                    field.addEventListener('blur', function () {
                         if (this.value && !validatePhone(this.value)) {
                             this.classList.add('is-invalid');
                             alert('Phone number must be 10 digits starting with 6, 7, 8, or 9');
@@ -2042,25 +2781,26 @@
                         }
                     });
                 });
-                
+
                 // Add uppercase conversion for college code and course name
                 const collegeCodeFields = form.querySelectorAll('input[name$="_college_code"]');
                 const courseNameFields = form.querySelectorAll('input[name$="_course_name"]');
-                
+
                 [...collegeCodeFields, ...courseNameFields].forEach(field => {
-                    field.addEventListener('input', function() {
+                    field.addEventListener('input', function () {
                         convertToUppercase(this);
                     });
                 });
             }
         });
-        
+
         // Handle orientation changes
-        window.addEventListener('orientationchange', function() {
-            setTimeout(function() {
+        window.addEventListener('orientationchange', function () {
+            setTimeout(function () {
                 window.scrollTo(0, 0);
             }, 100);
         });
     </script>
 </body>
+
 </html>
