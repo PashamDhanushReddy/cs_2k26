@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeStorm 2026 - Team Registration</title>
     
     <!-- Bootstrap CSS for mobile-first design -->
@@ -274,6 +274,56 @@
                 min-height: 50px;
                 font-size: 16px !important;
             }
+            
+            /* Fix mobile layout issues */
+            .row {
+                margin-left: 0;
+                margin-right: 0;
+            }
+            
+            .col-12, .col-md-6 {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            /* Ensure proper form width */
+            .container-fluid {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            /* Prevent text overflow */
+            .form-control, .form-select {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            
+            /* Mobile-optimized margins */
+            .mb-3 {
+                margin-bottom: 1rem !important;
+            }
+            
+            /* Ensure buttons are full width on very small screens */
+            .btn-submit {
+                width: 100%;
+                margin-top: 10px;
+            }
+            
+            /* Fix checkbox alignment on mobile */
+            .form-check {
+                display: flex;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .form-check-input {
+                margin-right: 0.5rem;
+            }
+            
+            /* Ensure proper spacing between sections */
+            .glass-panel + .glass-panel {
+                margin-top: 1.5rem;
+            }
         }
         
         /* Enhanced error styling */
@@ -449,7 +499,82 @@
             }
         
         
-        /* Ensure proper touch targets */
+        /* Extra small screen optimizations */
+        @media (max-width: 480px) {
+            .glass-panel {
+                padding: 15px;
+                margin: 0 -5px 15px -5px;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .form-control, .form-select {
+                padding: 12px 10px;
+                font-size: 16px !important;
+            }
+            
+            /* Ensure form elements don't overflow */
+            .col-12, .col-md-6 {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+            
+            /* Reduce spacing on very small screens */
+            .mb-3 {
+                margin-bottom: 0.75rem !important;
+            }
+            
+            /* Smaller text for labels on mobile */
+            .form-label {
+                font-size: 0.9rem;
+            }
+            
+            /* Ensure proper button sizing */
+            .btn-submit {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Mobile device specific styles */
+        .mobile-device .glass-panel {
+            margin-left: -10px;
+            margin-right: -10px;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+        
+        .mobile-device .container-fluid {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        
+        /* Ensure proper form rendering on mobile */
+        .mobile-device .form-control,
+        .mobile-device .form-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        
+        /* Fix for iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            .mobile-device .form-control,
+            .mobile-device .form-select {
+                font-size: 16px !important;
+            }
+        }
+        
+        /* Android Chrome fixes */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            .mobile-device .form-control,
+            .mobile-device .form-select {
+                -webkit-tap-highlight-color: transparent;
+            }
+        }
         .form-check-input {
             width: 20px;
             height: 20px;
@@ -466,6 +591,46 @@
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
+        }
+        
+        /* Final mobile compatibility fixes */
+        @media screen and (max-width: 768px) {
+            /* Prevent zoom on input focus */
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+            
+            /* Ensure proper form width */
+            #registrationForm {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            /* Fix for mobile Safari */
+            @supports (-webkit-appearance: none) {
+                .form-control, .form-select {
+                    -webkit-appearance: none;
+                    appearance: none;
+                }
+            }
+            
+            /* Ensure proper layout containment */
+            .glass-panel {
+                contain: layout style;
+                will-change: transform;
+            }
+            
+            /* Prevent layout shifts */
+            .form-control, .form-select {
+                contain: layout style;
+            }
+        }
+        
+        /* High DPI screen fixes */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .form-control, .form-select {
+                border-width: 1px;
+            }
         }
         
         /* Loading state */
@@ -518,7 +683,7 @@
 
                 <!-- Registration Form -->
                 <div class="glass-panel">
-                    <form method="post" enctype="multipart/form-data" id="registrationForm">
+                    <form method="post" enctype="multipart/form-data" id="registrationForm" autocomplete="off">
                         {% csrf_token %}
                         
                         <!-- Team Details Section -->
@@ -1341,13 +1506,25 @@
             }
         });
         
-        // Ensure proper viewport on mobile
+        // Mobile-friendly viewport handling
         window.addEventListener('load', function() {
-            // Force correct viewport
+            // Ensure proper viewport without restricting zoom
             const viewport = document.querySelector('meta[name="viewport"]');
             if (viewport) {
-                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
             }
+            
+            // Add mobile class to body for CSS targeting
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('mobile-device');
+            }
+        });
+        
+        // Handle orientation changes
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 100);
         });
     </script>
 </body>
