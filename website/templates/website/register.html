@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CodeStorm 2026 - Team Registration</title>
 
     <!-- Bootstrap CSS for mobile-first design -->
@@ -32,6 +32,14 @@
             overflow-x: hidden;
             -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            /* Prevent flickering on Android */
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
 
         .container-fluid {
@@ -55,11 +63,16 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(20px);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
-        .glass-panel:hover {
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            transform: translateY(-4px);
+        @media (hover: hover) and (pointer: fine) {
+            .glass-panel:hover {
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+                transform: translateY(-4px);
+            }
         }
 
         .form-control,
@@ -80,16 +93,21 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
             font-weight: 500;
             letter-spacing: 0.3px;
+            will-change: transform;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
-        .form-control:hover,
-        .form-select:hover {
-            border-color: #4b5563 !important;
-            box-shadow:
-                0 8px 25px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+        @media (hover: hover) and (pointer: fine) {
+            .form-control:hover,
+            .form-select:hover {
+                border-color: #4b5563 !important;
+                box-shadow:
+                    0 8px 25px rgba(0, 0, 0, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                transform: translateY(-2px);
+                background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+            }
         }
 
         .form-control:focus,
@@ -97,7 +115,7 @@
             background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
             border-color: #fbbf24 !important;
             box-shadow:
-                0 0 0 0.4rem rgba(251, 191, 36, 0.4),
+                0 0 0 0.3rem rgba(251, 191, 36, 0.3),
                 0 0 20px rgba(251, 191, 36, 0.3),
                 0 8px 30px rgba(0, 0, 0, 0.3);
             color: #ffffff;
@@ -304,10 +322,12 @@
             transition: all 0.3s ease;
         }
 
-        .form-control:focus+.form-label,
-        .form-select:focus+.form-label {
-            color: #f59e0b;
-            transform: translateY(-2px);
+        @media (hover: hover) and (pointer: fine) {
+            .form-control:focus+.form-label,
+            .form-select:focus+.form-label {
+                color: #f59e0b;
+                transform: translateY(-2px);
+            }
         }
 
         .required-field::after {
@@ -333,9 +353,11 @@
             text-transform: uppercase;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+        @media (hover: hover) and (pointer: fine) {
+            .btn-submit:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+            }
         }
 
         .btn-submit:active {
@@ -378,12 +400,17 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(10px);
+            will-change: transform;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
-        .member-card:hover {
-            border-color: #4b5563;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
-            transform: translateY(-2px);
+        @media (hover: hover) and (pointer: fine) {
+            .member-card:hover {
+                border-color: #4b5563;
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+                transform: translateY(-2px);
+            }
         }
 
         .required-field::after {
@@ -447,25 +474,63 @@
             /* Mobile-specific optimizations to prevent fluttering */
             /* Disable button scaling on mobile */
             .btn-submit:active {
-                transform: none;
+                transform: none !important;
             }
 
             /* Prevent form elements from causing layout shifts */
             .form-control,
             .form-select {
-                transition: none;
+                transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+                transform: none !important;
+            }
+            
+            /* Disable backdrop-filter on mobile for better performance */
+            .glass-panel,
+            .member-card {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+            
+            /* Disable all hover effects on mobile */
+            .glass-panel:hover,
+            .member-card:hover,
+            .form-control:hover,
+            .form-select:hover,
+            .btn-submit:hover {
+                transform: none !important;
+            }
+            
+            /* Optimize rendering */
+            .glass-panel,
+            .member-card,
+            .form-control,
+            .form-select {
+                will-change: auto !important;
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
             }
 
             /* Mobile optimizations for Tailwind inputs */
             [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"] {
-                transition: none !important;
+                transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+                transform: none !important;
                 padding: 12px 15px !important;
                 min-height: 50px !important;
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+            }
+            
+            /* Disable hover on Tailwind inputs for mobile */
+            [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:hover {
+                transform: none !important;
             }
 
             /* Disable any hover effects that might cause flicker */
             .btn-submit:hover {
                 background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+                transform: none !important;
             }
 
             /* Ensure smooth scrolling */
@@ -497,17 +562,20 @@
             /* Disable animations on mobile for performance */
             .form-control:focus,
             .form-select:focus {
-                animation: none;
-                transform: translateY(-1px);
-                scale: 1;
+                animation: none !important;
+                transform: none !important;
+                scale: 1 !important;
                 box-shadow:
                     0 0 0 0.3rem rgba(251, 191, 36, 0.3),
-                    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+                    inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
             }
 
             .glass-panel:hover,
-            .member-card:hover {
-                transform: none;
+            .member-card:hover,
+            .form-control:hover,
+            .form-select:hover {
+                transform: none !important;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
             }
 
             /* Optimize touch targets for mobile */
@@ -802,10 +870,12 @@
             pointer-events: none;
         }
 
-        /* Animated border on focus */
-        .form-control:focus,
-        .form-select:focus {
-            animation: focusGlow 0.3s ease-in-out;
+        /* Animated border on focus - disabled on mobile for performance */
+        @media (hover: hover) and (pointer: fine) {
+            .form-control:focus,
+            .form-select:focus {
+                animation: focusGlow 0.3s ease-in-out;
+            }
         }
 
         @keyframes focusGlow {
@@ -957,9 +1027,28 @@
             overflow-x: hidden;
         }
 
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
+        /* Smooth scrolling - disabled on mobile for better performance */
+        @media (min-width: 769px) {
+            html {
+                scroll-behavior: smooth;
+            }
+        }
+        
+        /* Android-specific fixes */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            * {
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            /* Force GPU acceleration on Android */
+            .glass-panel,
+            .member-card,
+            .form-control,
+            .form-select,
+            .btn-submit {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
         }
 
         /* Fix for mobile Safari and Chrome rendering issues */
@@ -967,11 +1056,22 @@
 
             /* Force hardware acceleration for better mobile performance */
             .glass-panel,
-            .member-card {
+            .member-card,
+            .form-control,
+            .form-select {
                 -webkit-transform: translate3d(0, 0, 0);
                 transform: translate3d(0, 0, 0);
                 -webkit-perspective: 1000;
                 perspective: 1000;
+                will-change: auto;
+            }
+            
+            /* Disable backdrop-filter on mobile */
+            .glass-panel,
+            .member-card,
+            .navbar {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
             }
 
             /* Ensure proper text rendering on mobile */
@@ -2042,15 +2142,22 @@
                     event.preventDefault();
                 }
                 lastTouchEnd = now;
-            }, false);
+            }, { passive: false });
 
             // Prevent zoom on double tap for iOS
             document.addEventListener('gesturestart', function (e) {
                 e.preventDefault();
-            });
+            }, { passive: false });
+            
+            // Prevent touch callouts that might cause flickering
+            document.addEventListener('touchmove', function (e) {
+                // Allow scrolling but prevent other touch behaviors
+            }, { passive: true });
 
-            // Smooth scrolling for better mobile experience
-            document.documentElement.style.scrollBehavior = 'smooth';
+            // Smooth scrolling for better mobile experience - disabled on mobile for performance
+            if (window.innerWidth > 768) {
+                document.documentElement.style.scrollBehavior = 'smooth';
+            }
 
             // Form submission handler
             const form = document.getElementById('registrationForm');
