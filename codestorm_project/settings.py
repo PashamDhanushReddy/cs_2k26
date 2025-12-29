@@ -19,9 +19,23 @@ except ImportError:
 import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-9kdoucoa$6p2q#og)c+g8kcou0=9h@$&d6%f-!d#ls-j-hpd&^')
-DEBUG = 'RENDER' not in os.environ
+
+ON_RENDER = bool(
+    os.environ.get('RENDER')
+    or os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+    or os.environ.get('RENDER_SERVICE_ID')
+)
+
+def _env_bool(name: str, default: bool) -> bool:
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {'1', 'true', 'yes', 'y', 'on'}
+
+DEBUG = _env_bool('DEBUG', default=not ON_RENDER)
 ALLOWED_HOSTS = ['*']
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+RENDER_EXTERNAL_URL = os.environ.get('RENDER_EXTERNAL_URL')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 INSTALLED_APPS = [
@@ -47,7 +61,9 @@ ROOT_URLCONF = 'codestorm_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'website' / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,13 +99,15 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Supabase Configuration
 SUPABASE_URL = os.environ.get('SUPABASE_URL', '')
@@ -117,6 +135,8 @@ SESSION_COOKIE_SAMESITE = 'Lax'
 # Add trusted origins for production
 if RENDER_EXTERNAL_HOSTNAME:
     CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
+elif RENDER_EXTERNAL_URL:
+    CSRF_TRUSTED_ORIGINS.append(RENDER_EXTERNAL_URL.rstrip('/'))
 
 # Allow all origins in development
 if DEBUG:
