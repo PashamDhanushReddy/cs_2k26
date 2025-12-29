@@ -109,6 +109,119 @@
             color: #9ca3af;
         }
         
+        /* Override Tailwind classes with custom styling */
+        [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"],
+        input[type="text"][class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"],
+        input[type="email"][class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"],
+        input[type="tel"][class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"],
+        input[type="url"][class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"],
+        select[class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"],
+        textarea[class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"] {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
+            border: 2px solid #374151 !important;
+            color: #ffffff !important;
+            border-radius: 16px !important;
+            padding: 16px 20px !important;
+            font-size: 16px !important;
+            min-height: 52px !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            position: relative !important;
+            box-shadow: 
+                0 4px 6px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.3px !important;
+            width: 100% !important;
+            outline: none !important;
+        }
+        
+        /* Hover state for Tailwind inputs */
+        [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:hover {
+            border-color: #4b5563 !important;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            transform: translateY(-2px) !important;
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+        }
+        
+        /* Focus state for Tailwind inputs */
+        .w-full.px-4.py-3.bg-gray-800.border.border-gray-600.rounded-lg.text-white:focus,
+        .w-full.px-4.py-3.bg-gray-800.border.border-gray-600.rounded-lg:focus,
+        input[type="text"][class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:focus,
+        input[type="email"][class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:focus,
+        input[type="tel"][class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:focus,
+        input[type="url"][class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:focus,
+        select[class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:focus,
+        textarea[class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:focus {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+            border-color: #fbbf24 !important;
+            box-shadow: 
+                0 0 0 0.4rem rgba(251, 191, 36, 0.4),
+                0 0 20px rgba(251, 191, 36, 0.3),
+                0 8px 30px rgba(0, 0, 0, 0.3) !important;
+            color: #ffffff !important;
+            transform: translateY(-3px) !important;
+            border-width: 3px !important;
+            outline: none !important;
+        }
+        
+        /* Placeholder styling for Tailwind inputs */
+        [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]::placeholder {
+            color: #9ca3af !important;
+            opacity: 0.7 !important;
+            font-weight: 400 !important;
+        }
+        
+        /* Universal form input styling - applies to all form inputs */
+        input[type="text"], input[type="email"], input[type="tel"], input[type="url"], 
+        input[type="number"], input[type="file"], select, textarea {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
+            border: 2px solid #374151 !important;
+            color: #ffffff !important;
+            border-radius: 16px !important;
+            padding: 16px 20px !important;
+            font-size: 16px !important;
+            min-height: 52px !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            position: relative !important;
+            box-shadow: 
+                0 4px 6px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.3px !important;
+            width: 100% !important;
+            outline: none !important;
+        }
+        
+        /* Hover state for all form inputs */
+        input[type="text"]:hover, input[type="email"]:hover, input[type="tel"]:hover, 
+        input[type="url"]:hover, input[type="number"]:hover, input[type="file"]:hover, 
+        select:hover, textarea:hover {
+            border-color: #4b5563 !important;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            transform: translateY(-2px) !important;
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+        }
+        
+        /* Focus state for all form inputs */
+        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, 
+        input[type="url"]:focus, input[type="number"]:focus, input[type="file"]:focus, 
+        select:focus, textarea:focus {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+            border-color: #fbbf24 !important;
+            box-shadow: 
+                0 0 0 0.4rem rgba(251, 191, 36, 0.4),
+                0 0 20px rgba(251, 191, 36, 0.3),
+                0 8px 30px rgba(0, 0, 0, 0.3) !important;
+            color: #ffffff !important;
+            transform: translateY(-3px) !important;
+            border-width: 3px !important;
+            outline: none !important;
+        }
+        
         .form-label {
             color: #fbbf24;
             font-weight: 700;
@@ -222,6 +335,13 @@
             /* Prevent form elements from causing layout shifts */
             .form-control, .form-select {
                 transition: none;
+            }
+            
+            /* Mobile optimizations for Tailwind inputs */
+            [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"] {
+                transition: none !important;
+                padding: 12px 15px !important;
+                min-height: 50px !important;
             }
             
             /* Disable any hover effects that might cause flicker */
@@ -515,6 +635,15 @@
                 font-size: 16px !important;
             }
             
+            /* Extra small screen optimizations for Tailwind inputs */
+            [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"] {
+                padding: 12px 10px !important;
+                font-size: 16px !important;
+                min-height: 48px !important;
+            }
+            
+            /* Ensure form elements don't overflow */
+            
             /* Ensure form elements don't overflow */
             .col-12, .col-md-6 {
                 padding-left: 5px;
@@ -565,6 +694,13 @@
             .mobile-device .form-control,
             .mobile-device .form-select {
                 font-size: 16px !important;
+            }
+            
+            /* iOS Safari fixes for Tailwind inputs */
+            [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"] {
+                font-size: 16px !important;
+                -webkit-appearance: none !important;
+                appearance: none !important;
             }
         }
         
