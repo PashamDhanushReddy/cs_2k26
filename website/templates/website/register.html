@@ -41,36 +41,95 @@
         }
         
         .glass-panel {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-panel:hover {
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            transform: translateY(-4px);
         }
         
         .form-control, .form-select {
-            background-color: #1f2937;
-            border: 1px solid #4b5563;
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
+            border: 2px solid #374151 !important;
             color: #ffffff;
-            border-radius: 8px;
-            padding: 12px 15px;
+            border-radius: 16px;
+            padding: 16px 20px;
             font-size: 16px !important; /* Prevent zoom on iOS */
-            min-height: 44px; /* Minimum touch target */
-            transition: border-color 0.3s ease;
+            min-height: 52px; /* Minimum touch target */
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 
+                0 4px 6px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        
+        .form-control:hover, .form-select:hover {
+            border-color: #4b5563 !important;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
         }
         
         .form-control:focus, .form-select:focus {
-            background-color: #374151;
-            border-color: #f59e0b;
-            box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+            border-color: #fbbf24 !important;
+            box-shadow: 
+                0 0 0 0.4rem rgba(251, 191, 36, 0.4),
+                0 0 20px rgba(251, 191, 36, 0.3),
+                0 8px 30px rgba(0, 0, 0, 0.3);
             color: #ffffff;
+            transform: translateY(-3px);
+            outline: none;
+            border-width: 3px;
+        }
+        
+        /* Input placeholder styling */
+        .form-control::placeholder {
+            color: #6b7280;
+            opacity: 0.8;
+            font-weight: 400;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-control:focus::placeholder {
+            opacity: 0.4;
+            color: #9ca3af;
         }
         
         .form-label {
-            color: #d1d5db;
-            font-weight: 500;
-            margin-bottom: 8px;
+            color: #fbbf24;
+            font-weight: 700;
+            margin-bottom: 12px;
             font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus + .form-label,
+        .form-select:focus + .form-label {
+            color: #f59e0b;
+            transform: translateY(-2px);
+        }
+        
+        .required-field::after {
+            content: " *";
+            color: #f59e0b;
+            font-weight: 700;
         }
         
         .btn-submit {
@@ -79,16 +138,31 @@
             color: #000000;
             font-weight: 700;
             font-family: 'Orbitron', sans-serif;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 16px;
-            min-height: 50px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 18px;
+            min-height: 56px;
             width: 100%;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
         }
         
         .btn-submit:active {
-            transform: scale(0.98);
+            transform: translateY(0) scale(0.98);
+        }
+        
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
         }
         
         .navbar {
@@ -99,21 +173,33 @@
         }
         
         .section-title {
-            color: #f59e0b;
+            color: #fbbf24;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #4b5563;
-            padding-bottom: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #f59e0b;
+            padding-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .member-card {
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid #4b5563;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(17, 24, 39, 0.9) 100%);
+            border: 2px solid #374151;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .member-card:hover {
+            border-color: #4b5563;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
         }
         
         .required-field::after {
@@ -152,6 +238,192 @@
             .btn-submit {
                 -webkit-tap-highlight-color: transparent;
                 touch-action: manipulation;
+            }
+            
+            /* Mobile-optimized spacing */
+            .glass-panel {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            
+            .member-card {
+                padding: 20px;
+                border-radius: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            /* Disable animations on mobile for performance */
+            .form-control:focus, .form-select:focus {
+                animation: none;
+                transform: translateY(-1px);
+                scale: 1;
+                box-shadow: 
+                    0 0 0 0.3rem rgba(251, 191, 36, 0.3),
+                    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            
+            .glass-panel:hover, .member-card:hover {
+                transform: none;
+            }
+            
+            /* Optimize touch targets for mobile */
+            .form-control, .form-select, .btn-submit {
+                min-height: 50px;
+                font-size: 16px !important;
+            }
+        }
+        
+        /* Enhanced error styling */
+        .text-danger {
+            color: #ef4444 !important;
+            font-weight: 600;
+            font-size: 13px;
+            margin-top: 8px;
+            padding: 6px 10px;
+            background-color: rgba(239, 68, 68, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid #ef4444;
+        }
+        
+        /* Success state for valid inputs */
+        .form-control.is-valid {
+            border-color: #10b981;
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+        
+        .form-control.is-valid:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
+        }
+        
+        /* Input group styling for better visual hierarchy */
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group .form-control {
+            border-radius: 12px;
+            margin-bottom: 0;
+        }
+        
+        /* Floating label effect on focus */
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        /* Enhanced select dropdown arrow */
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23f59e0b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 48px;
+        }
+        
+        /* File input styling */
+        .form-control[type="file"] {
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            cursor: pointer;
+            border-style: dashed;
+            border-color: #4b5563;
+        }
+        
+        .form-control[type="file"]:focus {
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+            border-style: solid;
+        }
+        
+        /* Premium inset shadow for depth */
+        .form-control, .form-select {
+            box-shadow: 
+                0 4px 6px rgba(0, 0, 0, 0.1),
+                inset 0 2px 4px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Enhanced select dropdown styling */
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fbbf24' viewBox='0 0 20 20'%3e%3cpath stroke='%23fbbf24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 20px center;
+            background-size: 18px;
+            padding-right: 60px;
+        }
+        
+        /* Input field transitions with better visual feedback */
+        .form-control:focus, .form-select:focus {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            border-color: #fbbf24;
+            box-shadow: 
+                0 0 0 0.4rem rgba(251, 191, 36, 0.4),
+                0 0 25px rgba(251, 191, 36, 0.3),
+                0 10px 40px rgba(0, 0, 0, 0.4),
+                inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            transform: translateY(-3px) scale(1.02);
+            outline: none;
+            border-width: 3px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        /* Enhanced error state */
+        .form-control.is-invalid {
+            border-color: #ef4444;
+            box-shadow: 
+                0 0 0 0.3rem rgba(239, 68, 68, 0.3),
+                inset 0 2px 4px rgba(239, 68, 68, 0.1);
+        }
+        
+        /* Enhanced success state */
+        .form-control.is-valid {
+            border-color: #10b981;
+            box-shadow: 
+                0 0 0 0.3rem rgba(16, 185, 129, 0.3),
+                inset 0 2px 4px rgba(16, 185, 129, 0.1);
+        }
+        
+        /* Custom scrollbar for webkit browsers */
+        .form-control::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .form-control::-webkit-scrollbar-track {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        
+        .form-control::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 4px;
+        }
+        
+        .form-control::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+        
+        /* Loading state for form */
+        .form-loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        /* Animated border on focus */
+        .form-control:focus, .form-select:focus {
+            animation: focusGlow 0.3s ease-in-out;
+        }
+        
+        @keyframes focusGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+            }
+            50% {
+                box-shadow: 0 0 0 0.4rem rgba(245, 158, 11, 0.2);
+            }
+            100% {
+                box-shadow: 0 0 0 0.3rem rgba(245, 158, 11, 0.3), 0 4px 12px rgba(245, 158, 11, 0.2);
             }
         }
             .container-fluid {
@@ -260,36 +532,13 @@
                                         <div class="text-danger small">{{ form.team_name.errors.0 }}</div>
                                     {% endif %}
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.college.id_for_label }}" class="form-label required-field">College Name</label>
-                                    {{ form.college }}
-                                    {% if form.college.errors %}
-                                        <div class="text-danger small">{{ form.college.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.college_code.id_for_label }}" class="form-label required-field">College Code</label>
-                                    {{ form.college_code }}
-                                    {% if form.college_code.errors %}
-                                        <div class="text-danger small">{{ form.college_code.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
                                 <div class="col-12 col-md-6 mb-3">
                                     <label for="{{ form.team_size.id_for_label }}" class="form-label required-field">Team Size</label>
                                     {{ form.team_size }}
                                     {% if form.team_size.errors %}
                                         <div class="text-danger small">{{ form.team_size.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.branch.id_for_label }}" class="form-label">Branch</label>
-                                    {{ form.branch }}
-                                    {% if form.branch.errors %}
-                                        <div class="text-danger small">{{ form.branch.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
@@ -336,6 +585,7 @@
                         <div class="mb-4">
                             <h2 class="section-title">Team Members</h2>
                             <p class="text-muted mb-3">Select exactly one member as team leader. Members 1-4 are required, 5-6 are optional.</p>
+                            <p class="text-warning mb-3"><i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> At least one team member must be female.</p>
                             
                             <!-- Member 1 (Required) -->
                             <div class="member-card">
@@ -388,16 +638,23 @@
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member1_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        <label for="{{ form.member1_college_name.id_for_label }}" class="form-label required-field">College Name</label>
                                         {{ form.member1_college_name }}
                                         {% if form.member1_college_name.errors %}
                                             <div class="text-danger small">{{ form.member1_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member1_college_code.id_for_label }}" class="form-label required-field">College Code</label>
+                                        {{ form.member1_college_code }}
+                                        {% if form.member1_college_code.errors %}
+                                            <div class="text-danger small">{{ form.member1_college_code.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member1_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        <label for="{{ form.member1_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
                                         {{ form.member1_course_name }}
                                         {% if form.member1_course_name.errors %}
                                             <div class="text-danger small">{{ form.member1_course_name.errors.0 }}</div>
@@ -465,16 +722,23 @@
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member2_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        <label for="{{ form.member2_college_name.id_for_label }}" class="form-label required-field">College Name</label>
                                         {{ form.member2_college_name }}
                                         {% if form.member2_college_name.errors %}
                                             <div class="text-danger small">{{ form.member2_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member2_college_code.id_for_label }}" class="form-label required-field">College Code</label>
+                                        {{ form.member2_college_code }}
+                                        {% if form.member2_college_code.errors %}
+                                            <div class="text-danger small">{{ form.member2_college_code.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member2_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        <label for="{{ form.member2_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
                                         {{ form.member2_course_name }}
                                         {% if form.member2_course_name.errors %}
                                             <div class="text-danger small">{{ form.member2_course_name.errors.0 }}</div>
@@ -542,16 +806,23 @@
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member3_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        <label for="{{ form.member3_college_name.id_for_label }}" class="form-label required-field">College Name</label>
                                         {{ form.member3_college_name }}
                                         {% if form.member3_college_name.errors %}
                                             <div class="text-danger small">{{ form.member3_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member3_college_code.id_for_label }}" class="form-label required-field">College Code</label>
+                                        {{ form.member3_college_code }}
+                                        {% if form.member3_college_code.errors %}
+                                            <div class="text-danger small">{{ form.member3_college_code.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member3_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        <label for="{{ form.member3_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
                                         {{ form.member3_course_name }}
                                         {% if form.member3_course_name.errors %}
                                             <div class="text-danger small">{{ form.member3_course_name.errors.0 }}</div>
@@ -619,16 +890,23 @@
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member4_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        <label for="{{ form.member4_college_name.id_for_label }}" class="form-label required-field">College Name</label>
                                         {{ form.member4_college_name }}
                                         {% if form.member4_college_name.errors %}
                                             <div class="text-danger small">{{ form.member4_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member4_college_code.id_for_label }}" class="form-label required-field">College Code</label>
+                                        {{ form.member4_college_code }}
+                                        {% if form.member4_college_code.errors %}
+                                            <div class="text-danger small">{{ form.member4_college_code.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member4_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        <label for="{{ form.member4_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
                                         {{ form.member4_course_name }}
                                         {% if form.member4_course_name.errors %}
                                             <div class="text-danger small">{{ form.member4_course_name.errors.0 }}</div>
@@ -696,16 +974,23 @@
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member5_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        <label for="{{ form.member5_college_name.id_for_label }}" class="form-label required-field">College Name</label>
                                         {{ form.member5_college_name }}
                                         {% if form.member5_college_name.errors %}
                                             <div class="text-danger small">{{ form.member5_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member5_college_code.id_for_label }}" class="form-label">College Code</label>
+                                        {{ form.member5_college_code }}
+                                        {% if form.member5_college_code.errors %}
+                                            <div class="text-danger small">{{ form.member5_college_code.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member5_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        <label for="{{ form.member5_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
                                         {{ form.member5_course_name }}
                                         {% if form.member5_course_name.errors %}
                                             <div class="text-danger small">{{ form.member5_course_name.errors.0 }}</div>
@@ -773,16 +1058,23 @@
                                         {% endif %}
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member6_college_name.id_for_label }}" class="form-label">College Name</label>
+                                        <label for="{{ form.member6_college_name.id_for_label }}" class="form-label required-field">College Name</label>
                                         {{ form.member6_college_name }}
                                         {% if form.member6_college_name.errors %}
                                             <div class="text-danger small">{{ form.member6_college_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member6_college_code.id_for_label }}" class="form-label">College Code</label>
+                                        {{ form.member6_college_code }}
+                                        {% if form.member6_college_code.errors %}
+                                            <div class="text-danger small">{{ form.member6_college_code.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="{{ form.member6_course_name.id_for_label }}" class="form-label">Course Name</label>
+                                        <label for="{{ form.member6_course_name.id_for_label }}" class="form-label required-field">Course Name</label>
                                         {{ form.member6_course_name }}
                                         {% if form.member6_course_name.errors %}
                                             <div class="text-danger small">{{ form.member6_course_name.errors.0 }}</div>
@@ -875,16 +1167,26 @@
                 if (member5Section) member5Section.style.display = 'none';
                 if (member6Section) member6Section.style.display = 'none';
                 
-                // Show based on team size
+                // Show based on team size and update labels
                 if (teamSize === '5' || teamSize === '6') {
                     if (member5Section) {
                         member5Section.style.display = 'block';
                         // Make fields required for 5+ members
                         makeFieldsRequired(member5Section, true);
+                        // Update Member 5 label to remove "(Optional)"
+                        const member5Label = member5Section.querySelector('h3');
+                        if (member5Label) {
+                            member5Label.innerHTML = 'Member 5 <span class="text-danger">*</span>';
+                        }
                     }
                 } else {
                     if (member5Section) {
                         makeFieldsRequired(member5Section, false);
+                        // Restore "(Optional)" label
+                        const member5Label = member5Section.querySelector('h3');
+                        if (member5Label) {
+                            member5Label.innerHTML = 'Member 5 (Optional)';
+                        }
                     }
                 }
                 
@@ -892,10 +1194,20 @@
                     if (member6Section) {
                         member6Section.style.display = 'block';
                         makeFieldsRequired(member6Section, true);
+                        // Update Member 6 label to remove "(Optional)"
+                        const member6Label = member6Section.querySelector('h3');
+                        if (member6Label) {
+                            member6Label.innerHTML = 'Member 6 <span class="text-danger">*</span>';
+                        }
                     }
                 } else {
                     if (member6Section) {
                         makeFieldsRequired(member6Section, false);
+                        // Restore "(Optional)" label
+                        const member6Label = member6Section.querySelector('h3');
+                        if (member6Label) {
+                            member6Label.innerHTML = 'Member 6 (Optional)';
+                        }
                     }
                 }
             }

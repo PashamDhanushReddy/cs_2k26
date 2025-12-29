@@ -125,25 +125,25 @@ def register_team(request):
                 leader_data = None
                 if form.cleaned_data['is_leader1']:
                     leader_data = {
-                        'college_name': form.cleaned_data['college'],  # Team college is leader's college
+                        'college_name': form.cleaned_data['member1_college_name'],
                         'course_name': form.cleaned_data['member1_course_name'],
                         'year': form.cleaned_data['member1_year']
                     }
                 elif form.cleaned_data['is_leader2']:
                     leader_data = {
-                        'college_name': form.cleaned_data['member2_college_name'] or form.cleaned_data['college'],
+                        'college_name': form.cleaned_data['member2_college_name'],
                         'course_name': form.cleaned_data['member2_course_name'],
                         'year': form.cleaned_data['member2_year']
                     }
                 elif form.cleaned_data['is_leader3']:
                     leader_data = {
-                        'college_name': form.cleaned_data['member3_college_name'] or form.cleaned_data['college'],
+                        'college_name': form.cleaned_data['member3_college_name'],
                         'course_name': form.cleaned_data['member3_course_name'],
                         'year': form.cleaned_data['member3_year']
                     }
                 elif form.cleaned_data['is_leader4']:
                     leader_data = {
-                        'college_name': form.cleaned_data['member4_college_name'] or form.cleaned_data['college'],
+                        'college_name': form.cleaned_data['member4_college_name'],
                         'course_name': form.cleaned_data['member4_course_name'],
                         'year': form.cleaned_data['member4_year']
                     }
@@ -152,42 +152,49 @@ def register_team(request):
                 def get_member_data(member_num, prefix=''):
                     if leader_data:
                         college_key = f'{prefix}member{member_num}_college_name'
+                        college_code_key = f'{prefix}member{member_num}_college_code'
                         course_key = f'{prefix}member{member_num}_course_name'
                         year_key = f'{prefix}member{member_num}_year'
                         
                         college_val = form.cleaned_data.get(college_key, '')
+                        college_code_val = form.cleaned_data.get(college_code_key, '')
                         course_val = form.cleaned_data.get(course_key, '')
                         year_val = form.cleaned_data.get(year_key, '')
                         
                         # For optional members (5 and 6), return None if no data provided
-                        if member_num >= 5 and not college_val and not course_val and not year_val:
+                        if member_num >= 5 and not college_val and not college_code_val and not course_val and not year_val:
                             return {
                                 f'member{member_num}_college_name': None,
+                                f'member{member_num}_college_code': None,
                                 f'member{member_num}_course_name': None,
                                 f'member{member_num}_year': None
                             }
                         
                         return {
                             f'member{member_num}_college_name': college_val if college_val else leader_data['college_name'],
+                            f'member{member_num}_college_code': college_code_val,
                             f'member{member_num}_course_name': course_val if course_val else leader_data['course_name'],
                             f'member{member_num}_year': year_val if year_val else leader_data['year']
                         }
                     else:
                         # If no leader found (shouldn't happen), use empty defaults
                         college_val = form.cleaned_data.get(f'{prefix}member{member_num}_college_name', '')
+                        college_code_val = form.cleaned_data.get(f'{prefix}member{member_num}_college_code', '')
                         course_val = form.cleaned_data.get(f'{prefix}member{member_num}_course_name', '')
                         year_val = form.cleaned_data.get(f'{prefix}member{member_num}_year', '')
                         
                         # For optional members (5 and 6), return None if no data provided
-                        if member_num >= 5 and not college_val and not course_val and not year_val:
+                        if member_num >= 5 and not college_val and not college_code_val and not course_val and not year_val:
                             return {
                                 f'member{member_num}_college_name': None,
+                                f'member{member_num}_college_code': None,
                                 f'member{member_num}_course_name': None,
                                 f'member{member_num}_year': None
                             }
                         
                         return {
                             f'member{member_num}_college_name': college_val,
+                            f'member{member_num}_college_code': college_code_val,
                             f'member{member_num}_course_name': course_val,
                             f'member{member_num}_year': year_val
                         }
@@ -195,9 +202,6 @@ def register_team(request):
                 # Prepare data for Supabase - match your table structure exactly
                 registration_data = {
                     'team_name': team_name,
-                    'college': form.cleaned_data['college'],
-                    'college_code': form.cleaned_data['college_code'],
-                    'branch': form.cleaned_data.get('branch', ''),
                     'team_size': form.cleaned_data.get('team_size', ''),
                     'idea_title': form.cleaned_data['idea_title'],
                     'idea_theme': form.cleaned_data['idea_theme'],
@@ -209,6 +213,7 @@ def register_team(request):
                     'member1_roll': form.cleaned_data['member1_roll'],
                     'member1_gender': form.cleaned_data['member1_gender'],
                     'member1_college_name': form.cleaned_data['member1_college_name'],
+                    'member1_college_code': form.cleaned_data['member1_college_code'],
                     'member1_course_name': form.cleaned_data['member1_course_name'],
                     'member1_year': form.cleaned_data['member1_year'],
                     'is_leader1': form.cleaned_data['is_leader1'],
@@ -217,6 +222,7 @@ def register_team(request):
                     'member2_phone': form.cleaned_data['member2_phone'],
                     'member2_roll': form.cleaned_data['member2_roll'],
                     'member2_gender': form.cleaned_data['member2_gender'],
+                    'member2_college_code': form.cleaned_data['member2_college_code'],
                     **get_member_data(2),  # college_name, course_name, year with leader defaults
                     'is_leader2': form.cleaned_data['is_leader2'],
                     'member3_name': form.cleaned_data['member3_name'],
@@ -224,6 +230,7 @@ def register_team(request):
                     'member3_phone': form.cleaned_data['member3_phone'],
                     'member3_roll': form.cleaned_data['member3_roll'],
                     'member3_gender': form.cleaned_data['member3_gender'],
+                    'member3_college_code': form.cleaned_data['member3_college_code'],
                     **get_member_data(3),  # college_name, course_name, year with leader defaults
                     'is_leader3': form.cleaned_data['is_leader3'],
                     'member4_name': form.cleaned_data['member4_name'],
@@ -231,6 +238,7 @@ def register_team(request):
                     'member4_phone': form.cleaned_data['member4_phone'],
                     'member4_roll': form.cleaned_data['member4_roll'],
                     'member4_gender': form.cleaned_data['member4_gender'],
+                    'member4_college_code': form.cleaned_data['member4_college_code'],
                     **get_member_data(4),  # college_name, course_name, year with leader defaults
                     'is_leader4': form.cleaned_data['is_leader4'],
                     'member5_name': form.cleaned_data.get('member5_name') or None,
@@ -238,6 +246,7 @@ def register_team(request):
                     'member5_phone': form.cleaned_data.get('member5_phone') or None,
                     'member5_roll': form.cleaned_data.get('member5_roll') or None,
                     'member5_gender': form.cleaned_data.get('member5_gender') or None,
+                    'member5_college_code': form.cleaned_data.get('member5_college_code') or None,
                     **get_member_data(5),  # college_name, course_name, year with leader defaults for optional member
                     'is_leader5': form.cleaned_data.get('is_leader5', False),
                     'member6_name': form.cleaned_data.get('member6_name') or None,
@@ -245,6 +254,7 @@ def register_team(request):
                     'member6_phone': form.cleaned_data.get('member6_phone') or None,
                     'member6_roll': form.cleaned_data.get('member6_roll') or None,
                     'member6_gender': form.cleaned_data.get('member6_gender') or None,
+                    'member6_college_code': form.cleaned_data.get('member6_college_code') or None,
                     **get_member_data(6),  # college_name, course_name, year with leader defaults for optional member
                     'is_leader6': form.cleaned_data.get('is_leader6', False),
                 }
