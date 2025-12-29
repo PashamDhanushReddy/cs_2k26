@@ -58,19 +58,18 @@ class TeamRegistrationForm(forms.Form):
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
         })
     )
-    year_of_study = forms.ChoiceField(
+    team_size = forms.ChoiceField(
         choices=[
-            ('', 'Select Year'),
-            ('1', '1st Year'),
-            ('2', '2nd Year'),
-            ('3', '3rd Year'),
-            ('4', '4th Year'),
+            ('', 'Select Team Size'),
+            ('4', '4 Members'),
+            ('5', '5 Members'),
+            ('6', '6 Members'),
         ],
         widget=forms.Select(attrs={
-            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'id': 'team_size'
         })
     )
-    
     # Idea details
     idea_title = forms.CharField(
         max_length=255,
@@ -100,6 +99,7 @@ class TeamRegistrationForm(forms.Form):
     
     # File uploads
     ppt_file = forms.FileField(
+        required=False,
         validators=[FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pdf'])],
         widget=forms.FileInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -107,7 +107,7 @@ class TeamRegistrationForm(forms.Form):
         })
     )
     youtube_link = forms.URLField(
-        required=True,
+        required=False,
         widget=forms.URLInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
             'placeholder': 'Enter YouTube link'
@@ -148,6 +148,47 @@ class TeamRegistrationForm(forms.Form):
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
             'placeholder': 'Roll Number'
+        })
+    )
+    member1_gender = forms.ChoiceField(
+        choices=[
+            ('unspecified', 'Unspecified'),
+            ('male', 'Male'),
+            ('female', 'Female'),
+            ('other', 'Other'),
+        ],
+        initial='unspecified',
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+        })
+    )
+    member1_college_name = forms.CharField(
+        max_length=255,
+        initial='',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'College Name (if different from team college)'
+        })
+    )
+    member1_course_name = forms.CharField(
+        max_length=255,
+        initial='',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'Course Name (e.g., B.Tech CSE)'
+        })
+    )
+    member1_year = forms.ChoiceField(
+        choices=[
+            ('', 'Select Year'),
+            ('1', '1st Year'),
+            ('2', '2nd Year'),
+            ('3', '3rd Year'),
+            ('4', '4th Year'),
+        ],
+        initial='',
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
         })
     )
     is_leader1 = forms.BooleanField(
@@ -194,6 +235,47 @@ class TeamRegistrationForm(forms.Form):
             'placeholder': 'Roll Number'
         })
     )
+    member2_gender = forms.ChoiceField(
+        choices=[
+            ('unspecified', 'Unspecified'),
+            ('male', 'Male'),
+            ('female', 'Female'),
+            ('other', 'Other'),
+        ],
+        initial='unspecified',
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+        })
+    )
+    member2_college_name = forms.CharField(
+        max_length=255,
+        initial='',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'College Name (if different from team college)'
+        })
+    )
+    member2_course_name = forms.CharField(
+        max_length=255,
+        initial='',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'Course Name (e.g., B.Tech CSE)'
+        })
+    )
+    member2_year = forms.ChoiceField(
+        choices=[
+            ('', 'Select Year'),
+            ('1', '1st Year'),
+            ('2', '2nd Year'),
+            ('3', '3rd Year'),
+            ('4', '4th Year'),
+        ],
+        initial='',
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+        })
+    )
     is_leader2 = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
@@ -236,6 +318,47 @@ class TeamRegistrationForm(forms.Form):
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
             'placeholder': 'Roll Number'
+        })
+    )
+    member3_gender = forms.ChoiceField(
+        choices=[
+            ('unspecified', 'Unspecified'),
+            ('male', 'Male'),
+            ('female', 'Female'),
+            ('other', 'Other'),
+        ],
+        initial='unspecified',
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+        })
+    )
+    member3_college_name = forms.CharField(
+        max_length=255,
+        initial='',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'College Name (if different from team college)'
+        })
+    )
+    member3_course_name = forms.CharField(
+        max_length=255,
+        initial='',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'Course Name (e.g., B.Tech CSE)'
+        })
+    )
+    member3_year = forms.ChoiceField(
+        choices=[
+            ('', 'Select Year'),
+            ('1', '1st Year'),
+            ('2', '2nd Year'),
+            ('3', '3rd Year'),
+            ('4', '4th Year'),
+        ],
+        initial='',
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
         })
     )
     is_leader3 = forms.BooleanField(
@@ -282,6 +405,47 @@ class TeamRegistrationForm(forms.Form):
             'placeholder': 'Roll Number'
         })
     )
+    member4_gender = forms.ChoiceField(
+        choices=[
+            ('unspecified', 'Unspecified'),
+            ('male', 'Male'),
+            ('female', 'Female'),
+            ('other', 'Other'),
+        ],
+        initial='unspecified',
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+        })
+    )
+    member4_college_name = forms.CharField(
+        max_length=255,
+        initial='',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'College Name (if different from team college)'
+        })
+    )
+    member4_course_name = forms.CharField(
+        max_length=255,
+        initial='',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'Course Name (e.g., B.Tech CSE)'
+        })
+    )
+    member4_year = forms.ChoiceField(
+        choices=[
+            ('', 'Select Year'),
+            ('1', '1st Year'),
+            ('2', '2nd Year'),
+            ('3', '3rd Year'),
+            ('4', '4th Year'),
+        ],
+        initial='',
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+        })
+    )
     is_leader4 = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
@@ -290,13 +454,13 @@ class TeamRegistrationForm(forms.Form):
         })
     )
     
-    # Member 5 (Optional)
+    # Member 5
     member5_name = forms.CharField(
         max_length=255,
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Full Name (Optional)'
+            'placeholder': 'Full Name'
         })
     )
     member5_email = forms.EmailField(
@@ -330,6 +494,48 @@ class TeamRegistrationForm(forms.Form):
             'placeholder': 'Roll Number (Optional)'
         })
     )
+    member5_gender = forms.ChoiceField(
+        choices=[
+            ('', 'Select Gender'),
+            ('unspecified', 'Unspecified'),
+            ('male', 'Male'),
+            ('female', 'Female'),
+            ('other', 'Other'),
+        ],
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+        })
+    )
+    member5_college_name = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'College Name (if different from team college)'
+        })
+    )
+    member5_course_name = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'Course Name (e.g., B.Tech CSE)'
+        })
+    )
+    member5_year = forms.ChoiceField(
+        choices=[
+            ('', 'Select Year'),
+            ('1', '1st Year'),
+            ('2', '2nd Year'),
+            ('3', '3rd Year'),
+            ('4', '4th Year'),
+        ],
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+        })
+    )
     is_leader5 = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
@@ -338,13 +544,13 @@ class TeamRegistrationForm(forms.Form):
         })
     )
     
-    # Member 6 (Optional)
+    # Member 6
     member6_name = forms.CharField(
         max_length=255,
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Full Name (Optional)'
+            'placeholder': 'Full Name'
         })
     )
     member6_email = forms.EmailField(
@@ -378,6 +584,48 @@ class TeamRegistrationForm(forms.Form):
             'placeholder': 'Roll Number (Optional)'
         })
     )
+    member6_gender = forms.ChoiceField(
+        choices=[
+            ('', 'Select Gender'),
+            ('unspecified', 'Unspecified'),
+            ('male', 'Male'),
+            ('female', 'Female'),
+            ('other', 'Other'),
+        ],
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+        })
+    )
+    member6_college_name = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'College Name (if different from team college)'
+        })
+    )
+    member6_course_name = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'Course Name (e.g., B.Tech CSE)'
+        })
+    )
+    member6_year = forms.ChoiceField(
+        choices=[
+            ('', 'Select Year'),
+            ('1', '1st Year'),
+            ('2', '2nd Year'),
+            ('3', '3rd Year'),
+            ('4', '4th Year'),
+        ],
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500'
+        })
+    )
     is_leader6 = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
@@ -389,6 +637,8 @@ class TeamRegistrationForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         
+        team_size = cleaned_data.get('team_size')
+        
         # Validate that exactly one leader is selected
         leader_fields = ['is_leader1', 'is_leader2', 'is_leader3', 'is_leader4', 'is_leader5', 'is_leader6']
         leader_count = sum(1 for field in leader_fields if cleaned_data.get(field))
@@ -396,7 +646,38 @@ class TeamRegistrationForm(forms.Form):
         if leader_count != 1:
             raise forms.ValidationError('Exactly one team member must be designated as the leader.')
         
-        # Validate optional members
+        # Validate required members based on team size
+        if team_size:
+            required_members = int(team_size)
+            
+            # Validate members 1-4 are always required (minimum team size is 4)
+            required_fields_member1 = ['member1_name', 'member1_email', 'member1_phone', 'member1_roll', 'member1_gender', 'member1_college_name', 'member1_course_name', 'member1_year']
+            required_fields_member2 = ['member2_name', 'member2_email', 'member2_phone', 'member2_roll', 'member2_gender', 'member2_college_name', 'member2_course_name', 'member2_year']
+            required_fields_member3 = ['member3_name', 'member3_email', 'member3_phone', 'member3_roll', 'member3_gender', 'member3_college_name', 'member3_course_name', 'member3_year']
+            required_fields_member4 = ['member4_name', 'member4_email', 'member4_phone', 'member4_roll', 'member4_gender', 'member4_college_name', 'member4_course_name', 'member4_year']
+            
+            # Check required members
+            for i in range(1, min(required_members + 1, 5)):  # Members 1-4
+                member_fields = locals()[f'required_fields_member{i}']
+                for field in member_fields:
+                    if not cleaned_data.get(field):
+                        raise forms.ValidationError(f'Member {i} details are required for team size {team_size}.')
+            
+            # Check member 5 if team size is 5 or 6
+            if required_members >= 5:
+                required_fields_member5 = ['member5_name', 'member5_email', 'member5_phone', 'member5_roll', 'member5_gender', 'member5_college_name', 'member5_course_name', 'member5_year']
+                for field in required_fields_member5:
+                    if not cleaned_data.get(field):
+                        raise forms.ValidationError(f'Member 5 details are required for team size {team_size}.')
+            
+            # Check member 6 if team size is 6
+            if required_members == 6:
+                required_fields_member6 = ['member6_name', 'member6_email', 'member6_phone', 'member6_roll', 'member6_gender', 'member6_college_name', 'member6_course_name', 'member6_year']
+                for field in required_fields_member6:
+                    if not cleaned_data.get(field):
+                        raise forms.ValidationError(f'Member 6 details are required for team size {team_size}.')
+        
+        # Validate optional members cannot be leaders if not provided
         if cleaned_data.get('is_leader5') and not cleaned_data.get('member5_name'):
             raise forms.ValidationError('Member 5 cannot be leader if not provided.')
         

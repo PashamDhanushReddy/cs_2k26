@@ -112,10 +112,10 @@
                                 {% endif %}
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Year of Study</label>
-                                {{ form.year_of_study }}
-                                {% if form.year_of_study.errors %}
-                                    <p class="text-red-400 text-sm mt-1">{{ form.year_of_study.errors.0 }}</p>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Team Size *</label>
+                                {{ form.team_size }}
+                                {% if form.team_size.errors %}
+                                    <p class="text-red-400 text-sm mt-1">{{ form.team_size.errors.0 }}</p>
                                 {% endif %}
                             </div>
                         </div>
@@ -203,6 +203,36 @@
                                     {% endif %}
                                 </div>
                             </div>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender *</label>
+                                    {{ form.member1_gender }}
+                                    {% if form.member1_gender.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_gender.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
+                                    {{ form.member1_college_name }}
+                                    {% if form.member1_college_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_college_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
+                                    {{ form.member1_course_name }}
+                                    {% if form.member1_course_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_course_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year *</label>
+                                    {{ form.member1_year }}
+                                    {% if form.member1_year.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member1_year.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
                             <div class="flex items-center">
                                 {{ form.is_leader1 }}
                                 <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
@@ -244,6 +274,36 @@
                                     {{ form.member2_roll }}
                                     {% if form.member2_roll.errors %}
                                         <p class="text-red-400 text-sm mt-1">{{ form.member2_roll.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender *</label>
+                                    {{ form.member2_gender }}
+                                    {% if form.member2_gender.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_gender.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
+                                    {{ form.member2_college_name }}
+                                    {% if form.member2_college_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_college_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
+                                    {{ form.member2_course_name }}
+                                    {% if form.member2_course_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_course_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year *</label>
+                                    {{ form.member2_year }}
+                                    {% if form.member2_year.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member2_year.errors.0 }}</p>
                                     {% endif %}
                                 </div>
                             </div>
@@ -291,6 +351,36 @@
                                     {% endif %}
                                 </div>
                             </div>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender *</label>
+                                    {{ form.member3_gender }}
+                                    {% if form.member3_gender.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_gender.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
+                                    {{ form.member3_college_name }}
+                                    {% if form.member3_college_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_college_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
+                                    {{ form.member3_course_name }}
+                                    {% if form.member3_course_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_course_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year *</label>
+                                    {{ form.member3_year }}
+                                    {% if form.member3_year.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member3_year.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
                             <div class="flex items-center">
                                 {{ form.is_leader3 }}
                                 <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
@@ -335,15 +425,45 @@
                                     {% endif %}
                                 </div>
                             </div>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender *</label>
+                                    {{ form.member4_gender }}
+                                    {% if form.member4_gender.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_gender.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
+                                    {{ form.member4_college_name }}
+                                    {% if form.member4_college_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_college_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
+                                    {{ form.member4_course_name }}
+                                    {% if form.member4_course_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_course_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year *</label>
+                                    {{ form.member4_year }}
+                                    {% if form.member4_year.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member4_year.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
                             <div class="flex items-center">
                                 {{ form.is_leader4 }}
                                 <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
                             </div>
                         </div>
 
-                        <!-- Member 5 (Optional) -->
-                        <div class="border border-gray-600 rounded-lg p-6 opacity-75">
-                            <h3 class="text-lg font-semibold text-white mb-4">Member 5 (Optional)</h3>
+                        <!-- Member 5 -->
+                        <div id="member5-section" class="border border-gray-600 rounded-lg p-6" style="display: none;">
+                            <h3 class="text-lg font-semibold text-white mb-4">Member 5</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
@@ -376,15 +496,45 @@
                                     {% endif %}
                                 </div>
                             </div>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender</label>
+                                    {{ form.member5_gender }}
+                                    {% if form.member5_gender.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_gender.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
+                                    {{ form.member5_college_name }}
+                                    {% if form.member5_college_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_college_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
+                                    {{ form.member5_course_name }}
+                                    {% if form.member5_course_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_course_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year</label>
+                                    {{ form.member5_year }}
+                                    {% if form.member5_year.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member5_year.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
                             <div class="flex items-center">
                                 {{ form.is_leader5 }}
                                 <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
                             </div>
                         </div>
 
-                        <!-- Member 6 (Optional) -->
-                        <div class="border border-gray-600 rounded-lg p-6 opacity-75">
-                            <h3 class="text-lg font-semibold text-white mb-4">Member 6 (Optional)</h3>
+                        <!-- Member 6 -->
+                        <div id="member6-section" class="border border-gray-600 rounded-lg p-6" style="display: none;">
+                            <h3 class="text-lg font-semibold text-white mb-4">Member 6</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
@@ -417,6 +567,36 @@
                                     {% endif %}
                                 </div>
                             </div>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Gender</label>
+                                    {{ form.member6_gender }}
+                                    {% if form.member6_gender.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_gender.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">College Name</label>
+                                    {{ form.member6_college_name }}
+                                    {% if form.member6_college_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_college_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Course Name</label>
+                                    {{ form.member6_course_name }}
+                                    {% if form.member6_course_name.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_course_name.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Year</label>
+                                    {{ form.member6_year }}
+                                    {% if form.member6_year.errors %}
+                                        <p class="text-red-400 text-sm mt-1">{{ form.member6_year.errors.0 }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
                             <div class="flex items-center">
                                 {{ form.is_leader6 }}
                                 <label class="ml-2 text-sm font-medium text-gray-300">Team Leader</label>
@@ -446,6 +626,7 @@
     <footer class="bg-gray-900 border-t border-gray-700 mt-16">
         <div class="container mx-auto px-4 py-8 text-center">
             <p class="text-gray-400">&copy; 2025 CodeStorm 2026. All rights reserved.</p>
+            <p class="text-gray-500 text-sm mt-2">Developed by R.Varshith Reddy(23X01A05V7) & P.Dhanush Reddy(23X01A05S4)</p>
         </div>
     </footer>
 
@@ -473,7 +654,43 @@
                     });
                 }
             }
+            
+            // Team size functionality
+            const teamSizeSelect = document.getElementById('team_size');
+            if (teamSizeSelect) {
+                teamSizeSelect.addEventListener('change', updateMemberVisibility);
+                updateMemberVisibility(); // Initialize on page load
+            }
         });
+        
+        function updateMemberVisibility() {
+            const teamSizeSelect = document.getElementById('team_size');
+            const teamSize = teamSizeSelect ? teamSizeSelect.value : '4';
+            
+            // Hide all optional members first
+            const member5Section = document.querySelector('#member5-section');
+            const member6Section = document.querySelector('#member6-section');
+            
+            if (member5Section) member5Section.style.display = 'none';
+            if (member6Section) member6Section.style.display = 'none';
+            
+            // Show members based on team size
+            if (teamSize === '5' || teamSize === '6') {
+                if (member5Section) {
+                    member5Section.style.display = 'block';
+                    member5Section.style.opacity = '1';
+                    member5Section.classList.remove('opacity-75');
+                }
+            }
+            
+            if (teamSize === '6') {
+                if (member6Section) {
+                    member6Section.style.display = 'block';
+                    member6Section.style.opacity = '1';
+                    member6Section.classList.remove('opacity-75');
+                }
+            }
+        }
     </script>
 </body>
 </html>
