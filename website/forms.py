@@ -22,15 +22,8 @@ class TeamRegistrationForm(forms.Form):
         })
     )
     
-    # Idea details
-    idea_title = forms.CharField(
-        max_length=255,
-        widget=forms.TextInput(attrs={
-            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Enter your idea title'
-        })
-    )
-    idea_theme = forms.ChoiceField(
+    # Theme selection
+    theme = forms.ChoiceField(
         choices=[
             ('Generative AI & LLM Applications', 'Generative AI & LLM Applications'),
             ('Robotics, Drones & Autonomous Systems', 'Robotics, Drones & Autonomous Systems'),
@@ -48,19 +41,13 @@ class TeamRegistrationForm(forms.Form):
         })
     )
     
-    # File uploads
-    ppt_file = forms.FileField(
-        validators=[FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pdf'])],
+    # Payment screenshot upload
+    payment_screenshot = forms.ImageField(
+        required=True,
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'pdf'])],
         widget=forms.FileInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'accept': '.ppt,.pptx,.pdf'
-        })
-    )
-    youtube_link = forms.URLField(
-        required=True,
-        widget=forms.URLInput(attrs={
-            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Enter YouTube link'
+            'accept': '.jpg,.jpeg,.png,.pdf'
         })
     )
     
@@ -145,6 +132,25 @@ class TeamRegistrationForm(forms.Form):
             'onchange': 'updateLeaderCheckbox(1)'
         })
     )
+    member1_tshirt_size = forms.ChoiceField(
+        choices=[
+            ('Small', 'Small'),
+            ('Medium', 'Medium'),
+            ('Large', 'Large')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+        })
+    )
+    member1_food_preference = forms.ChoiceField(
+        choices=[
+            ('Veg', 'Veg'),
+            ('Non Veg', 'Non Veg')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+        })
+    )
     
     # Member 2 (Required)
     member2_name = forms.CharField(
@@ -224,6 +230,25 @@ class TeamRegistrationForm(forms.Form):
         widget=forms.CheckboxInput(attrs={
             'class': 'form-check-input',
             'onchange': 'updateLeaderCheckbox(2)'
+        })
+    )
+    member2_tshirt_size = forms.ChoiceField(
+        choices=[
+            ('Small', 'Small'),
+            ('Medium', 'Medium'),
+            ('Large', 'Large')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+        })
+    )
+    member2_food_preference = forms.ChoiceField(
+        choices=[
+            ('Veg', 'Veg'),
+            ('Non Veg', 'Non Veg')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
         })
     )
     
@@ -307,6 +332,25 @@ class TeamRegistrationForm(forms.Form):
             'onchange': 'updateLeaderCheckbox(3)'
         })
     )
+    member3_tshirt_size = forms.ChoiceField(
+        choices=[
+            ('Small', 'Small'),
+            ('Medium', 'Medium'),
+            ('Large', 'Large')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+        })
+    )
+    member3_food_preference = forms.ChoiceField(
+        choices=[
+            ('Veg', 'Veg'),
+            ('Non Veg', 'Non Veg')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+        })
+    )
     
     # Member 4 (Required)
     member4_name = forms.CharField(
@@ -386,6 +430,25 @@ class TeamRegistrationForm(forms.Form):
         widget=forms.CheckboxInput(attrs={
             'class': 'form-check-input',
             'onchange': 'updateLeaderCheckbox(4)'
+        })
+    )
+    member4_tshirt_size = forms.ChoiceField(
+        choices=[
+            ('Small', 'Small'),
+            ('Medium', 'Medium'),
+            ('Large', 'Large')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+        })
+    )
+    member4_food_preference = forms.ChoiceField(
+        choices=[
+            ('Veg', 'Veg'),
+            ('Non Veg', 'Non Veg')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
         })
     )
     
@@ -478,6 +541,27 @@ class TeamRegistrationForm(forms.Form):
             'onchange': 'updateLeaderCheckbox(5)'
         })
     )
+    member5_tshirt_size = forms.ChoiceField(
+        required=False,
+        choices=[
+            ('Small', 'Small'),
+            ('Medium', 'Medium'),
+            ('Large', 'Large')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+        })
+    )
+    member5_food_preference = forms.ChoiceField(
+        required=False,
+        choices=[
+            ('Veg', 'Veg'),
+            ('Non Veg', 'Non Veg')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+        })
+    )
     
     # Member 6 (Optional)
     member6_name = forms.CharField(
@@ -566,6 +650,27 @@ class TeamRegistrationForm(forms.Form):
         widget=forms.CheckboxInput(attrs={
             'class': 'form-check-input',
             'onchange': 'updateLeaderCheckbox(6)'
+        })
+    )
+    member6_tshirt_size = forms.ChoiceField(
+        required=False,
+        choices=[
+            ('Small', 'Small'),
+            ('Medium', 'Medium'),
+            ('Large', 'Large')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+        })
+    )
+    member6_food_preference = forms.ChoiceField(
+        required=False,
+        choices=[
+            ('Veg', 'Veg'),
+            ('Non Veg', 'Non Veg')
+        ],
+        widget=forms.Select(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
         })
     )
 
@@ -803,5 +908,28 @@ class TeamRegistrationForm(forms.Form):
         
         if female_count == 0:
             raise forms.ValidationError('At least one team member must be female.')
+        
+        # Validate inter-college discount eligibility
+        team_size_str = cleaned_data.get('team_size', '4')
+        try:
+            team_size = int(team_size_str)
+        except (ValueError, TypeError):
+            team_size = 4
+        
+        # Collect all college codes
+        college_codes = set()
+        for i in range(1, team_size + 1):
+            member_name = cleaned_data.get(f'member{i}_name', '')
+            if member_name:
+                college_code = cleaned_data.get(f'member{i}_college_code', '').strip().upper()
+                if college_code:
+                    college_codes.add(college_code)
+        
+        # Check if team is eligible for discount (has both NRCM and non-NRCM members)
+        has_nrcm = 'NRCM' in college_codes
+        has_non_nrcm = len(college_codes) > 1 and any(code != 'NRCM' for code in college_codes)
+        
+        # Store discount eligibility in cleaned_data for use in views
+        cleaned_data['_discount_eligible'] = has_nrcm and has_non_nrcm
         
         return cleaned_data

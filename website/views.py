@@ -140,16 +140,35 @@ def register_team(request):
         
         if form.is_valid():
             try:
-                # Upload PPT first
-                ppt_file = request.FILES.get('ppt_file')
                 team_name = form.cleaned_data['team_name']
+                team_size = int(form.cleaned_data.get('team_size', '4'))
                 
-                ppt_path = None
-                if ppt_file:
-                    ppt_path = upload_ppt_to_cloudinary(ppt_file, team_name)
-                    if ppt_path is None:
-                        # PPT upload failed
-                        messages.warning(request, 'Note: PPT file could not be uploaded to Cloudinary, but your registration will still be saved.')
+                # Calculate fee with discount
+                base_fee_per_person = 600
+                discount_eligible = form.cleaned_data.get('_discount_eligible', False)
+                discount_percentage = 0.10 if discount_eligible else 0
+                
+                total_base_fee = base_fee_per_person * team_size
+                discount_amount = total_base_fee * discount_percentage
+                total_fee = total_base_fee - discount_amount
+                
+                # Handle payment screenshot upload
+                payment_screenshot = request.FILES.get('payment_screenshot')
+                payment_screenshot_url = ''
+                if payment_screenshot:
+                    try:
+                        # Upload payment screenshot to Cloudinary
+                        unique_filename = f"{team_name.replace(' ', '_')}_payment_{uuid.uuid4()}"
+                        response = cloudinary.uploader.upload(
+                            payment_screenshot,
+                            public_id=unique_filename,
+                            folder="payment_screenshots",
+                            resource_type="image"
+                        )
+                        payment_screenshot_url = response.get('secure_url', '')
+                    except Exception as e:
+                        print(f"Error uploading payment screenshot: {str(e)}")
+                        messages.warning(request, 'Note: Payment screenshot could not be uploaded, but your registration will still be saved.')
                 
                 # Find the team leader to get default values
                 leader_data = None
@@ -256,11 +275,9 @@ def register_team(request):
                 # Prepare data for Supabase - match your table structure exactly
                 registration_data = {
                     'team_name': team_name,
-                    'team_size': form.cleaned_data.get('team_size', ''),
-                    'idea_title': form.cleaned_data['idea_title'],
-                    'idea_theme': form.cleaned_data['idea_theme'],
-                    'ppt_file_path': ppt_path or '',  # Ensure it's not None
-                    'youtube_link': form.cleaned_data.get('youtube_link', ''),
+                    'team_size': form.cleaned_data.get('team_size', '4'),
+                    'theme': form.cleaned_data['theme'],
+                    'payment_screenshot': payment_screenshot_url,
                     'member1_name': form.cleaned_data['member1_name'],
                     'member1_email': form.cleaned_data['member1_email'],
                     'member1_phone': form.cleaned_data['member1_phone'],
@@ -270,6 +287,8 @@ def register_team(request):
                     'member1_college_code': form.cleaned_data['member1_college_code'],
                     'member1_course_name': form.cleaned_data['member1_course_name'],
                     'member1_year': form.cleaned_data['member1_year'],
+                    'member1_tshirt_size': form.cleaned_data['member1_tshirt_size'],
+                    'member1_food_preference': form.cleaned_data['member1_food_preference'],
                     'is_leader1': form.cleaned_data['is_leader1'],
                     'member2_name': form.cleaned_data['member2_name'],
                     'member2_email': form.cleaned_data['member2_email'],
@@ -277,6 +296,8 @@ def register_team(request):
                     'member2_roll': form.cleaned_data['member2_roll'],
                     'member2_gender': form.cleaned_data['member2_gender'],
                     'member2_college_code': form.cleaned_data['member2_college_code'],
+                    'member2_tshirt_size': form.cleaned_data['member2_tshirt_size'],
+                    'member2_food_preference': form.cleaned_data['member2_food_preference'],
                     **get_member_data(2),  # college_name, course_name, year with leader defaults
                     'is_leader2': form.cleaned_data['is_leader2'],
                     'member3_name': form.cleaned_data['member3_name'],
@@ -285,6 +306,8 @@ def register_team(request):
                     'member3_roll': form.cleaned_data['member3_roll'],
                     'member3_gender': form.cleaned_data['member3_gender'],
                     'member3_college_code': form.cleaned_data['member3_college_code'],
+                    'member3_tshirt_size': form.cleaned_data['member3_tshirt_size'],
+                    'member3_food_preference': form.cleaned_data['member3_food_preference'],
                     **get_member_data(3),  # college_name, course_name, year with leader defaults
                     'is_leader3': form.cleaned_data['is_leader3'],
                     'member4_name': form.cleaned_data['member4_name'],
@@ -293,6 +316,8 @@ def register_team(request):
                     'member4_roll': form.cleaned_data['member4_roll'],
                     'member4_gender': form.cleaned_data['member4_gender'],
                     'member4_college_code': form.cleaned_data['member4_college_code'],
+                    'member4_tshirt_size': form.cleaned_data['member4_tshirt_size'],
+                    'member4_food_preference': form.cleaned_data['member4_food_preference'],
                     **get_member_data(4),  # college_name, course_name, year with leader defaults
                     'is_leader4': form.cleaned_data['is_leader4'],
                     # Member 5 (Optional) - set all to None if member not provided
@@ -302,6 +327,8 @@ def register_team(request):
                     'member5_roll': form.cleaned_data.get('member5_roll') or None,
                     'member5_gender': form.cleaned_data.get('member5_gender') or None,
                     'member5_college_code': form.cleaned_data.get('member5_college_code') or None,
+                    'member5_tshirt_size': form.cleaned_data.get('member5_tshirt_size') or None,
+                    'member5_food_preference': form.cleaned_data.get('member5_food_preference') or None,
                     **get_member_data(5),  # college_name, course_name, year with leader defaults for optional member
                     'is_leader5': form.cleaned_data.get('is_leader5', False),
                     # Member 6 (Optional) - set all to None if member not provided
@@ -311,6 +338,8 @@ def register_team(request):
                     'member6_roll': form.cleaned_data.get('member6_roll') or None,
                     'member6_gender': form.cleaned_data.get('member6_gender') or None,
                     'member6_college_code': form.cleaned_data.get('member6_college_code') or None,
+                    'member6_tshirt_size': form.cleaned_data.get('member6_tshirt_size') or None,
+                    'member6_food_preference': form.cleaned_data.get('member6_food_preference') or None,
                     **get_member_data(6),  # college_name, course_name, year with leader defaults for optional member
                     'is_leader6': form.cleaned_data.get('is_leader6', False),
                 }
@@ -340,7 +369,19 @@ def register_team(request):
     else:
         form = TeamRegistrationForm()
     
-    return render(request, 'website/register.html', {'form': form})
+    # Default fee calculation for initial page load
+    base_fee_per_person = 600
+    default_team_size = 4
+    default_total = base_fee_per_person * default_team_size
+    
+    context = {
+        'form': form,
+        'base_fee_per_person': base_fee_per_person,
+        'default_total_fee': default_total,
+        'discount_percentage': 10,
+    }
+    
+    return render(request, 'website/register.html', context)
 
 def registration_success(request):
     """Show success page after registration"""

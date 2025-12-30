@@ -1307,7 +1307,7 @@
             <div class="col-12 col-lg-10 col-xl-8">
                 <!-- Header -->
                 <div class="text-center mb-4">
-                    <h1 class="gradient-text display-5 fw-bold mb-3" style="font-family: 'Orbitron', sans-serif;">Idea Submission</h1>
+                    <h1 class="gradient-text display-5 fw-bold mb-3" style="font-family: 'Orbitron', sans-serif;">Team Registration</h1>
                     <p class="text-muted">Register your team for CodeStorm 2026 - The Ultimate 36-Hour Hackathon</p>
                 </div>
 
@@ -1323,6 +1323,46 @@
 
                 <!-- Registration Form -->
                 <div class="glass-panel">
+                    <!-- Registration Info Section -->
+                    <div class="mb-4">
+                        <div class="alert alert-info" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%); border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 15px;">
+                            <h5 class="text-white mb-3"><i class="fas fa-info-circle me-2"></i>Registration Information</h5>
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-3">
+                                    <h6 class="text-amber-400 mb-2"><i class="fas fa-tag me-2"></i>Inter-College Discount (10%)</h6>
+                                    <p class="text-white small mb-0" style="color: #e2e8f0 !important;">
+                                        Get a <strong>10% discount</strong> on registration fee if your team has members from both NRCM and other colleges. 
+                                        <br><strong>Base Fee:</strong> ₹600 per person
+                                        <br><strong>Example:</strong> 4 members = ₹2,400 (₹2,160 with discount)
+                                    </p>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <h6 class="text-amber-400 mb-2"><i class="fas fa-calculator me-2"></i>Calculate Money Button</h6>
+                                    <p class="text-white small mb-0" style="color: #e2e8f0 !important;">
+                                        After filling all team member details, click <strong>"Calculate Money"</strong> to:
+                                        <br>• Validate your form
+                                        <br>• Calculate your registration fee
+                                        <br>• View payment QR code
+                                        <br>• Upload payment screenshot
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <h6 class="text-amber-400 mb-2"><i class="fas fa-list-ol me-2"></i>Registration Flow</h6>
+                                    <ol class="text-white small mb-0" style="color: #e2e8f0 !important; padding-left: 20px;">
+                                        <li>Fill in all team details (Team name, size, theme, and all member information)</li>
+                                        <li>Click <strong>"Calculate Money"</strong> button</li>
+                                        <li>Review your calculated registration fee (with discount if applicable)</li>
+                                        <li>Scan the QR code and make payment</li>
+                                        <li>Upload payment screenshot</li>
+                                        <li>Click <strong>"Register Team"</strong> to complete registration</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <form method="post" enctype="multipart/form-data" id="registrationForm" action="">
                         {% csrf_token %}
                         <script>
@@ -1362,46 +1402,16 @@
                             </div>
                         </div>
 
-                        <!-- Idea Details Section -->
+                        <!-- Theme Selection Section -->
                         <div class="mb-4">
-                            <h2 class="section-title">Idea Details</h2>
+                            <h2 class="section-title">Theme Selection</h2>
                             <div class="row">
                                 <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.idea_title.id_for_label }}"
-                                        class="form-label required-field">Idea Title</label>
-                                    {{ form.idea_title }}
-                                    {% if form.idea_title.errors %}
-                                    <div class="text-danger small">{{ form.idea_title.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.idea_theme.id_for_label }}"
-                                        class="form-label required-field">Idea Theme/Track</label>
-                                    {{ form.idea_theme }}
-                                    {% if form.idea_theme.errors %}
-                                    <div class="text-danger small">{{ form.idea_theme.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.ppt_file.id_for_label }}" class="form-label required-field">PPT
-                                        File (.ppt, .pptx, .pdf)</label>
-                                    {{ form.ppt_file }}
-                                    <div id="ppt-file-info" class="file-info text-muted small mt-1"
-                                        style="display: none;">
-                                        <i class="fas fa-file-alt"></i> <span id="ppt-file-name"></span>
-                                    </div>
-                                    {% if form.ppt_file.errors %}
-                                    <div class="text-danger small">{{ form.ppt_file.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label for="{{ form.youtube_link.id_for_label }}"
-                                        class="form-label required-field">YouTube Link</label>
-                                    {{ form.youtube_link }}
-                                    {% if form.youtube_link.errors %}
-                                    <div class="text-danger small">{{ form.youtube_link.errors.0 }}</div>
+                                    <label for="{{ form.theme.id_for_label }}"
+                                        class="form-label required-field">Theme/Track</label>
+                                    {{ form.theme }}
+                                    {% if form.theme.errors %}
+                                    <div class="text-danger small">{{ form.theme.errors.0 }}</div>
                                     {% endif %}
                                 </div>
                             </div>
@@ -1495,6 +1505,24 @@
                                         <div class="text-danger small">{{ form.member1_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member1_tshirt_size.id_for_label }}"
+                                            class="form-label required-field">T-Shirt Size</label>
+                                        {{ form.member1_tshirt_size }}
+                                        {% if form.member1_tshirt_size.errors %}
+                                        <div class="text-danger small">{{ form.member1_tshirt_size.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member1_food_preference.id_for_label }}"
+                                            class="form-label required-field">Food Preference</label>
+                                        {{ form.member1_food_preference }}
+                                        {% if form.member1_food_preference.errors %}
+                                        <div class="text-danger small">{{ form.member1_food_preference.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader1 }}
@@ -1589,6 +1617,24 @@
                                         <div class="text-danger small">{{ form.member2_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member2_tshirt_size.id_for_label }}"
+                                            class="form-label required-field">T-Shirt Size</label>
+                                        {{ form.member2_tshirt_size }}
+                                        {% if form.member2_tshirt_size.errors %}
+                                        <div class="text-danger small">{{ form.member2_tshirt_size.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member2_food_preference.id_for_label }}"
+                                            class="form-label required-field">Food Preference</label>
+                                        {{ form.member2_food_preference }}
+                                        {% if form.member2_food_preference.errors %}
+                                        <div class="text-danger small">{{ form.member2_food_preference.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader2 }}
@@ -1683,6 +1729,24 @@
                                         <div class="text-danger small">{{ form.member3_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member3_tshirt_size.id_for_label }}"
+                                            class="form-label required-field">T-Shirt Size</label>
+                                        {{ form.member3_tshirt_size }}
+                                        {% if form.member3_tshirt_size.errors %}
+                                        <div class="text-danger small">{{ form.member3_tshirt_size.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member3_food_preference.id_for_label }}"
+                                            class="form-label required-field">Food Preference</label>
+                                        {{ form.member3_food_preference }}
+                                        {% if form.member3_food_preference.errors %}
+                                        <div class="text-danger small">{{ form.member3_food_preference.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader3 }}
@@ -1777,6 +1841,24 @@
                                         <div class="text-danger small">{{ form.member4_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member4_tshirt_size.id_for_label }}"
+                                            class="form-label required-field">T-Shirt Size</label>
+                                        {{ form.member4_tshirt_size }}
+                                        {% if form.member4_tshirt_size.errors %}
+                                        <div class="text-danger small">{{ form.member4_tshirt_size.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member4_food_preference.id_for_label }}"
+                                            class="form-label required-field">Food Preference</label>
+                                        {{ form.member4_food_preference }}
+                                        {% if form.member4_food_preference.errors %}
+                                        <div class="text-danger small">{{ form.member4_food_preference.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader4 }}
@@ -1865,12 +1947,30 @@
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <label for="{{ form.member5_course_name.id_for_label }}"
-                                            class="form-label required-field">Course Name</label>
+                                            class="form-label">Course Name</label>
                                         {{ form.member5_course_name }}
                                         {% if form.member5_course_name.errors %}
                                         <div class="text-danger small">{{ form.member5_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member5_tshirt_size.id_for_label }}"
+                                            class="form-label">T-Shirt Size</label>
+                                        {{ form.member5_tshirt_size }}
+                                        {% if form.member5_tshirt_size.errors %}
+                                        <div class="text-danger small">{{ form.member5_tshirt_size.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member5_food_preference.id_for_label }}"
+                                            class="form-label">Food Preference</label>
+                                        {{ form.member5_food_preference }}
+                                        {% if form.member5_food_preference.errors %}
+                                        <div class="text-danger small">{{ form.member5_food_preference.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader5 }}
@@ -1959,12 +2059,30 @@
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <label for="{{ form.member6_course_name.id_for_label }}"
-                                            class="form-label required-field">Course Name</label>
+                                            class="form-label">Course Name</label>
                                         {{ form.member6_course_name }}
                                         {% if form.member6_course_name.errors %}
                                         <div class="text-danger small">{{ form.member6_course_name.errors.0 }}</div>
                                         {% endif %}
                                     </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member6_tshirt_size.id_for_label }}"
+                                            class="form-label">T-Shirt Size</label>
+                                        {{ form.member6_tshirt_size }}
+                                        {% if form.member6_tshirt_size.errors %}
+                                        <div class="text-danger small">{{ form.member6_tshirt_size.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-3">
+                                        <label for="{{ form.member6_food_preference.id_for_label }}"
+                                            class="form-label">Food Preference</label>
+                                        {{ form.member6_food_preference }}
+                                        {% if form.member6_food_preference.errors %}
+                                        <div class="text-danger small">{{ form.member6_food_preference.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <div class="form-check">
                                             {{ form.is_leader6 }}
@@ -1985,10 +2103,104 @@
                         </div>
                         {% endif %}
 
-                        <!-- Submit Button -->
-                        <div class="text-center mt-4">
+                        <!-- Calculate Money Button -->
+                        <div class="text-center mt-4 mb-4">
+                            <button type="button" class="btn-submit" id="calculateBtn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                <i class="fas fa-calculator me-2"></i>
+                                <span id="calculateText">Calculate Money</span>
+                            </button>
+                        </div>
+
+                        <!-- Fee Calculation Section (Hidden Initially) -->
+                        <div class="mb-4" id="fee-section" style="display: none;">
+                            <h2 class="section-title">Registration Fee</h2>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="glass-panel p-4">
+                                        <div id="fee-calculation">
+                                            <div class="row mb-3">
+                                                <div class="col-12 col-md-6">
+                                                    <p class="mb-2"><strong>Base Fee per Person:</strong> ₹600</p>
+                                                    <p class="mb-2"><strong>Team Size:</strong> <span id="display-team-size">4</span> members</p>
+                                                    <p class="mb-2"><strong>Total Base Fee:</strong> ₹<span id="total-base-fee">2400</span></p>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div id="discount-info" class="d-none">
+                                                        <p class="mb-2 text-success"><strong>Inter-College Discount (10%):</strong> -₹<span id="discount-amount">0</span></p>
+                                                        <p class="mb-2"><strong>Final Amount to Pay:</strong> ₹<span id="final-amount" class="text-amber-400 fw-bold fs-5">2400</span></p>
+                                                    </div>
+                                                    <div id="no-discount-info">
+                                                        <p class="mb-2 text-muted"><small>Add at least one member from a different college to get 10% discount</small></p>
+                                                        <p class="mb-2"><strong>Final Amount to Pay:</strong> ₹<span id="final-amount-no-discount" class="text-amber-400 fw-bold fs-5">2400</span></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="discount-message" class="alert alert-info d-none">
+                                                <i class="fas fa-info-circle"></i> <strong>Inter-College Discount Applied!</strong> Your team qualifies for a 10% discount because you have members from both NRCM and other colleges.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- QR Code Section (Hidden Initially) -->
+                        <div class="mb-4" id="qr-section" style="display: none;">
+                            <h2 class="section-title">Payment QR Code</h2>
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-3">
+                                    <div class="glass-panel p-4 text-center">
+                                        <p class="mb-3"><strong>Scan this QR code to make payment:</strong></p>
+                                        <div id="qr-code-container" class="mb-3">
+                                            <!-- QR Code will be displayed here -->
+                                            <img src="{% static 'images/payment-qr.png' %}" alt="Payment QR Code" class="img-fluid" style="max-width: 300px; border: 2px solid #fbbf24; border-radius: 10px;" onerror="this.style.display='none'; document.getElementById('qr-placeholder').style.display='block';">
+                                            <div id="qr-placeholder" style="display: none; padding: 40px; background: #1f2937; border: 2px dashed #4b5563; border-radius: 10px;">
+                                                <i class="fas fa-qrcode fa-3x text-gray-500 mb-3"></i>
+                                                <p class="text-muted">QR Code image not found. Please contact organizers for payment details.</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-muted small">Amount to Pay: ₹<span id="qr-amount">2400</span></p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <div class="glass-panel p-4">
+                                        <h5 class="text-white mb-3">Payment Instructions:</h5>
+                                        <ol class="text-white" style="color: #e2e8f0 !important;">
+                                            <li>Calculate your registration fee above</li>
+                                            <li>Scan the QR code with your payment app</li>
+                                            <li>Pay the exact amount shown</li>
+                                            <li>Take a screenshot of the payment confirmation</li>
+                                            <li>Upload the screenshot below</li>
+                                            <li>Complete your registration</li>
+                                        </ol>
+                                        <div class="alert alert-warning mt-3">
+                                            <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Make sure to pay the exact amount calculated above. Incorrect payments may delay your registration.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Screenshot Section (Hidden Initially) -->
+                        <div class="mb-4" id="payment-screenshot-section" style="display: none;">
+                            <h2 class="section-title">Payment Screenshot</h2>
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <label for="{{ form.payment_screenshot.id_for_label }}"
+                                        class="form-label required-field">Payment Screenshot (.jpg, .jpeg, .png, .pdf)</label>
+                                    {{ form.payment_screenshot }}
+                                    {% if form.payment_screenshot.errors %}
+                                    <div class="text-danger small">{{ form.payment_screenshot.errors.0 }}</div>
+                                    {% endif %}
+                                    <small class="text-muted">Please upload a screenshot of your payment confirmation for the amount shown above.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button (Hidden Initially) -->
+                        <div class="text-center mt-4" id="submit-button-container" style="display: none;">
                             <button type="submit" class="btn-submit" id="submitBtn">
-                                <span id="submitText">SUBMIT IDEA</span>
+                                <span id="submitText">Register Team</span>
                                 <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2 d-none"
                                     role="status"></span>
                             </button>
@@ -2006,192 +2218,229 @@
         // Mobile-first JavaScript
         let isSubmitting = false; // Global variable for form submission state
 
+        // Fee calculation function (moved outside DOMContentLoaded for global access)
+        function calculateFee() {
+                const baseFeePerPerson = 600;
+                const discountPercentage = 0.10;
+                
+                // Get team size
+                const teamSizeSelect = document.querySelector('[name="team_size"]');
+                const teamSize = teamSizeSelect ? parseInt(teamSizeSelect.value) || 4 : 4;
+                
+                // Collect all college codes
+                const collegeCodes = new Set();
+                for (let i = 1; i <= teamSize; i++) {
+                    const collegeCodeInput = document.querySelector(`[name="member${i}_college_code"]`);
+                    if (collegeCodeInput && collegeCodeInput.value) {
+                        const code = collegeCodeInput.value.trim().toUpperCase();
+                        if (code) {
+                            collegeCodes.add(code);
+                        }
+                    }
+                }
+                
+                // Check discount eligibility
+                const hasNRCM = collegeCodes.has('NRCM');
+                const hasNonNRCM = Array.from(collegeCodes).some(code => code !== 'NRCM');
+                const discountEligible = hasNRCM && hasNonNRCM && collegeCodes.size > 1;
+                
+                // Calculate fees
+                const totalBaseFee = baseFeePerPerson * teamSize;
+                const discountAmount = discountEligible ? totalBaseFee * discountPercentage : 0;
+                const finalAmount = totalBaseFee - discountAmount;
+                
+                // Update display
+                const displayTeamSize = document.getElementById('display-team-size');
+                const totalBaseFeeEl = document.getElementById('total-base-fee');
+                const discountAmountEl = document.getElementById('discount-amount');
+                const finalAmountEl = document.getElementById('final-amount');
+                const finalAmountNoDiscountEl = document.getElementById('final-amount-no-discount');
+                const discountInfo = document.getElementById('discount-info');
+                const noDiscountInfo = document.getElementById('no-discount-info');
+                const discountMessage = document.getElementById('discount-message');
+                const qrAmount = document.getElementById('qr-amount');
+                
+                if (displayTeamSize) displayTeamSize.textContent = teamSize;
+                if (totalBaseFeeEl) totalBaseFeeEl.textContent = totalBaseFee;
+                if (discountAmountEl) discountAmountEl.textContent = discountAmount;
+                if (finalAmountEl) finalAmountEl.textContent = finalAmount;
+                if (finalAmountNoDiscountEl) finalAmountNoDiscountEl.textContent = finalAmount;
+                if (qrAmount) qrAmount.textContent = finalAmount;
+                
+                // Show/hide discount info
+                if (discountEligible) {
+                    if (discountInfo) discountInfo.classList.remove('d-none');
+                    if (noDiscountInfo) noDiscountInfo.classList.add('d-none');
+                    if (discountMessage) discountMessage.classList.remove('d-none');
+                } else {
+                    if (discountInfo) discountInfo.classList.add('d-none');
+                    if (noDiscountInfo) noDiscountInfo.classList.remove('d-none');
+                    if (discountMessage) discountMessage.classList.add('d-none');
+                }
+            }
+
         document.addEventListener('DOMContentLoaded', function () {
             // Team size change handler
             const teamSizeSelect = document.querySelector('[name="team_size"]');
             if (teamSizeSelect) {
-                teamSizeSelect.addEventListener('change', updateMemberVisibility);
+                teamSizeSelect.addEventListener('change', function() {
+                    updateMemberVisibility();
+                    // Reset calculate button and hide sections if fee section is visible
+                    const feeSection = document.getElementById('fee-section');
+                    if (feeSection && feeSection.style.display === 'block') {
+                        const calculateBtn = document.getElementById('calculateBtn');
+                        const calculateText = document.getElementById('calculateText');
+                        const submitButtonContainer = document.getElementById('submit-button-container');
+                        
+                        if (calculateBtn) {
+                            calculateBtn.disabled = false;
+                            calculateBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                        }
+                        if (calculateText) {
+                            calculateText.innerHTML = '<i class="fas fa-calculator me-2"></i>Calculate Money';
+                        }
+                        if (submitButtonContainer) {
+                            submitButtonContainer.style.display = 'none';
+                        }
+                        feeSection.style.display = 'none';
+                        const qrSection = document.getElementById('qr-section');
+                        if (qrSection) qrSection.style.display = 'none';
+                        const paymentScreenshotSection = document.getElementById('payment-screenshot-section');
+                        if (paymentScreenshotSection) paymentScreenshotSection.style.display = 'none';
+                    }
+                });
                 updateMemberVisibility(); // Initialize
             }
 
             // Leader checkbox handler
             setupLeaderCheckboxes();
-
-            // File input selection feedback with multiple preservation methods
-            const pptFileInput = document.querySelector('input[name="ppt_file"]');
-            if (pptFileInput) {
-                // Store the current file selection globally to preserve it
-                let currentFile = null;
-                let fileDataUrl = null;
-
-                pptFileInput.addEventListener('change', function () {
-                    const fileInfo = document.getElementById('ppt-file-info');
-                    const fileName = document.getElementById('ppt-file-name');
-
-                    if (this.files.length > 0) {
-                        const file = this.files[0];
-                        currentFile = file; // Store for preservation
-
-                        const fileSize = (file.size / 1024 / 1024).toFixed(2); // Size in MB
-                        fileName.textContent = `${file.name} (${fileSize} MB)`;
-                        fileInfo.style.display = 'block';
-
-                        // Add visual indicator that file is selected
-                        this.classList.add('has-file');
-
-                        // Update label to show file selected
-                        const label = document.querySelector(`label[for="${this.id}"]`);
-                        if (label) {
-                            label.innerHTML = 'PPT File (.ppt, .pptx, .pdf) <span style="color: #10b981;">✓ Selected</span>';
+            
+            // Remove automatic fee calculation on college code changes
+            // Fee will only be calculated when "Calculate Money" button is clicked
+            
+            // Calculate Money button handler
+            const calculateBtn = document.getElementById('calculateBtn');
+            const feeSection = document.getElementById('fee-section');
+            const qrSection = document.getElementById('qr-section');
+            const paymentScreenshotSection = document.getElementById('payment-screenshot-section');
+            
+            if (calculateBtn) {
+                calculateBtn.addEventListener('click', function() {
+                    // Validate that required fields are filled
+                    const teamSizeSelect = document.querySelector('[name="team_size"]');
+                    const teamSize = teamSizeSelect ? parseInt(teamSizeSelect.value) || 4 : 4;
+                    
+                    let isValid = true;
+                    let errorMessage = '';
+                    
+                    // Check team name
+                    const teamName = document.querySelector('[name="team_name"]');
+                    if (!teamName || !teamName.value.trim()) {
+                        isValid = false;
+                        errorMessage = 'Please enter your team name.';
+                    }
+                    
+                    // Check theme
+                    const theme = document.querySelector('[name="theme"]');
+                    if (!theme || !theme.value) {
+                        isValid = false;
+                        errorMessage = 'Please select a theme.';
+                    }
+                    
+                    // Check required members (1-4)
+                    for (let i = 1; i <= Math.min(teamSize, 4); i++) {
+                        const name = document.querySelector(`[name="member${i}_name"]`);
+                        const email = document.querySelector(`[name="member${i}_email"]`);
+                        const phone = document.querySelector(`[name="member${i}_phone"]`);
+                        const roll = document.querySelector(`[name="member${i}_roll"]`);
+                        const collegeCode = document.querySelector(`[name="member${i}_college_code"]`);
+                        
+                        if (!name || !name.value.trim()) {
+                            isValid = false;
+                            errorMessage = `Please fill in all details for Member ${i}.`;
+                            break;
                         }
-
-                        // Validate file size (max 10MB)
-                        if (file.size > 10 * 1024 * 1024) {
-                            alert('File size must be less than 10MB');
-                            this.value = ''; // Clear the file
-                            fileInfo.style.display = 'none';
-                            this.classList.remove('has-file');
-
-                            // Reset label
-                            const label = document.querySelector(`label[for="${this.id}"]`);
-                            if (label) {
-                                label.innerHTML = 'PPT File (.ppt, .pptx, .pdf)';
+                        if (!email || !email.value.trim()) {
+                            isValid = false;
+                            errorMessage = `Please fill in all details for Member ${i}.`;
+                            break;
+                        }
+                        if (!phone || !phone.value.trim()) {
+                            isValid = false;
+                            errorMessage = `Please fill in all details for Member ${i}.`;
+                            break;
+                        }
+                        if (!roll || !roll.value.trim()) {
+                            isValid = false;
+                            errorMessage = `Please fill in all details for Member ${i}.`;
+                            break;
+                        }
+                        if (!collegeCode || !collegeCode.value.trim()) {
+                            isValid = false;
+                            errorMessage = `Please enter college code for Member ${i}.`;
+                            break;
+                        }
+                    }
+                    
+                    // Check optional members if team size > 4
+                    if (teamSize > 4) {
+                        for (let i = 5; i <= teamSize; i++) {
+                            const name = document.querySelector(`[name="member${i}_name"]`);
+                            const email = document.querySelector(`[name="member${i}_email"]`);
+                            const phone = document.querySelector(`[name="member${i}_phone"]`);
+                            const roll = document.querySelector(`[name="member${i}_roll"]`);
+                            const collegeCode = document.querySelector(`[name="member${i}_college_code"]`);
+                            
+                            // If any field is filled, all must be filled
+                            if (name && name.value.trim()) {
+                                if (!email || !email.value.trim() || !phone || !phone.value.trim() || 
+                                    !roll || !roll.value.trim() || !collegeCode || !collegeCode.value.trim()) {
+                                    isValid = false;
+                                    errorMessage = `Please fill in all details for Member ${i} or leave all fields empty.`;
+                                    break;
+                                }
                             }
-
-                            currentFile = null;
-                            fileDataUrl = null;
-                            return;
                         }
-
-                        // Validate file type
-                        const fileExtension = file.name.split('.').pop().toLowerCase();
-                        const allowedExtensions = ['pdf', 'ppt', 'pptx'];
-
-                        if (!allowedExtensions.includes(fileExtension)) {
-                            alert('Only .ppt, .pptx, and .pdf files are allowed');
-                            this.value = ''; // Clear the file
-                            fileInfo.style.display = 'none';
-                            this.classList.remove('has-file');
-
-                            // Reset label
-                            const label = document.querySelector(`label[for="${this.id}"]`);
-                            if (label) {
-                                label.innerHTML = 'PPT File (.ppt, .pptx, .pdf)';
-                            }
-
-                            currentFile = null;
-                            fileDataUrl = null;
-                            return;
-                        }
-
-                        // Store file data in localStorage as backup
-                        localStorage.setItem('pptFileName', file.name);
-                        localStorage.setItem('pptFileSize', file.size);
-
-                        // Create data URL as backup
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            fileDataUrl = e.target.result;
-                            localStorage.setItem('pptFileData', fileDataUrl);
-                        };
-                        reader.readAsDataURL(file);
-
-                        console.log('File selected and validated:', file.name);
-                    } else {
-                        fileInfo.style.display = 'none';
-                        this.classList.remove('has-file');
-
-                        // Reset label
-                        const label = document.querySelector(`label[for="${this.id}"]`);
-                        if (label) {
-                            label.innerHTML = 'PPT File (.ppt, .pptx, .pdf)';
-                        }
-
-                        currentFile = null;
-                        fileDataUrl = null;
-                        localStorage.removeItem('pptFileName');
-                        localStorage.removeItem('pptFileSize');
-                        localStorage.removeItem('pptFileData');
+                    }
+                    
+                    if (!isValid) {
+                        alert(errorMessage);
+                        return;
+                    }
+                    
+                    // Calculate fee
+                    calculateFee();
+                    
+                    // Show fee, QR, and payment screenshot sections
+                    if (feeSection) {
+                        feeSection.style.display = 'block';
+                        feeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                    if (qrSection) {
+                        qrSection.style.display = 'block';
+                    }
+                    if (paymentScreenshotSection) {
+                        paymentScreenshotSection.style.display = 'block';
+                    }
+                    
+                    // Show submit button
+                    const submitButtonContainer = document.getElementById('submit-button-container');
+                    if (submitButtonContainer) {
+                        submitButtonContainer.style.display = 'block';
+                    }
+                    
+                    // Update button text to "Recalculate"
+                    const calculateText = document.getElementById('calculateText');
+                    if (calculateText) {
+                        calculateText.innerHTML = '<i class="fas fa-redo me-2"></i>Recalculate';
+                    }
+                    if (calculateBtn) {
+                        calculateBtn.style.background = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
+                        calculateBtn.disabled = false; // Keep it enabled for recalculation
                     }
                 });
-
-                // Add a method to restore the file if needed
-                pptFileInput.restoreFile = function () {
-                    console.log('Attempting to restore file...');
-
-                    // Try multiple restoration methods
-                    if (currentFile && !this.files.length) {
-                        console.log('Restoring from currentFile variable');
-                        const dataTransfer = new DataTransfer();
-                        dataTransfer.items.add(currentFile);
-                        this.files = dataTransfer.files;
-
-                        // Add visual indicator
-                        this.classList.add('has-file');
-
-                        // Update label to show file selected
-                        const label = document.querySelector(`label[for="${this.id}"]`);
-                        if (label) {
-                            label.innerHTML = 'PPT File (.ppt, .pptx, .pdf) <span style="color: #10b981;">✓ Selected</span>';
-                        }
-
-                        // Update display
-                        const fileInfo = document.getElementById('ppt-file-info');
-                        const fileName = document.getElementById('ppt-file-name');
-                        if (fileInfo && fileName) {
-                            const fileSize = (currentFile.size / 1024 / 1024).toFixed(2);
-                            fileName.textContent = `${currentFile.name} (${fileSize} MB)`;
-                            fileInfo.style.display = 'block';
-                        }
-                        return true;
-                    }
-
-                    // Try to restore from localStorage
-                    const storedFileName = localStorage.getItem('pptFileName');
-                    const storedFileSize = localStorage.getItem('pptFileSize');
-                    const storedFileData = localStorage.getItem('pptFileData');
-
-                    if (storedFileName && storedFileData && !this.files.length) {
-                        console.log('Restoring from localStorage');
-                        try {
-                            // Convert data URL back to file
-                            const byteString = atob(storedFileData.split(',')[1]);
-                            const mimeString = storedFileData.split(',')[0].split(':')[1].split(';')[0];
-                            const ab = new ArrayBuffer(byteString.length);
-                            const ia = new Uint8Array(ab);
-                            for (let i = 0; i < byteString.length; i++) {
-                                ia[i] = byteString.charCodeAt(i);
-                            }
-                            const blob = new Blob([ab], { type: mimeString });
-                            const file = new File([blob], storedFileName, { type: mimeString });
-
-                            const dataTransfer = new DataTransfer();
-                            dataTransfer.items.add(file);
-                            this.files = dataTransfer.files;
-
-                            // Add visual indicator
-                            this.classList.add('has-file');
-
-                            // Update display
-                            const fileInfo = document.getElementById('ppt-file-info');
-                            const fileName = document.getElementById('ppt-file-name');
-                            if (fileInfo && fileName) {
-                                const fileSize = (file.size / 1024 / 1024).toFixed(2);
-                                fileName.textContent = `${file.name} (${fileSize} MB)`;
-                                fileInfo.style.display = 'block';
-                            }
-
-                            console.log('File restored from localStorage');
-                            return true;
-                        } catch (error) {
-                            console.warn('Could not restore from localStorage:', error);
-                        }
-                    }
-
-                    console.log('No file to restore');
-                    return false;
-                };
             }
+
 
             // Prevent double-tap zoom on mobile
             let lastTouchEnd = 0;
@@ -2311,14 +2560,6 @@
             // Phone number input handlers
             setupPhoneNumberHandlers();
 
-            // Auto-restore files on page load (for browser refresh scenarios)
-            setTimeout(() => {
-                const pptFileInput = document.querySelector('input[name="ppt_file"]');
-                if (pptFileInput && pptFileInput.restoreFile) {
-                    console.log('Attempting auto-restore of files on page load...');
-                    pptFileInput.restoreFile();
-                }
-            }, 100); // Small delay to ensure DOM is fully ready
         });
 
         // Function definitions (moved outside DOMContentLoaded)
@@ -2584,27 +2825,6 @@
                             });
                             input.files = dataTransfer.files;
 
-                            // Add visual indicator for fallback method
-                            if (inputName === 'ppt_file') {
-                                input.classList.add('has-file');
-
-                                // Update label to show file selected
-                                const label = document.querySelector(`label[for="${input.id}"]`);
-                                if (label) {
-                                    label.innerHTML = 'PPT File (.ppt, .pptx, .pdf) <span style="color: #10b981;">✓ Selected</span>';
-                                }
-                            }
-                        }
-
-                        // Update file info display
-                        if (inputName === 'ppt_file' && files[0]) {
-                            const fileInfo = document.getElementById('ppt-file-info');
-                            const fileName = document.getElementById('ppt-file-name');
-                            if (fileInfo && fileName) {
-                                const fileSize = (files[0].size / 1024 / 1024).toFixed(2);
-                                fileName.textContent = `${files[0].name} (${fileSize} MB)`;
-                                fileInfo.style.display = 'block';
-                            }
                         }
                     } catch (error) {
                         console.warn('Could not restore file selection:', error);
@@ -2619,28 +2839,12 @@
                 const input = document.querySelector(`input[name="${inputName}"]`);
                 if (input && files.length > 0) {
                     try {
-                        // Use the restoreFile method if available (for ppt_file)
-                        if (input.restoreFile) {
-                            input.restoreFile();
-                        } else {
-                            // Fallback for other file inputs
-                            const dataTransfer = new DataTransfer();
-                            files.forEach(file => {
-                                dataTransfer.items.add(file);
-                            });
-                            input.files = dataTransfer.files;
-                        }
-
-                        // Update file info display if it exists
-                        if (inputName === 'ppt_file' && files[0]) {
-                            const fileInfo = document.getElementById('ppt-file-info');
-                            const fileName = document.getElementById('ppt-file-name');
-                            if (fileInfo && fileName) {
-                                const fileSize = (files[0].size / 1024 / 1024).toFixed(2);
-                                fileName.textContent = `${files[0].name} (${fileSize} MB)`;
-                                fileInfo.style.display = 'block';
-                            }
-                        }
+                        // Fallback for file inputs
+                        const dataTransfer = new DataTransfer();
+                        files.forEach(file => {
+                            dataTransfer.items.add(file);
+                        });
+                        input.files = dataTransfer.files;
                     } catch (error) {
                         console.warn('Could not restore file selection:', error);
                     }

@@ -58,189 +58,18 @@
             color: #e2e8f0;
             overflow-x: hidden;
         }
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #020617;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #f59e0b, #8b5cf6);
-            border-radius: 4px;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #f59e0b, #8b5cf6); border-radius: 4px; }
         
         /* Mobile Optimizations */
         @media (max-width: 768px) {
-            .animate-blob {
-                animation: none !important;
-            }
-            
-            /* Disable heavy animations on mobile */
-            .animation-delay-2000 {
-                animation: none !important;
-            }
-            .animation-delay-4000 {
-                animation: none !important;
-            }
-            
-            /* Reduce motion for mobile devices */
-            @media (prefers-reduced-motion: reduce) {
-                * {
-                    animation-duration: 0.01ms !important;
-                    animation-iteration-count: 1 !important;
-                    transition-duration: 0.01ms !important;
-                }
-            }
+            .animate-blob { animation: none !important; }
+            .animation-delay-2000 { animation: none !important; }
+            .glass-card:hover { transform: none; box-shadow: none; }
+            html, body { overflow-x: hidden; width: 100%; }
         }
-        
-        /* Prevent horizontal overflow on mobile */
-        html, body {
-            overflow-x: hidden;
-            width: 100%;
-        }
-        
-        /* Ensure all containers respect viewport width */
-        .container {
-            max-width: 100%;
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-        
-        /* Mobile-specific fixes for hero section */
-        @media (max-width: 640px) {
-            .hero-bg {
-                overflow-x: hidden;
-            }
-            
-            /* Scale down large text on mobile */
-            .text-8xl, .text-9xl {
-                font-size: 3rem;
-                line-height: 1;
-            }
-            
-            /* Ensure buttons don't overflow */
-            .btn-neon {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            
-            /* Prevent text overflow */
-            .font-orbitron {
-                word-break: break-word;
-            }
-            
-            /* Scale down hero title specifically */
-            .text-4xl {
-                font-size: 2.25rem;
-            }
-            .text-5xl {
-                font-size: 2.5rem;
-            }
-        }
-        
-        /* Fix for mobile menu width */
-        @media (max-width: 320px) {
-            #mobile-menu {
-                width: 100% !important;
-            }
-        }
-        
-        /* Additional mobile fixes for button fluttering */
-        @media (max-width: 768px) {
-            /* Disable hover effects on mobile */
-            .btn-neon:hover::before {
-                display: none;
-            }
-            
-            .btn-neon:hover {
-                box-shadow: none;
-                text-shadow: none;
-            }
-            
-            /* Disable transform animations on mobile */
-            .glass-card:hover {
-                transform: none;
-                box-shadow: none;
-            }
-            
-            /* Disable glitch effect on mobile */
-            .glitch-hover:hover {
-                animation: none;
-            }
-            
-            /* Ensure smooth scrolling and prevent jitter */
-            html {
-                scroll-behavior: smooth;
-            }
-            
-            /* Prevent tap highlight that might cause flicker */
-            .btn-neon, .btn-submit {
-                -webkit-tap-highlight-color: transparent;
-                touch-action: manipulation;
-            }
-        }
-            /* Fix timeline positioning */
-            .absolute.left-0.md:left-1\/2 {
-                left: 1rem !important;
-            }
-            
-            /* Ensure text wraps properly */
-            .font-orbitron, .text-2xl, .text-3xl {
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-            }
-            
-            /* Scale down large icons in timeline */
-            .text-2xl {
-                font-size: 1.25rem;
-            }
-            
-            /* Fix glass panels from overflowing */
-            .glass-panel, .glass-card {
-                max-width: 100%;
-                box-sizing: border-box;
-            }
-            
-            /* Ensure buttons don't cause overflow */
-            .btn-neon {
-                min-width: 0;
-                white-space: normal;
-            }
-            
-            /* Fix footer social icons spacing */
-            .flex.space-x-6 {
-                gap: 1rem;
-            }
-            
-            /* Ensure all sections have proper padding */
-            section {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            
-            /* Fix any remaining absolute positioned elements */
-            .absolute:not(.hero-bg .absolute) {
-                max-width: 90%;
-            }
-        }
-            .animation-delay-2000 {
-                animation: none !important;
-            }
-            .animation-delay-4000 {
-                animation: none !important;
-            }
-        
-        /* Prevent text overflow */
-        .break-words {
-            word-break: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        /* Ensure images are responsive */
-        img {
-            max-width: 100%;
-            height: auto;
-        }
+
         .glass-panel {
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(12px);
@@ -275,6 +104,7 @@
         .hero-bg {
             position: relative;
             background: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
+            padding-top: 100px;
         }
         .btn-neon {
             position: relative;
@@ -291,351 +121,106 @@
             transition: 0.5s;
             z-index: -1;
         }
-        .btn-neon:hover::before {
-            left: 100%;
-        }
+        .btn-neon:hover::before { left: 100%; }
         .btn-neon:hover {
             box-shadow: 0 0 15px var(--tw-shadow-color);
             text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
-        @media (hover: none) and (pointer: coarse) {
-            .btn-neon::before {
-                display: none;
-            }
-            .btn-neon:hover {
-                box-shadow: none;
-                text-shadow: none;
-            }
-            .glass-card:hover {
-                transform: none;
-                box-shadow: none;
-            }
-            .glitch-hover:hover {
-                animation: none;
-            }
-        }
-        .glitch-hover:hover {
-            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-            color: #f59e0b;
-        }
-        @keyframes glitch {
-            0% { transform: translate(0) }
-            20% { transform: translate(-2px, 2px) }
-            40% { transform: translate(-2px, -2px) }
-            60% { transform: translate(2px, 2px) }
-            80% { transform: translate(2px, -2px) }
-            100% { transform: translate(0) }
-        }
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-        .clip-path-slant {
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-        }
+        #particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; }
+        .clip-path-slant { clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); }
         .cyber-grid {
             background-image: linear-gradient(rgba(245, 158, 11, 0.05) 1px, transparent 1px),
             linear-gradient(90deg, rgba(245, 158, 11, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
         }
         
-        /* Ensure body padding for fixed navbar */
-        body {
-            padding-top: 0;
-            scroll-behavior: smooth;
-        }
-        
-        /* Enhanced navbar positioning */
-        #navbar {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            z-index: 9999 !important;
-        }
-        
-        /* Mobile-specific navbar consistency */
-        @media (max-width: 767px) {
-            #navbar {
-                padding-top: 0.75rem !important; /* py-3 */
-                padding-bottom: 0.75rem !important; /* py-3 */
-            }
-            
-            #navbar > div {
-                padding-top: 0.5rem !important;
-                padding-bottom: 0.5rem !important;
-            }
-        }
-        
-        /* Add padding to hero section to account for fixed navbar */
-        .hero-bg {
-            padding-top: 100px;
-        }
-
         /* Chatbot Styling */
-        /* Ensure chat window stays in place */
-        #chatbot-window {
-            transform: translateZ(0);
-            will-change: transform;
-        }
-        
-        /* Enhanced desktop header shine effect */
-        #chatbot-window .bg-gradient-to-r.from-blue-600.via-purple-600.to-blue-600::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: headerShine 3s ease-in-out infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes headerShine {
-            0% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        /* Mobile-specific fixes */
+        #chatbot-window { transform: translateZ(0); will-change: transform; }
         @media (max-width: 768px) {
             #chatbot-window {
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
-                right: 0 !important;
-                bottom: 0 !important;
-                width: 100vw !important;
-                height: 100vh !important;
-                max-height: 100vh !important;
-                border-radius: 0 !important;
-                margin: 0 !important;
-                z-index: 9999 !important;
+                position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+                width: 100vw !important; height: 100vh !important; border-radius: 0 !important; z-index: 9999 !important;
             }
-            
-            #chatbot-messages {
-                max-height: calc(100vh - 200px) !important;
-                min-height: 200px !important;
-            }
-            
-            #chatbot-window .bg-gradient-to-r.from-blue-600.via-purple-600.to-blue-600 {
-                position: sticky !important;
-                top: 0 !important;
-                z-index: 10 !important;
-                border-radius: 0 !important;
-            }
+            #chatbot-messages { max-height: calc(100vh - 200px) !important; }
         }
-        
-        /* Desktop styles */
         @media (min-width: 769px) {
             #chatbot-window {
-                position: fixed !important;
-                bottom: 100px !important;
-                right: 32px !important;
-                width: 420px !important;
-                max-height: 650px !important;
-                height: auto !important;
-                border-radius: 16px !important;
-                backdrop-filter: blur(16px) !important;
-                background: rgba(17, 24, 39, 0.98) !important;
-                border: 2px solid rgba(59, 130, 246, 0.5) !important;
-                box-shadow: 
-                    0 25px 50px -12px rgba(0, 0, 0, 0.6), 
-                    0 0 40px rgba(59, 130, 246, 0.5),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-                margin: 0 !important;
-                top: auto !important;
-                left: auto !important;
-                transform-origin: bottom right !important;
-                transform: none !important;
+                position: fixed !important; bottom: 100px !important; right: 32px !important; width: 420px !important;
+                max-height: 650px !important; border-radius: 16px !important; backdrop-filter: blur(16px) !important;
+                background: rgba(17, 24, 39, 0.98) !important; border: 2px solid rgba(59, 130, 246, 0.5) !important;
             }
-            
-            #chatbot-messages {
-                max-height: 350px !important;
-                min-height: 200px !important;
-            }
-            
-            /* Enhanced desktop header */
-            #chatbot-window .bg-gradient-to-r.from-blue-600.via-purple-600.to-blue-600 {
-                padding: 1.25rem !important;
-                border-radius: 16px 16px 0 0 !important;
-            }
-            
-            /* Better desktop spacing */
-            #chatbot-window > div {
-                border-radius: 0 !important;
-            }
-            
-            #chatbot-window > div:first-child {
-                border-radius: 16px 16px 0 0 !important;
-                position: sticky !important;
-                top: 0 !important;
-                z-index: 20 !important;
-            }
-            
-            #chatbot-window > div:last-child {
-                border-radius: 0 0 16px 16px !important;
-            }
-            
-            #chatbot-toggle {
-                padding: 1.25rem !important;
-                font-size: 1.25rem !important;
-                width: 64px !important;
-                height: 64px !important;
-                bottom: 32px !important;
-                right: 32px !important;
-                border-radius: 50% !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
+            #chatbot-messages { max-height: 350px !important; }
         }
-        
-        /* Particle animation for toggle button */
-        @keyframes particleFloat {
-            0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
-        
-        #chatbot-toggle::before {
-            content: '';
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: particleFloat 3s infinite;
-            animation-delay: 0s;
-        }
-        
-        #chatbot-toggle::after {
-            content: '';
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: rgba(59, 130, 246, 0.8);
-            border-radius: 50%;
-            animation: particleFloat 4s infinite;
-            animation-delay: 1s;
-        }
-        
-        /* Glow effect for toggle button */
-        @keyframes glowRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        #chatbot-toggle {
-            position: relative;
-        }
-        
-        #chatbot-toggle > div:first-child {
-            position: absolute;
-            inset: -4px;
-            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #3b82f6);
-            border-radius: 50%;
-            animation: glowRotate 3s linear infinite;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        #chatbot-toggle:hover > div:first-child {
-            opacity: 0.7;
-        }
-        
-        /* Question button enhancements */
-        .question-btn {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .question-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .question-btn:hover::before {
-            left: 100%;
-        }
-        
-        /* Message shimmer effect */
         @keyframes messageShimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
-        
         .message-animate {
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             background-size: 200% 100%;
             animation: messageShimmer 2s ease-in-out;
         }
+
+        /* Nav Highlight */
+        .nav-link.active {
+            color: #fbbf24; /* Amber-400 */
+            font-weight: 700;
+        }
+        .nav-link.active::after {
+            width: 100%;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-amber-500 selection:text-black">
     <div id="particles-js" class="fixed inset-0 pointer-events-none z-0"></div>
+    
     <nav class="fixed w-full z-50 top-0 left-0 transition-all duration-300 border-b border-white/5 bg-darker/80 backdrop-blur-md md:py-4" id="navbar">
         <div class="container mx-auto px-4 py-3 md:py-0 flex justify-between items-center">
             <a href="#" class="flex items-center gap-2 group">
-                <img src="{% static 'images/logo.jpg' %}" alt="CodeStorm Logo" class="w-10 h-10 rounded-lg object-cover transform group-hover:scale-110 transition duration-300">
+                <img src="{% static 'website/images/logo.jpg' %}" alt="CodeStorm Logo" class="w-10 h-10 rounded-lg object-cover transform group-hover:scale-110 transition duration-300">
                 <div class="flex flex-col py-0">
                     <span class="text-xl font-bold font-orbitron text-white tracking-wider group-hover:text-amber-400 transition whitespace-nowrap">CODESTORM</span>
                     <span class="text-xs text-amber-500 font-rajdhani tracking-[0.2em]">2K26 EDITION</span>
                 </div>
             </a>
             <div class="hidden lg:flex items-center space-x-8">
-                <a href="#about" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
-                    About
+                <a href="#about" class="nav-link text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">About
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
                 </a>
-                <a href="#tracks" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
-                    Tracks
+                <a href="#tracks" class="nav-link text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">Tracks
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
                 </a>
-                <a href="#steps" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
-                    Idea Submission Guide
+                <a href="#steps" class="nav-link text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">Registration Guide
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
                 </a>
-                <a href="#timeline" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
-                    Timeline
+                <a href="#timeline" class="nav-link text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">Timeline
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
                 </a>
-                <a href="#event-schedule" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
-                    Event Schedule
+                <a href="#event-schedule" class="nav-link text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">Schedule
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
                 </a>
-                <a href="#facilities" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
-                    Facilities
+                <a href="#facilities" class="nav-link text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">Facilities
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
                 </a>
-                <a href="#team" class="text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">
-                    Team
+                <a href="#team" class="nav-link text-gray-300 hover:text-amber-400 font-medium tracking-wide transition relative group">Team
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
-            </a>
+                </a>
+            </div>
             <a href="{% url 'register' %}" class="hidden md:inline-flex items-center justify-center px-6 py-2 border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-black font-bold rounded-sm transition-all duration-300 btn-neon shadow-amber-400/70 group font-orbitron text-sm animate-pulse">
-                <span>SUBMIT YOUR IDEA</span>
+                <span>REGISTER TEAM</span>
                 <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition"></i>
             </a>
+            <button class="md:hidden text-white focus:outline-none" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
         </div>
-        <button class="md:hidden text-white focus:outline-none absolute right-4 top-1/2 -translate-y-1/2" onclick="toggleMobileMenu()">
-            <i class="fas fa-bars text-2xl"></i>
-        </button>
     </nav>
-    <section class="min-h-screen flex items-start md:items-center justify-center hero-bg relative overflow-hidden pt-20">
+
+    <section class="min-h-screen flex items-start md:items-center justify-center hero-bg relative overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-full cyber-grid opacity-20 z-0"></div>
         <div class="absolute top-1/4 left-1/4 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-purple-600/20 rounded-full mix-blend-screen filter blur-3xl animate-blob"></div>
         <div class="absolute top-1/4 right-1/4 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-amber-500/20 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div class="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-[400px] h-[200px] sm:w-[600px] sm:h-[300px] md:w-[800px] md:h-[400px] bg-blue-500/10 rounded-full filter blur-[100px]"></div>
+        
         <div class="container mx-auto px-6 relative z-10 text-center">
             <div class="mb-8 flex justify-center" data-aos="fade-down">
                 <div class="glass-panel px-6 py-2 rounded-full border border-white/10 flex items-center gap-3">
@@ -652,7 +237,7 @@
             <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-400 mb-6 md:mb-10 font-light max-w-3xl mx-auto px-2" data-aos="fade-up" data-aos-delay="300">
                 The Ultimate <span class="text-amber-400 font-bold">36-Hour</span> Hackathon Challenge.
                 <br>
-                <span class="text-white italic text-sm sm:text-base md:text-lg lg:text-xl">"Build the Future. Break the Limits."</span>
+                <span class="text-white italic text-sm sm:text-base md:text-lg lg:text-xl">"No Pre-defined Ideas. On-Spot Open Challenges."</span>
             </p>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-8 md:mb-16" data-aos="fade-up" data-aos-delay="400">
                 <div class="tilt-card glass-panel p-4 md:p-6 rounded-xl border-l-4 border-amber-500">
@@ -666,19 +251,15 @@
             </div>
             <div class="flex flex-col sm:flex-row justify-center gap-3 md:gap-6 px-4" data-aos="fade-up" data-aos-delay="500">
                 <a href="{% url 'register' %}" class="btn-neon bg-amber-500 text-black font-bold py-3 md:py-4 px-6 md:px-10 rounded-sm text-base md:text-lg font-orbitron hover:bg-amber-400 shadow-lg shadow-amber-500/20">
-                    SUBMIT YOUR IDEA
+                    REGISTER TEAM (Ends Jan 22)
                 </a>
                 <a href="#tracks" class="px-6 md:px-10 py-3 md:py-4 rounded-sm border border-white/20 hover:border-amber-500 hover:text-amber-500 text-white font-bold transition duration-300 font-orbitron backdrop-blur-sm">
                     EXPLORE TRACKS
                 </a>
             </div>
         </div>
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <a href="#about" class="text-gray-500 hover:text-white transition">
-                <i class="fas fa-chevron-down text-2xl"></i>
-            </a>
-        </div>
     </section>
+
     <section id="about" class="py-24 bg-darker relative">
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
@@ -686,29 +267,19 @@
                     <div class="relative">
                         <div class="absolute -inset-2 md:-inset-4 bg-gradient-to-r from-amber-500 to-purple-600 rounded-lg opacity-30 blur-lg"></div>
                         <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Hackathon" class="relative rounded-lg shadow-2xl border border-white/10 w-full object-cover h-64 sm:h-80 md:h-96">
-                        <div class="absolute -bottom-6 -right-6 md:-bottom-10 md:-right-10 glass-panel p-4 md:p-6 rounded-lg border border-white/10 hidden md:block animate-float">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-bolt text-black text-xl"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-400">Innovation</p>
-                                    <p class="text-xl font-bold text-white">Unleashed</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2" data-aos="fade-left">
                     <h4 class="text-amber-500 font-bold tracking-widest mb-2 font-orbitron text-sm md:text-base">THE EVENT</h4>
                     <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 font-orbitron">Ignite Your <span class="gradient-text">Coding Potential</span></h2>
                     <p class="text-base md:text-lg text-gray-400 mb-4 md:mb-6 leading-relaxed">
-                        CodeStorm 2026 isn't just a hackathon; it's a crucible for innovation. For 36 relentless hours, you'll collaborate with the brightest minds to solve real-world problems using cutting-edge tech.
+                        CodeStorm 2026 isn't just a hackathon; it's a crucible for innovation. For 36 relentless hours, you'll collaborate with the brightest minds to solve real-world problems.
+                        <strong class="text-white block mt-2">No Idea Submission Required! Direct Registration is Open.</strong>
                     </p>
                     <ul class="space-y-3 md:space-y-4 mb-6 md:mb-8">
                         <li class="flex items-center gap-2 md:gap-3 text-gray-300 text-sm md:text-base">
                             <i class="fas fa-check-circle text-amber-500"></i>
-                            <span>Industry-defined problem statements</span>
+                            <span>On-Spot Open Challenges</span>
                         </li>
                         <li class="flex items-center gap-2 md:gap-3 text-gray-300 text-sm md:text-base">
                             <i class="fas fa-check-circle text-amber-500"></i>
@@ -716,7 +287,7 @@
                         </li>
                         <li class="flex items-center gap-2 md:gap-3 text-gray-300 text-sm md:text-base">
                             <i class="fas fa-check-circle text-amber-500"></i>
-                            <span>Networking with top recruiters</span>
+                            <span>Inter-college teams allowed (10% Discount)</span>
                         </li>
                     </ul>
                 </div>
@@ -729,311 +300,246 @@
         <div class="container mx-auto px-6 relative z-10">
             <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-4xl md:text-5xl font-bold font-orbitron text-white mb-4">10 Hackathon <span class="text-amber-500">Tracks</span></h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Explore the cutting-edge themes for 2026. Choose your arena and build the solution.</p>
+                <p class="text-gray-400 max-w-2xl mx-auto">Specific problem statements within these domains will be released On-Spot.</p>
             </div>
+            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
                 <div class="tilt-card glass-card p-8 rounded-2xl group relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                        <i class="fas fa-brain text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-amber-500"></i>
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition pointer-events-none">
+                        <i class="fas fa-brain text-8xl text-amber-500"></i>
                     </div>
-                    <div class="w-14 h-14 bg-amber-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300 border border-amber-500/50">
-                        <i class="fas fa-brain text-2xl text-amber-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 group-hover:text-amber-400 transition">Generative Al & LLM Applications</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Build next-gen applications leveraging Large Language Models and Generative AI to solve complex tasks and create intelligent systems.
-                    </p>
+                    <div class="w-14 h-14 bg-amber-500/20 rounded-xl flex items-center justify-center mb-6 border border-amber-500/50 relative z-10"><i class="fas fa-brain text-2xl text-amber-500"></i></div>
+                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 relative z-10">Generative Al & LLM Applications</h3>
                 </div>
+
                 <div class="tilt-card glass-card p-8 rounded-2xl group relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                        <i class="fas fa-robot text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-red-500"></i>
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition pointer-events-none">
+                        <i class="fas fa-robot text-8xl text-red-500"></i>
                     </div>
-                    <div class="w-14 h-14 bg-red-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300 border border-red-500/50">
-                        <i class="fas fa-robot text-2xl text-red-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 group-hover:text-red-400 transition">Robotics, Drones & Autonomous Systems</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Design and develop autonomous systems, drone technology, and robotic solutions for surveillance, delivery, and exploration.
-                    </p>
+                    <div class="w-14 h-14 bg-red-500/20 rounded-xl flex items-center justify-center mb-6 border border-red-500/50 relative z-10"><i class="fas fa-robot text-2xl text-red-500"></i></div>
+                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 relative z-10">Robotics & Autonomous Systems</h3>
                 </div>
+
                 <div class="tilt-card glass-card p-8 rounded-2xl group relative overflow-hidden" data-aos="fade-up" data-aos-delay="300">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                        <i class="fas fa-shield-alt text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-purple-500"></i>
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition pointer-events-none">
+                        <i class="fas fa-shield-alt text-8xl text-purple-500"></i>
                     </div>
-                    <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300 border border-purple-500/50">
-                        <i class="fas fa-shield-alt text-2xl text-purple-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 group-hover:text-purple-400 transition">Cybersecurity & Threat Intelligence</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Develop advanced threat intelligence systems, network security solutions, and data protection mechanisms to safeguard digital assets.
-                    </p>
+                    <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mb-6 border border-purple-500/50 relative z-10"><i class="fas fa-shield-alt text-2xl text-purple-500"></i></div>
+                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 relative z-10">Cybersecurity & Threat Intelligence</h3>
                 </div>
+
                 <div class="tilt-card glass-card p-8 rounded-2xl group relative overflow-hidden" data-aos="fade-up" data-aos-delay="400">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                        <i class="fas fa-heartbeat text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-green-500"></i>
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition pointer-events-none">
+                        <i class="fas fa-heartbeat text-8xl text-green-500"></i>
                     </div>
-                    <div class="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300 border border-green-500/50">
-                        <i class="fas fa-heartbeat text-2xl text-green-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 group-hover:text-green-400 transition">HealthTech, MedAl & Diagnostics</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Develop healthcare solutions using AI for medical diagnosis, patient monitoring, and healthcare technology innovation.
-                    </p>
+                    <div class="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/50 relative z-10"><i class="fas fa-heartbeat text-2xl text-green-500"></i></div>
+                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 relative z-10">HealthTech & MedAl</h3>
                 </div>
+
                 <div class="tilt-card glass-card p-8 rounded-2xl group relative overflow-hidden" data-aos="fade-up" data-aos-delay="500">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                        <i class="fas fa-coins text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-cyan-500"></i>
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition pointer-events-none">
+                        <i class="fas fa-coins text-8xl text-cyan-500"></i>
                     </div>
-                    <div class="w-14 h-14 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300 border border-cyan-500/50">
-                        <i class="fas fa-coins text-2xl text-cyan-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 group-hover:text-cyan-400 transition">FinTech, Blockchain & Digital Trust</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Build decentralized finance solutions, blockchain applications, and digital trust systems for secure transactions and financial innovation.
-                    </p>
+                    <div class="w-14 h-14 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-6 border border-cyan-500/50 relative z-10"><i class="fas fa-coins text-2xl text-cyan-500"></i></div>
+                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 relative z-10">FinTech & Blockchain</h3>
                 </div>
+
                 <div class="tilt-card glass-card p-8 rounded-2xl group relative overflow-hidden" data-aos="fade-up" data-aos-delay="600">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                        <i class="fas fa-city text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-blue-500"></i>
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition pointer-events-none">
+                        <i class="fas fa-city text-8xl text-blue-500"></i>
                     </div>
-                    <div class="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300 border border-blue-500/50">
-                        <i class="fas fa-city text-2xl text-blue-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 group-hover:text-blue-400 transition">Smart Cities, IoT & Edge Computing</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Connect the world with Edge Computing and IoT to create smarter, more efficient urban environments and connected infrastructure.
-                    </p>
+                    <div class="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6 border border-blue-500/50 relative z-10"><i class="fas fa-city text-2xl text-blue-500"></i></div>
+                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 relative z-10">Smart Cities & IoT</h3>
                 </div>
+
                 <div class="tilt-card glass-card p-8 rounded-2xl group relative overflow-hidden" data-aos="fade-up" data-aos-delay="700">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                        <i class="fas fa-leaf text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-emerald-500"></i>
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition pointer-events-none">
+                        <i class="fas fa-leaf text-8xl text-emerald-500"></i>
                     </div>
-                    <div class="w-14 h-14 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300 border border-emerald-500/50">
-                        <i class="fas fa-leaf text-2xl text-emerald-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 group-hover:text-emerald-400 transition">Green Tech & Energy Optimization</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Sustainable solutions for energy optimization, waste management, environmental protection, and climate tech innovation.
-                    </p>
+                    <div class="w-14 h-14 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-6 border border-emerald-500/50 relative z-10"><i class="fas fa-leaf text-2xl text-emerald-500"></i></div>
+                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 relative z-10">Green Tech & Energy</h3>
                 </div>
+
                 <div class="tilt-card glass-card p-8 rounded-2xl group relative overflow-hidden" data-aos="fade-up" data-aos-delay="800">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                        <i class="fas fa-seedling text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-green-500"></i>
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition pointer-events-none">
+                        <i class="fas fa-seedling text-8xl text-green-500"></i>
                     </div>
-                    <div class="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300 border border-green-500/50">
-                        <i class="fas fa-seedling text-2xl text-green-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 group-hover:text-green-400 transition">Agritech & Rural Innovation</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Innovative agricultural solutions, rural development technologies, precision farming, supply chain optimization, and farmer empowerment tools.
-                    </p>
+                    <div class="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/50 relative z-10"><i class="fas fa-seedling text-2xl text-green-500"></i></div>
+                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 relative z-10">Agritech & Rural Innovation</h3>
                 </div>
+
                 <div class="tilt-card glass-card p-8 rounded-2xl group relative overflow-hidden" data-aos="fade-up" data-aos-delay="900">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                        <i class="fas fa-graduation-cap text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-orange-500"></i>
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition pointer-events-none">
+                        <i class="fas fa-truck text-8xl text-orange-500"></i>
                     </div>
-                    <div class="w-14 h-14 bg-orange-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300 border border-orange-500/50">
-                        <i class="fas fa-graduation-cap text-2xl text-orange-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 group-hover:text-orange-400 transition">Transportation & Logistics (Al-Driven)</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        AI-powered transportation optimization, smart logistics, route planning, fleet management, and autonomous vehicle technologies.
-                    </p>
+                    <div class="w-14 h-14 bg-orange-500/20 rounded-xl flex items-center justify-center mb-6 border border-orange-500/50 relative z-10"><i class="fas fa-truck text-2xl text-orange-500"></i></div>
+                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 relative z-10">Transportation & Logistics</h3>
                 </div>
+
                 <div class="tilt-card glass-card p-8 rounded-2xl group relative overflow-hidden" data-aos="fade-up" data-aos-delay="1000">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
-                        <i class="fas fa-lightbulb text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-yellow-500"></i>
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition pointer-events-none">
+                        <i class="fas fa-lightbulb text-8xl text-yellow-500"></i>
                     </div>
-                    <div class="w-14 h-14 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300 border border-yellow-500/50">
-                        <i class="fas fa-lightbulb text-2xl text-yellow-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 group-hover:text-yellow-400 transition">Open Innovation Challenge (Wildcard Track)</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Break boundaries with creative solutions. Any innovative idea that doesn't fit traditional categories - your imagination is the limit.
-                    </p>
+                    <div class="w-14 h-14 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-6 border border-yellow-500/50 relative z-10"><i class="fas fa-lightbulb text-2xl text-yellow-500"></i></div>
+                    <h3 class="text-xl font-bold font-orbitron text-white mb-3 relative z-10">Open Innovation (Wildcard)</h3>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Steps to Follow Section -->
+
     <section id="steps" class="py-24 bg-gradient-to-b from-[#050b1d] to-darker relative overflow-hidden">
         <div class="container mx-auto px-6 relative z-10">
-            <h2 class="text-4xl md:text-5xl font-bold font-orbitron text-white mb-16 text-center" data-aos="fade-down">Steps to <span class="text-amber-500">Follow</span></h2>
+            <h2 class="text-4xl md:text-5xl font-bold font-orbitron text-white mb-16 text-center" data-aos="fade-down">Two-Step <span class="text-amber-500">Process</span></h2>
             <div class="max-w-4xl mx-auto">
-                <div class="grid gap-8">
-                    <!-- Step 1 -->
+                <div class="grid md:grid-cols-2 gap-8">
                     <div class="glass-panel p-8 rounded-xl border-l-4 border-amber-500 hover:bg-white/5 transition" data-aos="fade-right">
-                        <div class="flex items-start gap-6">
-                            <div class="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-black font-bold text-xl">1</span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-white mb-2">STEP 1: SUBMIT YOUR IDEA</h3>
-                                <p class="text-gray-400 mb-3">Submit your idea online. Idea Submission closes on 15 JAN 2026. No fee is collected at this stage.</p>
-                                <div class="bg-gray-900/50 p-3 rounded-lg">
-                                    <p class="text-amber-400 text-sm font-medium mb-1">📅 Idea Submission closes on 15 JAN 2026</p>
-                                    <p class="text-gray-400 text-xs mt-1">Ensure you have the following ready:</p>
-                                    <p class="text-gray-400 text-xs mt-1">• Team names and mobile numbers (Team Size: 4–6 members)</p>
-                                    <p class="text-gray-400 text-xs mt-1">
-                                        • A PPT report as per the given template
-                                        (<a href="{% static 'ppt/CodeStorm_2026_PPT_Template.pptx' %}" class="text-amber-400 underline">Download PPT Template</a>)
-                                    </p>
-                                    <p class="text-gray-400 text-xs mt-1">• A 3-minute YouTube video link of your idea</p>
+                        <div class="flex items-start gap-4">
+                            <span class="text-6xl font-bold text-amber-500/20 absolute right-4 top-4">01</span>
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">TEAM REGISTRATION</h3>
+                                <p class="text-gray-400 mb-3 text-sm">Form your team and register directly. No abstract needed!</p>
+                                <div class="bg-gray-900/50 p-3 rounded-lg border border-amber-500/20">
+                                    <p class="text-amber-400 text-sm font-bold mb-1">🔴 Deadline: 22 January 2026</p>
+                                    <p class="text-gray-300 text-xs">• Team Size: 4–6 members</p>
+                                    <p class="text-gray-300 text-xs">• Fee: ₹600 per student</p>
+                                    <p class="text-green-400 text-xs font-bold">• 10% Discount for Inter-college teams</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Step 2 -->
                     <div class="glass-panel p-8 rounded-xl border-l-4 border-purple-500 hover:bg-white/5 transition" data-aos="fade-left">
-                        <div class="flex items-start gap-6">
-                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-black font-bold text-xl">2</span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-white mb-2">STEP 2: EVALUATION AND SHORTLISTING</h3>
-                                <p class="text-gray-400 mb-3">All submitted ideas will be evaluated by our expert panel, and shortlisted teams will be finalized based on innovation and feasibility.</p>
-                                <div class="bg-gray-900/50 p-3 rounded-lg">
-                                    <p class="text-purple-400 text-sm font-medium">📅 Shortlisting results: 20 JAN 2026</p>
-                                    <p class="text-gray-400 text-xs mt-1">Keep checking your registered email inbox (and spam folder) for the acceptance notification.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Step 3 -->
-                    <div class="glass-panel p-8 rounded-xl border-l-4 border-emerald-500 hover:bg-white/5 transition" data-aos="fade-right">
-                        <div class="flex items-start gap-6">
-                            <div class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-black font-bold text-xl">3</span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-white mb-2">STEP 3: REGISTRATION FOR SHORTLISTED TEAMS</h3>
-                                <p class="text-gray-400 mb-3">Shortlisted teams must confirm their participation by completing the registration process and paying the applicable fee.</p>
-                                <div class="bg-gray-900/50 p-3 rounded-lg">
-                                    <p class="text-emerald-400 text-sm font-medium">📅 Complete registration before 31 JAN 2026 (before the hackathon begins)</p>
-                                    <p class="text-gray-400 text-xs mt-1">Registration Fee: ₹600 per student</p>
-                                    <p class="text-gray-400 text-xs mt-1">Fee covers T-shirts and food arrangements (lunch, dinner, tea, and snacks during hackathon days).</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Step 4 -->
-                    <div class="glass-panel p-8 rounded-xl border-l-4 border-red-500 hover:bg-white/5 transition" data-aos="fade-left">
-                        <div class="flex items-start gap-6">
-                            <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span class="text-black font-bold text-xl">4</span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-bold text-white mb-2">STEP 4: HACKATHON IMPLEMENTATION</h3>
-                                <p class="text-gray-400 mb-3">Implement and present your idea during the 36-hour on-campus hackathon. Be ready to showcase your project and compete for top prizes!</p>
-                                <div class="bg-gray-900/50 p-3 rounded-lg">
-                                    <p class="text-red-400 text-sm font-medium">📅 Hackathon: 31 JAN 2026 – 01 FEB 2026</p>
-                                    <p class="text-gray-400 text-xs mt-1">36 hours of coding, mentoring, demos, and the grand finale on 01 FEB 2026 at 7:00 PM.</p>
+                        <div class="flex items-start gap-4">
+                            <span class="text-6xl font-bold text-purple-500/20 absolute right-4 top-4">02</span>
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">REPORT & COMPETE</h3>
+                                <p class="text-gray-400 mb-3 text-sm">Report to NRCM, get the problem statement, and start building.</p>
+                                <div class="bg-gray-900/50 p-3 rounded-lg border border-purple-500/20">
+                                    <p class="text-purple-400 text-sm font-bold mb-1">🗓 Date: 31 January 2026</p>
+                                    <p class="text-gray-300 text-xs">• Reporting: Before 10:00 AM</p>
+                                    <p class="text-gray-300 text-xs">• Challenge Release: 10:30 AM</p>
+                                    <p class="text-gray-300 text-xs">• Hackathon Start: 11:00 AM</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Call to Action -->
                 <div class="text-center mt-12" data-aos="fade-up">
-                    <div class="bg-amber-500/10 p-6 rounded-xl border border-amber-500/30">
-                        <h4 class="text-amber-400 font-bold mb-2">Ready to Start?</h4>
-                        <p class="text-gray-300 mb-4">Follow these steps and join CodeStorm 2026 - Where Innovation Meets Opportunity!</p>
-                        <a href="{% url 'register' %}" class="inline-flex items-center bg-amber-500 hover:bg-amber-400 text-black font-bold py-3 px-6 rounded-lg transition duration-300">
-                            <i class="fas fa-rocket mr-2"></i>
-                            Start Your Journey
-                        </a>
-                    </div>
+                    <a href="{% url 'register' %}" class="inline-flex items-center bg-amber-500 hover:bg-amber-400 text-black font-bold py-3 px-8 rounded-lg transition duration-300 shadow-lg shadow-amber-500/20">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Register Your Team Now
+                    </a>
                 </div>
             </div>
         </div>
     </section>
+
     <section id="timeline" class="py-24 bg-darker relative overflow-hidden">
         <div class="container mx-auto px-6 relative z-10">
             <h2 class="text-4xl md:text-5xl font-bold font-orbitron text-white mb-16 text-center" data-aos="fade-down">Event <span class="text-amber-500">Timeline</span></h2>
             <div class="relative max-w-5xl mx-auto">
                 <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-amber-500 via-purple-600 to-amber-500 opacity-50 ml-6 md:ml-0"></div>
+                
                 <div class="relative mb-12 md:mb-24" data-aos="fade-right">
                     <div class="flex flex-col md:flex-row items-center w-full">
                         <div class="w-full md:w-1/2 md:pr-12 pl-12 md:pl-0">
-                            <div class="glass-panel p-6 rounded-xl border-r-4 border-amber-500 text-left md:text-right hover:bg-white/5 transition">
-                                <h3 class="text-2xl font-bold text-white font-orbitron">15 JAN 2026</h3>
-                                <p class="text-amber-400 font-bold mb-2">Idea Submission Closes</p>
-                                <p class="text-gray-400 text-sm">Submit your idea/problem pitch. The journey begins here.</p>
+                            <div class="glass-panel p-6 rounded-xl border-r-4 border-red-500 text-left md:text-right hover:bg-white/5 transition shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                                <h3 class="text-2xl font-bold text-white font-orbitron">22 JAN 2026</h3>
+                                <p class="text-red-400 font-bold mb-2">Registration Closes</p>
+                                <p class="text-gray-400 text-sm">Last date to register your team. No idea submission required.</p>
                             </div>
                         </div>
-                        <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-12 h-12 bg-darker border-4 border-amber-500 rounded-full flex items-center justify-center z-10 ml-0.5 md:ml-0">
-                            <i class="fas fa-flag text-amber-500 text-sm"></i>
+                        <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-12 h-12 bg-darker border-4 border-red-500 rounded-full flex items-center justify-center z-10 ml-0.5 md:ml-0">
+                            <i class="fas fa-stopwatch text-red-500 text-sm"></i>
                         </div>
                         <div class="w-full md:w-1/2"></div>
                     </div>
                 </div>
+
                 <div class="relative mb-12 md:mb-24" data-aos="fade-left">
                     <div class="flex flex-col md:flex-row items-center w-full">
                         <div class="w-full md:w-1/2"></div>
-                        <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-12 h-12 bg-darker border-4 border-purple-500 rounded-full flex items-center justify-center z-10 ml-0.5 md:ml-0">
-                             <i class="fas fa-envelope-open-text text-purple-500 text-sm"></i>
+                        <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center z-10 shadow-lg shadow-amber-500/50 animate-pulse ml-0.5 md:ml-0">
+                             <i class="fas fa-rocket text-black text-sm"></i>
                         </div>
                         <div class="w-full md:w-1/2 md:pl-12 pl-12 md:pl-0">
-                            <div class="glass-panel p-6 rounded-xl border-l-4 border-purple-500 hover:bg-white/5 transition">
-                                <h3 class="text-2xl font-bold text-white font-orbitron">20 JAN 2026</h3>
-                                <p class="text-purple-400 font-bold mb-2">Acceptance Announcement</p>
-                                <p class="text-gray-400 text-sm">Shortlisted teams will be notified via email.</p>
+                            <div class="glass-panel p-6 rounded-xl border-l-4 border-amber-500 hover:bg-white/5 transition">
+                                <h3 class="text-2xl font-bold text-white font-orbitron">31 JAN 2026</h3>
+                                <p class="text-amber-400 font-bold mb-2">The Grand Start</p>
+                                <ul class="text-gray-400 text-sm space-y-1">
+                                    <li>• <span class="text-white">10:00 AM:</span> Reporting & Registration</li>
+                                    <li>• <span class="text-white">10:30 AM:</span> On-Spot Challenge Release</li>
+                                    <li>• <span class="text-white">11:00 AM:</span> 36-Hour Clock Starts</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="relative mb-12 md:mb-24" data-aos="fade-right">
+
+                <div class="relative" data-aos="fade-right">
                     <div class="flex flex-col md:flex-row items-center w-full">
                         <div class="w-full md:w-1/2 md:pr-12 pl-12 md:pl-0">
-                            <div class="glass-panel p-6 rounded-xl border-r-4 border-amber-500 text-left md:text-right hover:bg-white/5 transition shadow-[0_0_20px_rgba(245,158,11,0.2)]">
-                                <h3 class="text-2xl font-bold text-white font-orbitron">31 JAN 2026</h3>
-                                <p class="text-amber-400 font-bold mb-2">Hackathon Begins</p>
-                                <p class="text-gray-400 text-sm">10:00 AM - The 36-hour clock starts ticking.</p>
-                            </div>
-                        </div>
-                        <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center z-10 shadow-lg shadow-amber-500/50 animate-pulse ml-0.5 md:ml-0">
-                             <i class="fas fa-play text-black text-sm"></i>
-                        </div>
-                        <div class="w-full md:w-1/2"></div>
-                    </div>
-                </div>
-                <div class="relative" data-aos="fade-left">
-                    <div class="flex flex-col md:flex-row items-center w-full">
-                        <div class="w-full md:w-1/2"></div>
-                        <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-12 h-12 bg-darker border-4 border-red-500 rounded-full flex items-center justify-center z-10 ml-0.5 md:ml-0">
-                             <i class="fas fa-trophy text-red-500 text-sm"></i>
-                        </div>
-                        <div class="w-full md:w-1/2 md:pl-12 pl-12 md:pl-0">
-                            <div class="glass-panel p-6 rounded-xl border-l-4 border-red-500 hover:bg-white/5 transition">
+                            <div class="glass-panel p-6 rounded-xl border-r-4 border-purple-500 text-left md:text-right hover:bg-white/5 transition">
                                 <h3 class="text-2xl font-bold text-white font-orbitron">01 FEB 2026</h3>
-                                <p class="text-red-400 font-bold mb-2">Grand Finale</p>
-                                <p class="text-gray-400 text-sm">7:00 PM - Demos, Judging & Prize Distribution.</p>
+                                <p class="text-purple-400 font-bold mb-2">Grand Finale</p>
+                                <p class="text-gray-400 text-sm">4:00 PM: Final Submission Deadline, followed by Judging & Prize Distribution.</p>
                             </div>
                         </div>
+                        <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-12 h-12 bg-darker border-4 border-purple-500 rounded-full flex items-center justify-center z-10 ml-0.5 md:ml-0">
+                             <i class="fas fa-trophy text-purple-500 text-sm"></i>
+                        </div>
+                        <div class="w-full md:w-1/2"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
     <section id="event-schedule" class="py-24 bg-[#050b1d]">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12" data-aos="fade-up">
-                <h2 class="text-4xl md:text-5xl font-bold font-orbitron text-white mb-4">Event <span class="text-amber-500">Schedule</span></h2>
-                <p class="text-gray-400 max-w-2xl mx-auto text-lg">The detailed event schedule for CodeStorm 2026 will be published soon.</p>
+                <h2 class="text-4xl md:text-5xl font-bold font-orbitron text-white mb-4">Event <span class="text-amber-500">Summary</span></h2>
             </div>
-            <div class="max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="150">
-                <div class="glass-panel rounded-2xl border border-dashed border-amber-500/60 px-8 py-10 text-center">
-                    <p class="text-2xl md:text-3xl font-orbitron text-amber-500 mb-4">Coming Soon</p>
-                    <p class="text-gray-300 mb-4">Stay tuned for the full session-wise schedule, reporting times, and detailed agenda.</p>
-                    <p class="text-gray-500 text-sm">Follow this space for updates as we finalize the program flow for all participants.</p>
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="150">
+                <div class="glass-panel rounded-xl border border-dashed border-amber-500/30 p-6">
+                   <h3 class="text-xl font-orbitron text-amber-500 mb-4 border-b border-white/10 pb-2">Day 1: 31 Jan</h3>
+                   <ul class="space-y-4">
+                       <li class="flex justify-between text-gray-300 border-b border-white/5 pb-2">
+                           <span>Reporting</span>
+                           <span class="font-bold text-white">Before 10:00 AM</span>
+                       </li>
+                       <li class="flex justify-between text-gray-300 border-b border-white/5 pb-2">
+                           <span>Challenge Release</span>
+                           <span class="font-bold text-white">10:30 AM</span>
+                       </li>
+                       <li class="flex justify-between text-gray-300">
+                           <span>Hackathon Begins</span>
+                           <span class="font-bold text-amber-400">11:00 AM</span>
+                       </li>
+                   </ul>
                 </div>
+                <div class="glass-panel rounded-xl border border-dashed border-purple-500/30 p-6">
+                    <h3 class="text-xl font-orbitron text-purple-500 mb-4 border-b border-white/10 pb-2">Day 2: 01 Feb</h3>
+                    <ul class="space-y-4">
+                        <li class="flex justify-between text-gray-300 border-b border-white/5 pb-2">
+                            <span>Mentoring Rounds</span>
+                            <span class="font-bold text-white">Throughout Day</span>
+                        </li>
+                        <li class="flex justify-between text-gray-300 border-b border-white/5 pb-2">
+                            <span>Final Submission</span>
+                            <span class="font-bold text-red-400">04:00 PM</span>
+                        </li>
+                        <li class="flex justify-between text-gray-300">
+                            <span>Valedictory</span>
+                            <span class="font-bold text-white">05:00 PM Onwards</span>
+                        </li>
+                    </ul>
+                 </div>
             </div>
         </div>
     </section>
+
     <section id="facilities" class="py-24 bg-[#050b1d] clip-path-slant pb-40">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl md:text-5xl font-bold font-orbitron text-white mb-16 text-center">Premium <span class="text-amber-500">Facilities</span></h2>
@@ -1069,6 +575,7 @@
             </div>
         </div>
     </section>
+
     <section id="register" class="py-24 bg-darker relative">
         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
         <div class="container mx-auto px-6 relative z-10">
@@ -1078,21 +585,18 @@
                     <p class="text-xl text-gray-400 max-w-3xl mx-auto">The Ultimate 36-Hour Hackathon Challenge</p>
                 </div>
                 
-                <!-- CodeStorm 2026 Event Image and Info -->
                 <div class="glass-panel rounded-3xl p-6 md:p-8 lg:p-12 border border-amber-500/30 shadow-[0_0_50px_rgba(245,158,11,0.1)]">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                        <!-- Event Image -->
                         <div class="order-2 lg:order-1">
                             <div class="relative">
                                 <div class="absolute -inset-2 md:-inset-4 bg-gradient-to-r from-amber-500 to-purple-600 rounded-2xl opacity-20 blur-lg"></div>
-                                <img src="{% static 'images/Screenshot 2025-12-24 225413.png' %}" alt="CodeStorm 2026" class="relative rounded-2xl shadow-2xl border border-white/10 w-full object-cover max-w-full h-auto">
+                                <img src="{% static 'website/images/Screenshot 2025-12-24 225413.png' %}" alt="CodeStorm 2026" class="relative rounded-2xl shadow-2xl border border-white/10 w-full object-cover max-w-full h-auto">
                                 <div class="absolute -top-2 -right-2 md:-top-4 md:-right-4 bg-amber-500 text-black font-bold px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-orbitron">
                                     36 HOURS
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Event Details -->
                         <div class="order-1 lg:order-2">
                             <h3 class="text-2xl md:text-3xl font-bold font-orbitron text-white mb-4 md:mb-6">Event Details</h3>
                             
@@ -1103,7 +607,7 @@
                                     </div>
                                     <div>
                                         <h4 class="text-base md:text-lg font-bold text-white mb-1">Important Dates</h4>
-                                        <p class="text-sm md:text-base text-gray-400 leading-relaxed">Idea Submission Deadline: January 15, 2026 | Hackathon: January 31 - February 1, 2026</p>
+                                        <p class="text-sm md:text-base text-gray-400 leading-relaxed"><span class="text-red-400 font-bold">Reg Close: Jan 22, 2026</span> | Event: Jan 31 - Feb 1</p>
                                     </div>
                                 </div>
                                 
@@ -1112,8 +616,8 @@
                                         <i class="fas fa-users text-purple-500 text-base md:text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="text-base md:text-lg font-bold text-white mb-1">Team Formation</h4>
-                                        <p class="text-sm md:text-base text-gray-400 leading-relaxed">Team Size: 4-6 members.(Atleast one female is mandatory)</p>
+                                        <h4 class="text-base md:text-lg font-bold text-white mb-1">Registration</h4>
+                                        <p class="text-sm md:text-base text-gray-400 leading-relaxed">Fee: ₹600/student. Team: 4-6 members.<br><span class="text-green-400 font-bold">10% Off for Inter-college teams.</span></p>
                                     </div>
                                 </div>
                                 
@@ -1123,7 +627,7 @@
                                     </div>
                                     <div>
                                         <h4 class="text-base md:text-lg font-bold text-white mb-1">Prize Pool</h4>
-                                        <p class="text-sm md:text-base text-gray-400 leading-relaxed">Total Prize Pool: ₹1,00,000 | Certificates for all participants</p>
+                                        <p class="text-sm md:text-base text-gray-400 leading-relaxed">Total Prize Worth: ₹1,00,000</p>
                                     </div>
                                 </div>
                                 
@@ -1132,28 +636,8 @@
                                         <i class="fas fa-lightbulb text-blue-500 text-base md:text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="text-base md:text-lg font-bold text-white mb-1">Hackathon Tracks</h4>
-                                        <p class="text-sm md:text-base text-gray-400 leading-relaxed">Generative Al & LLM Applications • Robotics, Drones & Autonomous Systems • Cybersecurity & Threat Intelligence • HealthTech, MedAl & Diagnostics • FinTech, Blockchain & Digital Trust • Smart Cities, IoT & Edge Computing • Green Tech & Energy Optimization • Agritech & Rural Innovation • Transportation & Logistics (Al-Driven) • Open Innovation Challenge (Wildcard Track)</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-start gap-3 md:gap-4">
-                                    <div class="w-10 h-10 md:w-12 md:h-12 bg-red-500/20 rounded-xl flex items-center justify-center flex-shrink-0 border border-red-500/50">
-                                        <i class="fas fa-utensils text-red-500 text-base md:text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="text-base md:text-lg font-bold text-white mb-1">Facilities Provided</h4>
-                                        <p class="text-sm md:text-base text-gray-400 leading-relaxed">24×7 Food & Beverages • High-Speed WiFi • Mentorship • Tech Support</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-start gap-3 md:gap-4">
-                                    <div class="w-10 h-10 md:w-12 md:h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center flex-shrink-0 border border-indigo-500/50">
-                                        <i class="fas fa-chalkboard-teacher text-indigo-500 text-base md:text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="text-base md:text-lg font-bold text-white mb-1">Event Coordinators</h4>
-                                        <p class="text-sm md:text-base text-gray-400 leading-relaxed">Mrs. D. Nikhitha Reddy (8125207382) • Mr. G. Praveen Kumar (9959732146)</p>
+                                        <h4 class="text-base md:text-lg font-bold text-white mb-1">Format</h4>
+                                        <p class="text-sm md:text-base text-gray-400 leading-relaxed"><strong class="text-white">No Idea Submission.</strong> On-Spot Open Challenges.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1161,24 +645,21 @@
                             <div class="mt-6 md:mt-8 p-4 md:p-6 bg-gray-900/50 rounded-2xl border border-white/5">
                                 <div class="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
                                     <i class="fas fa-info-circle text-amber-500 text-lg md:text-xl"></i>
-                                    <h4 class="text-base md:text-lg font-bold text-white">Registration Information</h4>
+                                    <h4 class="text-base md:text-lg font-bold text-white">Note</h4>
                                 </div>
                                 <p class="text-gray-400 text-xs md:text-sm leading-relaxed">
-                                    Registration Fee: ₹600 per student. Limited slots available. First come, first served basis.
+                                    Fee covers T-shirts, Goodies, and Food (Lunch, Dinner, Snacks) for 2 days. Accommodation provided for night stay.
                                 </p>
                             </div>
                             
                             <div class="mt-6 p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/30">
                                 <div class="flex items-center gap-3 mb-3">
                                     <i class="fas fa-external-link-alt text-emerald-500 text-lg"></i>
-                                    <h4 class="text-base font-bold text-emerald-400">Ready to Submit?</h4>
+                                    <h4 class="text-base font-bold text-emerald-400">Registration Open</h4>
                                 </div>
-                                <p class="text-emerald-200 text-sm leading-relaxed mb-3">
-                                    Click the button below to access the Idea Submission Form and submit your hackathon idea.
-                                </p>
-                                <a href="{% url 'register' %}" class="inline-flex items-center bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
-                                    <i class="fas fa-file-alt mr-2"></i>
-                                    Submit Your Idea
+                                <a href="{% url 'register' %}" class="inline-flex items-center bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300 w-full justify-center">
+                                    <i class="fas fa-file-signature mr-2"></i>
+                                    Register Team Now
                                 </a>
                             </div>
                         </div>
@@ -1187,6 +668,7 @@
             </div>
         </div>
     </section>
+
     <section id="team" class="py-24 bg-[#050b1d]">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold text-center font-orbitron text-white mb-16">The <span class="text-amber-500">Organizers</span></h2>
@@ -1197,14 +679,14 @@
                         <div class="glass-card p-4 rounded-lg flex items-center gap-4">
                             <div class="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center"><i class="fas fa-user-tie text-amber-500"></i></div>
                             <div>
-                                <h4 class="font-bold text-white">Mrs. D. Nikhitha Reddy</h4>
+                                <h4 class="font-bold text-white">Mrs. D. Nikhitha</h4>
                                 <p class="text-sm text-gray-400">8125207382</p>
                             </div>
                         </div>
                         <div class="glass-card p-4 rounded-lg flex items-center gap-4">
                             <div class="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center"><i class="fas fa-user-tie text-amber-500"></i></div>
                             <div>
-                                <h4 class="font-bold text-white">Mr. G. Praveen Kumar</h4>
+                                <h4 class="font-bold text-white">Mr. G. Praveen</h4>
                                 <p class="text-sm text-gray-400">9959732146</p>
                             </div>
                         </div>
@@ -1216,15 +698,15 @@
                         <div class="glass-card p-4 rounded-lg flex items-center gap-4">
                             <div class="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center"><i class="fas fa-user-graduate text-purple-500"></i></div>
                             <div>
-                                <h4 class="font-bold text-white">Ms. Manepally Archana</h4>
-                                <p class="text-sm text-gray-400">8309734530</p>
+                                <h4 class="font-bold text-white">Mr. B. Revanth Kumar</h4>
+                                <p class="text-sm text-gray-400">6301094610</p>
                             </div>
                         </div>
                         <div class="glass-card p-4 rounded-lg flex items-center gap-4">
                             <div class="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center"><i class="fas fa-user-graduate text-purple-500"></i></div>
                             <div>
-                                <h4 class="font-bold text-white">Mr. Tulasitilak</h4>
-                                <p class="text-sm text-gray-400">7780554004</p>
+                                <h4 class="font-bold text-white">Ms. CH. Manasa</h4>
+                                <p class="text-sm text-gray-400">9381264042</p>
                             </div>
                         </div>
                     </div>
@@ -1258,6 +740,7 @@
             </div>
         </div>
     </section>
+
     <footer class="bg-black py-12 border-t border-gray-800">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -1267,18 +750,10 @@
                     <p class="text-gray-500 text-sm">Maisammaguda (V), Kompally - 500100, Hyderabad.</p>
                 </div>
                 <div class="flex space-x-6 items-center">
-                    <a href="https://www.facebook.com/NarasimhaReddyEngineeringCollege.NRCM/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-amber-500 hover:text-black transition duration-300">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://www.instagram.com/narsimhareddycollege_nrcm/?hl=en" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-pink-600 hover:text-white transition duration-300">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://x.com/Nrec_college/status/1924408580608053445" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-400 hover:text-white transition duration-300">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/company/narsimhareddyengineeringcollege-nrcm/?originalSubdomain=in" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-700 hover:text-white transition duration-300">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
+                    <a href="https://www.facebook.com/NarasimhaReddyEngineeringCollege.NRCM/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-amber-500 hover:text-black transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/narsimhareddycollege_nrcm/?hl=en" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-pink-600 hover:text-white transition duration-300"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/Nrec_college/status/1924408580608053445" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-400 hover:text-white transition duration-300"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/company/narsimhareddyengineeringcollege-nrcm/?originalSubdomain=in" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-700 hover:text-white transition duration-300"><i class="fab fa-linkedin-in"></i></a>
                     <a href="https://admin-page-i3l3.onrender.com" target="_blank" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                         <i class="fas fa-user-shield mr-2"></i>
                         Admin Login
@@ -1286,12 +761,12 @@
                 </div>
             </div>
             <div class="border-t border-gray-900 mt-10 pt-8 text-center text-gray-600 text-sm">
-                <p>&copy; 2026 CodeStorm Hackathon, NRCMEC. All rights reserved.</p>
+                <p>© 2026 CodeStorm Hackathon, NRCMEC. All rights reserved.</p>
                 <p class="mt-2">Developed by R.Varshith Reddy(23X01A05V7) & P.Dhanush Reddy(23X01A05S4)</p>
             </div>
         </div>
     </footer>
-    <!-- Mobile Menu (Moved outside nav) -->
+
     <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-64 bg-black border-l border-white/10 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-[100]">
         <div class="p-6">
             <button onclick="toggleMobileMenu()" class="text-white text-2xl mb-8 hover:text-amber-500 transition">
@@ -1300,483 +775,172 @@
             <div class="flex flex-col space-y-6">
                 <a href="#about" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">About</a>
                 <a href="#tracks" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Tracks</a>
-                <a href="#steps" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Idea Submission Guide</a>
+                <a href="#steps" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Registration Guide</a>
                 <a href="#timeline" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Timeline</a>
                 <a href="#event-schedule" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Event Schedule</a>
                 <a href="#facilities" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Facilities</a>
                 <a href="#team" onclick="toggleMobileMenu()" class="text-white hover:text-amber-400 font-medium tracking-wide transition text-lg border-b border-white/5 pb-2">Team</a>
                 <a href="{% url 'register' %}" onclick="toggleMobileMenu()" class="bg-amber-400 text-black font-bold py-3 px-6 rounded-sm text-center transition hover:bg-amber-300 font-orbitron mt-4 animate-pulse border-2 border-amber-500">
-                    SUBMIT YOUR IDEA
+                    REGISTER TEAM
                 </a>
             </div>
         </div>
     </div>
-    <!-- Mobile Menu Overlay -->
     <div id="mobile-overlay" class="md:hidden fixed inset-0 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-40 w-full h-full" onclick="toggleMobileMenu()"></div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
     <script>
-        AOS.init({
-            once: true,
-            offset: 50,
-            duration: 800,
-            easing: 'ease-out-cubic',
-        });
+        AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' });
         if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-            VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
-                max: 15,
-                speed: 400,
-                glare: true,
-                "max-glare": 0.2,
-            });
+            VanillaTilt.init(document.querySelectorAll(".tilt-card"), { max: 15, speed: 400, glare: true, "max-glare": 0.2 });
         }
         
-        // Initialize navbar with correct size based on screen width
+        // Navbar Behavior
         document.addEventListener('DOMContentLoaded', function() {
             const navbar = document.getElementById('navbar');
-            if (window.innerWidth < 768) {
-                // Ensure consistent mobile size
-                navbar.classList.add('py-3');
-                navbar.classList.remove('py-2', 'py-4');
-                navbar.classList.remove('shadow-lg');
-            }
+            if (window.innerWidth < 768) { navbar.classList.add('py-3'); }
         });
         
+        // SCROLL SPY & Navbar Animation
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
-            // Only apply scroll effects on desktop (min-width: 768px)
+            
+            // Navbar Size
             if (window.innerWidth >= 768) {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('py-2');
-                    navbar.classList.remove('py-4');
-                    navbar.classList.add('shadow-lg');
-                } else {
-                    navbar.classList.add('py-4');
-                    navbar.classList.remove('py-2');
-                    navbar.classList.remove('shadow-lg');
-                }
-            } else {
-                // Keep consistent size on mobile
-                navbar.classList.add('py-3');
-                navbar.classList.remove('py-2', 'py-4');
+                if (window.scrollY > 50) { navbar.classList.add('py-2', 'shadow-lg'); navbar.classList.remove('py-4'); }
+                else { navbar.classList.add('py-4'); navbar.classList.remove('py-2', 'shadow-lg'); }
             }
+
+            // Scroll Spy Logic
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
             
-            // Highlight active section
-            const sections = ['about', 'tracks', 'steps', 'timeline', 'event-schedule', 'facilities', 'team'];
             let current = '';
-            
+
             sections.forEach(section => {
-                const element = document.getElementById(section);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    if (rect.top <= 120 && rect.bottom >= 120) {
-                        current = section;
-                    }
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
                 }
             });
-            
-            // Default to highlighting About when at the top of the page
-            if (!current && window.scrollY < 200) {
-                current = 'about';
-            }
-            
-            // Update active nav links
-            document.querySelectorAll('nav a[href^="#"]').forEach(link => {
-                // Reset all links to default state
-                link.classList.remove('text-amber-400', 'font-bold');
-                link.classList.add('text-gray-300', 'font-medium');
-                
-                // Remove any existing active styling
-                const underline = link.querySelector('span');
-                if (underline) {
-                    underline.style.width = '0';
-                }
-                
-                // Highlight current section
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.remove('text-gray-300', 'font-medium');
-                    link.classList.add('text-amber-400', 'font-bold');
-                    if (underline) {
-                        underline.style.width = '100%';
-                    }
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
                 }
             });
         });
         
-        // Handle window resize (orientation changes)
-        window.addEventListener('resize', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.innerWidth < 768) {
-                // Ensure consistent mobile size
-                navbar.classList.add('py-3');
-                navbar.classList.remove('py-2', 'py-4');
-                navbar.classList.remove('shadow-lg');
-            } else {
-                // Reset to desktop behavior
-                if (window.scrollY > 50) {
-                    navbar.classList.add('py-2');
-                    navbar.classList.remove('py-4');
-                    navbar.classList.add('shadow-lg');
-                } else {
-                    navbar.classList.add('py-4');
-                    navbar.classList.remove('py-2');
-                    navbar.classList.remove('shadow-lg');
-                }
-            }
-        });
-        
-        // Mobile Menu Toggle
+        // Mobile Menu
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             const overlay = document.getElementById('mobile-overlay');
-            
             if (menu.classList.contains('translate-x-full')) {
-                menu.classList.remove('translate-x-full');
-                menu.classList.add('translate-x-0');
-                overlay.classList.remove('opacity-0', 'pointer-events-none');
-                overlay.classList.add('opacity-100', 'pointer-events-auto');
+                menu.classList.remove('translate-x-full'); menu.classList.add('translate-x-0');
+                overlay.classList.remove('opacity-0', 'pointer-events-none'); overlay.classList.add('opacity-100', 'pointer-events-auto');
                 document.body.style.overflow = 'hidden';
             } else {
-                menu.classList.remove('translate-x-0');
-                menu.classList.add('translate-x-full');
-                overlay.classList.remove('opacity-100', 'pointer-events-auto');
-                overlay.classList.add('opacity-0', 'pointer-events-none');
+                menu.classList.remove('translate-x-0'); menu.classList.add('translate-x-full');
+                overlay.classList.remove('opacity-100', 'pointer-events-auto'); overlay.classList.add('opacity-0', 'pointer-events-none');
                 document.body.style.overflow = 'auto';
             }
         }
         
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 80,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": ["#f59e0b", "#8b5cf6"]
-                },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    },
-                    "polygon": {
-                        "nb_sides": 5
-                    }
-                },
-                "opacity": {
-                    "value": 0.3,
-                    "random": true,
-                    "anim": {
-                        "enable": true,
-                        "speed": 1,
-                        "opacity_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "size": {
-                    "value": 3,
-                    "random": true,
-                    "anim": {
-                        "enable": false,
-                        "speed": 40,
-                        "size_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#ffffff",
-                    "opacity": 0.1,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 2,
-                    "direction": "none",
-                    "random": false,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": false,
-                        "rotateX": 600,
-                        "rotateY": 1200
-                    }
-                }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "grab"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
-                    },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": {
-                        "distance": 140,
-                        "line_linked": {
-                            "opacity": 0.4
-                        }
-                    },
-                    "push": {
-                        "particles_nb": 4
-                    }
-                }
-            },
-            "retina_detect": true
-        });
+        // Particles
+        particlesJS("particles-js", { "particles": { "number": { "value": 80 }, "color": { "value": ["#f59e0b", "#8b5cf6"] }, "shape": { "type": "circle" }, "opacity": { "value": 0.3, "random": true }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.1, "width": 1 }, "move": { "enable": true, "speed": 2 } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } } }, "retina_detect": true });
     </script>
     
-    <!-- Chat Bot -->
     <div id="chatbot-container" class="fixed bottom-4 right-4 z-[9999] sm:bottom-8 sm:right-8">
-        <!-- Chat Button -->
         <button id="chatbot-toggle" class="relative bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 hover:from-blue-600 hover:via-blue-700 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-full shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-110 group overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
             <i class="fas fa-comments relative z-10"></i>
         </button>
-        
-        <!-- Chat Window -->
         <div id="chatbot-window" class="hidden fixed bottom-16 right-0 w-screen h-screen bg-gray-900 border border-gray-700 rounded-lg shadow-2xl overflow-hidden flex flex-col sm:absolute sm:bottom-16 sm:right-0 sm:w-80 sm:h-auto sm:max-h-[80vh] z-[9998]">
-            <!-- Chat Header -->
             <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 text-white p-4 relative overflow-hidden flex-shrink-0 z-10">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold text-lg">CodeStorm Assistant</h3>
-                    <button id="chatbot-close" class="text-white hover:text-gray-300">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <button id="chatbot-close" class="text-white hover:text-gray-300"><i class="fas fa-times"></i></button>
                 </div>
             </div>
-            
-            <!-- Chat Messages -->
             <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 min-h-0">
                 <div class="flex justify-start message-animate">
                     <div class="bg-gradient-to-br from-gray-800 to-gray-700 text-white rounded-xl px-4 py-3 max-w-xs shadow-lg border border-gray-600">
-                        <div class="text-sm">Hello! I'm here to help with CodeStorm 2026. Ask me about registration, timeline, or any other questions!</div>
+                        <div class="text-sm">Hello! I'm here to help with CodeStorm 2026. Ask me about registration, dates, or fees!</div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Typing Indicator -->
             <div id="typing-indicator" class="hidden px-4 pb-2">
                 <div class="flex justify-start">
                     <div class="bg-gradient-to-br from-gray-800 to-gray-700 text-white rounded-xl px-4 py-3 max-w-xs shadow-lg border border-gray-600">
-                        <div class="flex space-x-1">
-                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0ms"></div>
-                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 150ms"></div>
-                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 300ms"></div>
-                        </div>
+                        <div class="flex space-x-1"><div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 150ms"></div><div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 300ms"></div></div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Predefined Questions -->
             <div class="p-3 sm:p-4 border-t border-gray-700 max-h-32 sm:max-h-48 overflow-y-auto flex-shrink-0 bg-gradient-to-b from-gray-900 to-gray-800">
                 <p class="text-gray-300 text-xs sm:text-sm mb-2 sm:mb-3 hidden sm:block font-medium">Choose a question:</p>
                 <div class="space-y-2 sm:space-y-3">
-                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="registration">
-                        <span class="relative z-10">📋 How do I Submit my idea?</span>
-                    </button>
-                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="team">
-                        <span class="relative z-10">👥 What about team formation?</span>
-                    </button>
-                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="dates">
-                        <span class="relative z-10">📅 When is the hackathon?</span>
-                    </button>
-                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="venue">
-                        <span class="relative z-10">📍 Where is the venue?</span>
-                    </button>
-                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="prizes">
-                        <span class="relative z-10">🏆 What are the prizes?</span>
-                    </button>
-                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="food">
-                        <span class="relative z-10">🍕 Is food provided?</span>
-                    </button>
-                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="tracks">
-                        <span class="relative z-10">🎯 What are the tracks?</span>
-                    </button>
-                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-xs sm:text-sm group relative overflow-hidden" data-question="contact">
-                        <span class="relative z-10">📞 How to contact?</span>
-                    </button>
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all text-xs sm:text-sm" data-question="registration">📋 How to Register?</button>
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all text-xs sm:text-sm" data-question="team">👥 Team Formation?</button>
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all text-xs sm:text-sm" data-question="dates">📅 Deadlines?</button>
+                    <button class="question-btn w-full text-left bg-gradient-to-r from-gray-800 to-gray-700 hover:from-blue-600 hover:to-purple-600 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-xl border border-gray-600 hover:border-blue-400 transition-all text-xs sm:text-sm" data-question="venue">📍 Venue?</button>
                 </div>
             </div>
-            
-            <!-- Chat Input -->
             <div class="p-3 sm:p-4 border-t border-gray-700 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 flex-shrink-0">
                 <div class="flex space-x-3">
-                    <input type="text" id="chatbot-input" placeholder="Type your message..." class="flex-1 bg-gradient-to-r from-gray-800 to-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-400 border border-gray-600 text-sm sm:text-base transition-all duration-200 placeholder-gray-400">
-                    <button id="chatbot-send" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-3 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
+                    <input type="text" id="chatbot-input" placeholder="Type your message..." class="flex-1 bg-gradient-to-r from-gray-800 to-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-400 border border-gray-600 text-sm sm:text-base">
+                    <button id="chatbot-send" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-3 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Chat Bot Script -->
     <script>
-        // Chat Bot Functionality
         const chatbotToggle = document.getElementById('chatbot-toggle');
         const chatbotWindow = document.getElementById('chatbot-window');
         const chatbotClose = document.getElementById('chatbot-close');
         const chatbotMessages = document.getElementById('chatbot-messages');
-
-        // Toggle chat window
-        chatbotToggle.addEventListener('click', () => {
-            chatbotWindow.classList.toggle('hidden');
-        });
-
-        // Close chat window
-        chatbotClose.addEventListener('click', () => {
-            chatbotWindow.classList.add('hidden');
-        });
-
-        // Add message to chat
-        function addMessage(message, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'} message-animate`;
-            
-            const messageContent = document.createElement('div');
-            messageContent.className = `${isUser ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white border-blue-500' : 'bg-gradient-to-br from-gray-800 to-gray-700 text-white border-gray-600'} rounded-xl px-4 py-3 max-w-xs shadow-lg border`;
-            
-            // For bot messages, the HTML is already formatted in getBotResponse
-            // For user messages, just display as text
-            if (isUser) {
-                messageContent.innerHTML = `<p class="text-sm">${message}</p>`;
-            } else {
-                // For bot messages, message already contains HTML, so don't wrap in p tag
-                messageContent.innerHTML = `<div class="text-sm">${message}</div>`;
-            }
-            
-            messageDiv.appendChild(messageContent);
-            chatbotMessages.appendChild(messageDiv);
-            
-            // Scroll to bottom with smooth animation
-            setTimeout(() => {
-                chatbotMessages.scrollTo({
-                    top: chatbotMessages.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }, 100);
-        }
-
-        // Show typing indicator
-        function showTypingIndicator() {
-            document.getElementById('typing-indicator').classList.remove('hidden');
-            setTimeout(() => {
-                chatbotMessages.scrollTo({
-                    top: chatbotMessages.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }, 50);
-        }
-
-        // Hide typing indicator
-        function hideTypingIndicator() {
-            document.getElementById('typing-indicator').classList.add('hidden');
-        }
-
-        // Get bot response based on question type
-        function getBotResponse(questionType) {
-            const responses = {
-                'registration': 'Idea Submission is open! <a href="https://codestorm2026.onrender.com/#steps" target="_blank" style="color: #93c5fd; text-decoration: underline;">Follow these steps</a>',
-                'team': 'Each team should have 4-6 members. You can register as a complete team.',
-                'dates': 'The hackathon will be held on January 31-February 1, 2026. Idea Submission deadline is January 15, 2026.',
-                'venue': 'CodeStorm 2026 will be held at Narsimha Reddy Engineering College, Maisammaguda (V), Kompally, Hyderabad. <a href="https://maps.app.goo.gl/ZG2eFuQXGdCw5yph8" target="_blank" style="color: #93c5fd; text-decoration: underline;">View on Google Maps</a>',
-                'prizes': 'Exciting prizes await the winners! We have prizes for top 3 teams.',
-                'food': 'Yes! Free food and accommodation will be provided for all participants throughout the hackathon.',
-                'tracks': 'We have multiple tracks including Generative Al & LLM Applications;Robotics, Drones & Autonomous Systems;Cybersecurity & Threat Intelligence;HealthTech, MedAl & Diagnostics;FinTech, Blockchain & Digital Trust;Smart Cities, IoT & Edge Computing;Green Tech & Energy Optimization;Agritech & Rural Innovation;Transportation & Logistics (Al-Driven);Open Innovation Challenge (Wildcard Track). Choose the track that best fits your idea!',
-                'contact': 'For any queries, you can contact our organizing team <a href="https://codestorm2026.onrender.com/#team" target="_blank" style="color: #93c5fd; text-decoration: underline;">here</a>'
-            };
-            
-            return responses[questionType] || 'I\'m here to help with CodeStorm 2026 questions! Choose one of the questions below to get started.';
-        }
-
-        // Handle question button clicks
-        document.querySelectorAll('.question-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                const questionType = button.getAttribute('data-question');
-                const questionText = button.querySelector('span').textContent.trim();
-                
-                // Add user question to chat
-                addMessage(questionText, true);
-                
-                // Show typing indicator
-                showTypingIndicator();
-                
-                // Disable all question buttons temporarily
-                document.querySelectorAll('.question-btn').forEach(btn => {
-                    btn.disabled = true;
-                    btn.classList.add('opacity-50', 'cursor-not-allowed');
-                });
-                
-                // Simulate typing delay and show response
-                setTimeout(() => {
-                    hideTypingIndicator();
-                    const response = getBotResponse(questionType);
-                    addMessage(response, false);
-                    
-                    // Re-enable question buttons
-                    document.querySelectorAll('.question-btn').forEach(btn => {
-                        btn.disabled = false;
-                        btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    });
-                }, 1500);
-            });
-        });
-
-        // Close chat when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!chatbotWindow.contains(e.target) && !chatbotToggle.contains(e.target)) {
-                chatbotWindow.classList.add('hidden');
-            }
-        });
-
-        // Handle chat input
         const chatbotInput = document.getElementById('chatbot-input');
         const chatbotSend = document.getElementById('chatbot-send');
 
-        // Send message on button click
-        chatbotSend.addEventListener('click', sendMessage);
+        chatbotToggle.addEventListener('click', () => chatbotWindow.classList.toggle('hidden'));
+        chatbotClose.addEventListener('click', () => chatbotWindow.classList.add('hidden'));
 
-        // Send message on Enter key
-        chatbotInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'} message-animate`;
+            messageDiv.innerHTML = `<div class="${isUser ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white border-blue-500' : 'bg-gradient-to-br from-gray-800 to-gray-700 text-white border-gray-600'} rounded-xl px-4 py-3 max-w-xs shadow-lg border"><div class="text-sm">${message}</div></div>`;
+            chatbotMessages.appendChild(messageDiv);
+            setTimeout(() => chatbotMessages.scrollTo({ top: chatbotMessages.scrollHeight, behavior: 'smooth' }), 100);
+        }
+
+        function showTypingIndicator() { document.getElementById('typing-indicator').classList.remove('hidden'); setTimeout(() => chatbotMessages.scrollTo({ top: chatbotMessages.scrollHeight, behavior: 'smooth' }), 50); }
+        function hideTypingIndicator() { document.getElementById('typing-indicator').classList.add('hidden'); }
+
+        function getBotResponse(questionType) {
+            const responses = {
+                'registration': 'Direct registration is open! Deadline: <b>Jan 22, 2026</b>. No idea submission required.',
+                'team': 'Teams: 4-6 members. Fee: ₹600/student. Inter-college teams get 10% discount!',
+                'dates': 'Reg Deadline: Jan 22. Hackathon: Jan 31 (11 AM) to Feb 1 (4 PM).',
+                'venue': 'Venue: NRCM, Kompally. Report on Jan 31 before 10:00 AM.',
+                'tracks': 'Problem statements released On-Spot on Jan 31 (10:30 AM). Open Challenges.'
+            };
+            return responses[questionType] || 'I can help with the new registration process! Pick a question below.';
+        }
+
+        document.querySelectorAll('.question-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const qType = btn.getAttribute('data-question');
+                addMessage(btn.textContent, true);
+                showTypingIndicator();
+                setTimeout(() => { hideTypingIndicator(); addMessage(getBotResponse(qType), false); }, 1000);
+            });
         });
 
-        function sendMessage() {
-            const message = chatbotInput.value.trim();
-            if (message) {
-                // Add user message
-                addMessage(message, true);
-                chatbotInput.value = '';
-
-                // Show typing indicator
-                showTypingIndicator();
-
-                // Simulate bot response after delay
-                setTimeout(() => {
-                    hideTypingIndicator();
-                    const response = "Thanks for your message! I'm here to help with CodeStorm 2026. You can also use the predefined questions below for quick answers.";
-                    addMessage(response, false);
-                }, 1000);
-            }
-        }
+        chatbotSend.addEventListener('click', () => {
+            if(chatbotInput.value.trim()){ addMessage(chatbotInput.value, true); chatbotInput.value = ''; showTypingIndicator(); setTimeout(() => { hideTypingIndicator(); addMessage("Please use the predefined buttons for accurate info about the new schedule.", false); }, 1000); }
+        });
     </script>
 </body>
 </html>
