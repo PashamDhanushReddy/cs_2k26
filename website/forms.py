@@ -116,7 +116,7 @@ class TeamRegistrationForm(forms.Form):
         max_length=255,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Course Name'
+            'placeholder': 'Course Name (Eg.. BTECH-CSE)'
         })
     )
     member1_year = forms.ChoiceField(
@@ -198,7 +198,7 @@ class TeamRegistrationForm(forms.Form):
         max_length=255,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Course Name'
+            'placeholder': 'Course Name (Eg.. BTECH-CSE)'
         })
     )
     member2_year = forms.ChoiceField(
@@ -206,8 +206,7 @@ class TeamRegistrationForm(forms.Form):
             ('1st Year', '1st Year'),
             ('2nd Year', '2nd Year'),
             ('3rd Year', '3rd Year'),
-            ('4th Year', '4th Year'),
-            ('5th Year', '5th Year')
+            ('4th Year', '4th Year')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -280,7 +279,7 @@ class TeamRegistrationForm(forms.Form):
         max_length=255,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Course Name'
+            'placeholder': 'Course Name (Eg.. BTECH-CSE)'
         })
     )
     member3_year = forms.ChoiceField(
@@ -288,8 +287,7 @@ class TeamRegistrationForm(forms.Form):
             ('1st Year', '1st Year'),
             ('2nd Year', '2nd Year'),
             ('3rd Year', '3rd Year'),
-            ('4th Year', '4th Year'),
-            ('5th Year', '5th Year')
+            ('4th Year', '4th Year')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -362,7 +360,7 @@ class TeamRegistrationForm(forms.Form):
         max_length=255,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Course Name'
+            'placeholder': 'Course Name (Eg.. BTECH-CSE)'
         })
     )
     member4_year = forms.ChoiceField(
@@ -370,8 +368,7 @@ class TeamRegistrationForm(forms.Form):
             ('1st Year', '1st Year'),
             ('2nd Year', '2nd Year'),
             ('3rd Year', '3rd Year'),
-            ('4th Year', '4th Year'),
-            ('5th Year', '5th Year')
+            ('4th Year', '4th Year')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -398,14 +395,14 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Full Name (Optional)'
+            'placeholder': 'Full Name'
         })
     )
     member5_email = forms.EmailField(
         required=False,
         widget=forms.EmailInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Email Address (Optional)'
+            'placeholder': 'Email Address'
         })
     )
     member5_phone = forms.CharField(
@@ -413,7 +410,7 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Phone Number (Optional)',
+            'placeholder': 'Phone Number',
             'type': 'tel',
             'maxlength': '10',
             'pattern': '[6-9][0-9]{9}'
@@ -424,7 +421,7 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Roll Number (Optional)'
+            'placeholder': 'Roll Number'
         })
     )
     member5_gender = forms.ChoiceField(
@@ -443,7 +440,7 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'College Code (Optional)'
+            'placeholder': 'College Code'
         })
     )
     member5_course_name = forms.CharField(
@@ -451,7 +448,7 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Course Name (Optional)'
+            'placeholder': 'Course Name (Eg.. BTECH-CSE)'
         })
     )
     member5_year = forms.ChoiceField(
@@ -460,8 +457,7 @@ class TeamRegistrationForm(forms.Form):
             ('1st Year', '1st Year'),
             ('2nd Year', '2nd Year'),
             ('3rd Year', '3rd Year'),
-            ('4th Year', '4th Year'),
-            ('5th Year', '5th Year')
+            ('4th Year', '4th Year')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -472,7 +468,7 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'College Name (Optional)'
+            'placeholder': 'College Name'
         })
     )
     is_leader5 = forms.BooleanField(
@@ -489,14 +485,14 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Full Name (Optional)'
+            'placeholder': 'Full Name'
         })
     )
     member6_email = forms.EmailField(
         required=False,
         widget=forms.EmailInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Email Address (Optional)'
+            'placeholder': 'Email Address'
         })
     )
     member6_phone = forms.CharField(
@@ -504,7 +500,7 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Phone Number (Optional)',
+            'placeholder': 'Phone Number',
             'type': 'tel',
             'maxlength': '10',
             'pattern': '[6-9][0-9]{9}'
@@ -515,7 +511,7 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Roll Number (Optional)'
+            'placeholder': 'Roll Number'
         })
     )
     member6_gender = forms.ChoiceField(
@@ -534,7 +530,7 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'College Code (Optional)'
+            'placeholder': 'College Code'
         })
     )
     member6_course_name = forms.CharField(
@@ -542,7 +538,7 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'Course Name (Optional)'
+            'placeholder': 'Course Name (Eg.. BTECH-CSE)'
         })
     )
     member6_year = forms.ChoiceField(
@@ -551,8 +547,7 @@ class TeamRegistrationForm(forms.Form):
             ('1st Year', '1st Year'),
             ('2nd Year', '2nd Year'),
             ('3rd Year', '3rd Year'),
-            ('4th Year', '4th Year'),
-            ('5th Year', '5th Year')
+            ('4th Year', '4th Year')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -563,7 +558,7 @@ class TeamRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
-            'placeholder': 'College Name (Optional)'
+            'placeholder': 'College Name'
         })
     )
     is_leader6 = forms.BooleanField(
