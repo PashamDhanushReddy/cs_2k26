@@ -1352,7 +1352,7 @@
                                     <h6 class="text-amber-400 mb-2"><i class="fas fa-list-ol me-2"></i>Registration Flow</h6>
                                     <ol class="text-white small mb-0" style="color: #e2e8f0 !important; padding-left: 20px;">
                                         <li>Fill in all team details (Team name, size, theme, and all member information)</li>
-                                        <li>Click <strong>"Calculate Money"</strong> button</li>
+                                        <li>Click <strong>"Calculate Registration Fee"</strong> button</li>
                                         <li>Review your calculated registration fee (with discount if applicable)</li>
                                         <li>Scan the QR code and make payment</li>
                                         <li>Upload payment screenshot</li>
@@ -2192,7 +2192,8 @@
                                     {% if form.payment_screenshot.errors %}
                                     <div class="text-danger small">{{ form.payment_screenshot.errors.0 }}</div>
                                     {% endif %}
-                                    <small class="text-muted">Please upload a screenshot of your payment confirmation for the amount shown above.</small>
+                                    <small class="text-muted">Please upload a screenshot of your payment confirmation for the amount shown above.
+                                        The Screenshot must contain the transaction id in it.</small>
                                 </div>
                             </div>
                         </div>
