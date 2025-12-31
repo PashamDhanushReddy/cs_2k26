@@ -278,6 +278,7 @@ def register_team(request):
                     'team_size': form.cleaned_data.get('team_size', '4'),
                     'theme': form.cleaned_data['theme'],
                     'payment_screenshot': payment_screenshot_url,
+                    'transaction_id': form.cleaned_data['transaction_id'],
                     'member1_name': form.cleaned_data['member1_name'],
                     'member1_email': form.cleaned_data['member1_email'],
                     'member1_phone': form.cleaned_data['member1_phone'],
@@ -359,8 +360,13 @@ def register_team(request):
                     messages.error(request, 'Security verification failed. Please refresh the page (Ctrl+F5 or Cmd+Shift+R) and try submitting again.')
                 elif 'cannot access local variable' in error_msg:
                     messages.error(request, 'Server configuration error. Please try again or contact support.')
-                elif 'conflict' in error_msg.lower():
-                    messages.error(request, 'A registration with this information already exists. Please check your team details.')
+                elif 'conflict' in error_msg.lower() or 'duplicate' in error_msg.lower():
+                    if 'transaction_id' in error_msg.lower():
+                        messages.error(request, 'This transaction ID has already been used. Please verify your transaction ID and try again.')
+                    elif 'team_name' in error_msg.lower():
+                        messages.error(request, 'A team with this name already exists. Please choose a different team name.')
+                    else:
+                        messages.error(request, 'A registration with this information already exists. Please check your details.')
                 else:
                     messages.error(request, f'Error submitting registration: {error_msg}')
                 

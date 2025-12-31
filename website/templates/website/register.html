@@ -1329,7 +1329,7 @@
                             <h5 class="text-white mb-3"><i class="fas fa-info-circle me-2"></i>Registration Information</h5>
                             <div class="row">
                                 <div class="col-12 col-md-6 mb-3">
-                                    <h6 class="text-amber-400 mb-2"><i class="fas fa-tag me-2"></i>Inter-College Discount (10%)</h6>
+                                    <h6 class="text-white mb-2"><i class="fas fa-tag me-2"></i>Inter-College Discount (10%)</h6>
                                     <p class="text-white small mb-0" style="color: #e2e8f0 !important;">
                                         Get a <strong>10% discount</strong> on registration fee if your team has members from both NRCM and other colleges. 
                                         <br><strong>Base Fee:</strong> ₹600 per person
@@ -1337,7 +1337,7 @@
                                     </p>
                                 </div>
                                 <div class="col-12 col-md-6 mb-3">
-                                    <h6 class="text-amber-400 mb-2"><i class="fas fa-calculator me-2"></i>Calculate Registration Fee</h6>
+                                    <h6 class="text-white mb-2"><i class="fas fa-calculator me-2"></i>Calculate Registration Fee</h6>
                                     <p class="text-white small mb-0" style="color: #e2e8f0 !important;">
                                         After filling all team member details, click <strong>"Calculate Registration Fee"</strong> to:
                                         <br>• Validate your form
@@ -1349,7 +1349,7 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <h6 class="text-amber-400 mb-2"><i class="fas fa-list-ol me-2"></i>Registration Flow</h6>
+                                    <h6 class="text-white mb-2"><i class="fas fa-list-ol me-2"></i>Registration Flow</h6>
                                     <ol class="text-white small mb-0" style="color: #e2e8f0 !important; padding-left: 20px;">
                                         <li>Fill in all team details (Team name, size, theme, and all member information)</li>
                                         <li>Click <strong>"Calculate Registration Fee"</strong> button</li>
@@ -2181,6 +2181,22 @@
                             </div>
                         </div>
 
+                        <!-- Transaction ID Section (Hidden Initially) -->
+                        <div class="mb-4" id="transaction-id-section" style="display: none;">
+                            <h2 class="section-title">Transaction ID</h2>
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <label for="{{ form.transaction_id.id_for_label }}"
+                                        class="form-label required-field">Transaction ID</label>
+                                    {{ form.transaction_id }}
+                                    {% if form.transaction_id.errors %}
+                                    <div class="text-danger small">{{ form.transaction_id.errors.0 }}</div>
+                                    {% endif %}
+                                    <small class="text-muted">Enter the transaction ID from your payment receipt. This must be unique and will be verified.</small>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Payment Screenshot Section (Hidden Initially) -->
                         <div class="mb-4" id="payment-screenshot-section" style="display: none;">
                             <h2 class="section-title">Payment Screenshot</h2>
@@ -2306,6 +2322,8 @@
                         feeSection.style.display = 'none';
                         const qrSection = document.getElementById('qr-section');
                         if (qrSection) qrSection.style.display = 'none';
+                        const transactionIdSection = document.getElementById('transaction-id-section');
+                        if (transactionIdSection) transactionIdSection.style.display = 'none';
                         const paymentScreenshotSection = document.getElementById('payment-screenshot-section');
                         if (paymentScreenshotSection) paymentScreenshotSection.style.display = 'none';
                     }
@@ -2324,6 +2342,7 @@
             const feeSection = document.getElementById('fee-section');
             const qrSection = document.getElementById('qr-section');
             const paymentScreenshotSection = document.getElementById('payment-screenshot-section');
+            const transactionIdSection = document.getElementById('transaction-id-section');
             
             if (calculateBtn) {
                 calculateBtn.addEventListener('click', function() {
@@ -2412,13 +2431,16 @@
                     // Calculate fee
                     calculateFee();
                     
-                    // Show fee, QR, and payment screenshot sections
+                    // Show fee, QR, transaction ID, and payment screenshot sections
                     if (feeSection) {
                         feeSection.style.display = 'block';
                         feeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                     if (qrSection) {
                         qrSection.style.display = 'block';
+                    }
+                    if (transactionIdSection) {
+                        transactionIdSection.style.display = 'block';
                     }
                     if (paymentScreenshotSection) {
                         paymentScreenshotSection.style.display = 'block';

@@ -51,6 +51,16 @@ class TeamRegistrationForm(forms.Form):
         })
     )
     
+    # Transaction ID
+    transaction_id = forms.CharField(
+        max_length=100,
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
+            'placeholder': 'Enter transaction ID from payment receipt'
+        })
+    )
+    
     # Member 1 (Required)
     member1_name = forms.CharField(
         max_length=255,
@@ -134,9 +144,12 @@ class TeamRegistrationForm(forms.Form):
     )
     member1_tshirt_size = forms.ChoiceField(
         choices=[
-            ('Small', 'Small'),
-            ('Medium', 'Medium'),
-            ('Large', 'Large')
+            ('S', 'S'),
+            ('M', 'M'),
+            ('L', 'L'),
+            ('XL', 'XL'),
+            ('XXL', 'XXL'),
+            ('XXXL', 'XXXL')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -234,9 +247,12 @@ class TeamRegistrationForm(forms.Form):
     )
     member2_tshirt_size = forms.ChoiceField(
         choices=[
-            ('Small', 'Small'),
-            ('Medium', 'Medium'),
-            ('Large', 'Large')
+            ('S', 'S'),
+            ('M', 'M'),
+            ('L', 'L'),
+            ('XL', 'XL'),
+            ('XXL', 'XXL'),
+            ('XXXL', 'XXXL')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -334,9 +350,12 @@ class TeamRegistrationForm(forms.Form):
     )
     member3_tshirt_size = forms.ChoiceField(
         choices=[
-            ('Small', 'Small'),
-            ('Medium', 'Medium'),
-            ('Large', 'Large')
+            ('S', 'S'),
+            ('M', 'M'),
+            ('L', 'L'),
+            ('XL', 'XL'),
+            ('XXL', 'XXL'),
+            ('XXXL', 'XXXL')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -434,9 +453,12 @@ class TeamRegistrationForm(forms.Form):
     )
     member4_tshirt_size = forms.ChoiceField(
         choices=[
-            ('Small', 'Small'),
-            ('Medium', 'Medium'),
-            ('Large', 'Large')
+             ('S', 'S'),
+            ('M', 'M'),
+            ('L', 'L'),
+            ('XL', 'XL'),
+            ('XXL', 'XXL'),
+            ('XXXL', 'XXXL')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -544,9 +566,12 @@ class TeamRegistrationForm(forms.Form):
     member5_tshirt_size = forms.ChoiceField(
         required=False,
         choices=[
-            ('Small', 'Small'),
-            ('Medium', 'Medium'),
-            ('Large', 'Large')
+            ('S', 'S'),
+            ('M', 'M'),
+            ('L', 'L'),
+            ('XL', 'XL'),
+            ('XXL', 'XXL'),
+            ('XXXL', 'XXXL')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -655,9 +680,12 @@ class TeamRegistrationForm(forms.Form):
     member6_tshirt_size = forms.ChoiceField(
         required=False,
         choices=[
-            ('Small', 'Small'),
-            ('Medium', 'Medium'),
-            ('Large', 'Large')
+            ('S', 'S'),
+            ('M', 'M'),
+            ('L', 'L'),
+            ('XL', 'XL'),
+            ('XXL', 'XXL'),
+            ('XXXL', 'XXXL')
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
