@@ -99,6 +99,7 @@
         }
 
         @media (hover: hover) and (pointer: fine) {
+
             .form-control:hover,
             .form-select:hover {
                 border-color: #4b5563 !important;
@@ -359,6 +360,7 @@
         }
 
         @media (hover: hover) and (pointer: fine) {
+
             .form-control:focus+.form-label,
             .form-select:focus+.form-label {
                 color: #f59e0b;
@@ -519,14 +521,14 @@
                 transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
                 transform: none !important;
             }
-            
+
             /* Disable backdrop-filter on mobile for better performance */
             .glass-panel,
             .member-card {
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
             }
-            
+
             /* Disable all hover effects on mobile */
             .glass-panel:hover,
             .member-card:hover,
@@ -535,7 +537,7 @@
             .btn-submit:hover {
                 transform: none !important;
             }
-            
+
             /* Optimize rendering */
             .glass-panel,
             .member-card,
@@ -557,7 +559,7 @@
                 -webkit-transform: translateZ(0);
                 transform: translateZ(0);
             }
-            
+
             /* Disable hover on Tailwind inputs for mobile */
             [class*="w-full"][class*="px-4"][class*="py-3"][class*="bg-gray-800"][class*="border"][class*="border-gray-600"][class*="rounded-lg"]:hover {
                 transform: none !important;
@@ -911,6 +913,7 @@
 
         /* Animated border on focus - disabled on mobile for performance */
         @media (hover: hover) and (pointer: fine) {
+
             .form-control:focus,
             .form-select:focus {
                 animation: focusGlow 0.3s ease-in-out;
@@ -1093,13 +1096,13 @@
                 color: #fbbf24 !important;
             }
         }
-        
+
         /* Android-specific fixes */
         @media screen and (-webkit-min-device-pixel-ratio: 0) {
             * {
                 -webkit-tap-highlight-color: transparent;
             }
-            
+
             /* Force GPU acceleration on Android */
             .glass-panel,
             .member-card,
@@ -1125,7 +1128,7 @@
                 perspective: 1000;
                 will-change: auto;
             }
-            
+
             /* Disable backdrop-filter on mobile */
             .glass-panel,
             .member-card,
@@ -1307,8 +1310,20 @@
             <div class="col-12 col-lg-10 col-xl-8">
                 <!-- Header -->
                 <div class="text-center mb-4">
-                    <h1 class="gradient-text display-5 fw-bold mb-3" style="font-family: 'Orbitron', sans-serif;">Team Registration</h1>
+                    <h1 class="gradient-text display-5 fw-bold mb-3" style="font-family: 'Orbitron', sans-serif;">Team
+                        Registration</h1>
                     <p class="text-muted">Register your team for CodeStorm 2026 - The Ultimate 36-Hour Hackathon</p>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="alert alert-warning mb-4 shadow-sm border-2">
+                    <h5 class="alert-heading fw-bold mb-2"><i class="fas fa-headset me-2"></i>Help & Support</h5>
+                    <p class="mb-0">
+                        If any issues occur regarding payment/registration or website, please contact:
+                        <br><strong><i class="fas fa-phone-alt me-2"></i>Phone:</strong> 8309727675, 7680005284
+                        <br><strong><i class="fas fa-envelope me-2"></i>Email:</strong> reddemvarshith@gmail.com,
+                        pashamdhanushreddy@gmail.com
+                    </p>
                 </div>
 
                 <!-- Messages -->
@@ -1325,21 +1340,27 @@
                 <div class="glass-panel">
                     <!-- Registration Info Section -->
                     <div class="mb-4">
-                        <div class="alert alert-info" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%); border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 15px;">
-                            <h5 class="text-white mb-3"><i class="fas fa-info-circle me-2"></i>Registration Information</h5>
+                        <div class="alert alert-info"
+                            style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%); border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 15px;">
+                            <h5 class="text-white mb-3"><i class="fas fa-info-circle me-2"></i>Registration Information
+                            </h5>
                             <div class="row">
                                 <div class="col-12 col-md-6 mb-3">
-                                    <h6 class="text-white mb-2"><i class="fas fa-tag me-2"></i>Inter-College Discount (10%)</h6>
+                                    <h6 class="text-white mb-2"><i class="fas fa-tag me-2"></i>Inter-College Discount
+                                        (10%)</h6>
                                     <p class="text-white small mb-0" style="color: #e2e8f0 !important;">
-                                        Get a <strong>10% discount</strong> on registration fee if your team has members from both NRCM and other colleges. 
+                                        Get a <strong>10% discount</strong> on registration fee if your team has members
+                                        from both NRCM and other colleges.
                                         <br><strong>Base Fee:</strong> ₹600 per person
                                         <br><strong>Example:</strong> 4 members = ₹2,400 (₹2,160 with discount)
                                     </p>
                                 </div>
                                 <div class="col-12 col-md-6 mb-3">
-                                    <h6 class="text-white mb-2"><i class="fas fa-calculator me-2"></i>Calculate Registration Fee</h6>
+                                    <h6 class="text-white mb-2"><i class="fas fa-calculator me-2"></i>Calculate
+                                        Registration Fee</h6>
                                     <p class="text-white small mb-0" style="color: #e2e8f0 !important;">
-                                        After filling all team member details, click <strong>"Calculate Registration Fee"</strong> to:
+                                        After filling all team member details, click <strong>"Calculate Registration
+                                            Fee"</strong> to:
                                         <br>• Validate your form
                                         <br>• Calculate your registration fee
                                         <br>• View payment QR code
@@ -1349,9 +1370,12 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <h6 class="text-white mb-2"><i class="fas fa-list-ol me-2"></i>Registration Flow</h6>
-                                    <ol class="text-white small mb-0" style="color: #e2e8f0 !important; padding-left: 20px;">
-                                        <li>Fill in all team details (Team name, size, theme, and all member information)</li>
+                                    <h6 class="text-white mb-2"><i class="fas fa-list-ol me-2"></i>Registration Flow
+                                    </h6>
+                                    <ol class="text-white small mb-0"
+                                        style="color: #e2e8f0 !important; padding-left: 20px;">
+                                        <li>Fill in all team details (Team name, size, theme, and all member
+                                            information)</li>
                                         <li>Click <strong>"Calculate Registration Fee"</strong> button</li>
                                         <li>Review your calculated registration fee (with discount if applicable)</li>
                                         <li>Scan the QR code and make payment</li>
@@ -2105,7 +2129,8 @@
 
                         <!-- Calculate Money Button -->
                         <div class="text-center mt-4 mb-4">
-                            <button type="button" class="btn-submit" id="calculateBtn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            <button type="button" class="btn-submit" id="calculateBtn"
+                                style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
                                 <i class="fas fa-calculator me-2"></i>
                                 <span id="calculateText">Calculate Registration Fee</span>
                             </button>
@@ -2121,22 +2146,33 @@
                                             <div class="row mb-3">
                                                 <div class="col-12 col-md-6">
                                                     <p class="mb-2"><strong>Base Fee per Person:</strong> ₹600</p>
-                                                    <p class="mb-2"><strong>Team Size:</strong> <span id="display-team-size">4</span> members</p>
-                                                    <p class="mb-2"><strong>Total Base Fee:</strong> ₹<span id="total-base-fee">2400</span></p>
+                                                    <p class="mb-2"><strong>Team Size:</strong> <span
+                                                            id="display-team-size">4</span> members</p>
+                                                    <p class="mb-2"><strong>Total Base Fee:</strong> ₹<span
+                                                            id="total-base-fee">2400</span></p>
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <div id="discount-info" class="d-none">
-                                                        <p class="mb-2 text-success"><strong>Inter-College Discount (10%):</strong> -₹<span id="discount-amount">0</span></p>
-                                                        <p class="mb-2"><strong>Final Amount to Pay:</strong> ₹<span id="final-amount" class="text-amber-400 fw-bold fs-5">2400</span></p>
+                                                        <p class="mb-2 text-success"><strong>Inter-College Discount
+                                                                (10%):</strong> -₹<span id="discount-amount">0</span>
+                                                        </p>
+                                                        <p class="mb-2"><strong>Final Amount to Pay:</strong> ₹<span
+                                                                id="final-amount"
+                                                                class="text-amber-400 fw-bold fs-5">2400</span></p>
                                                     </div>
                                                     <div id="no-discount-info">
-                                                        <p class="mb-2 text-muted"><small>Add at least one member from a different college to get 10% discount</small></p>
-                                                        <p class="mb-2"><strong>Final Amount to Pay:</strong> ₹<span id="final-amount-no-discount" class="text-amber-400 fw-bold fs-5">2400</span></p>
+                                                        <p class="mb-2 text-muted"><small>Add at least one member from a
+                                                                different college to get 10% discount</small></p>
+                                                        <p class="mb-2"><strong>Final Amount to Pay:</strong> ₹<span
+                                                                id="final-amount-no-discount"
+                                                                class="text-amber-400 fw-bold fs-5">2400</span></p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div id="discount-message" class="alert alert-info d-none">
-                                                <i class="fas fa-info-circle"></i> <strong>Inter-College Discount Applied!</strong> Your team qualifies for a 10% discount because you have members from both NRCM and other colleges.
+                                                <i class="fas fa-info-circle"></i> <strong>Inter-College Discount
+                                                    Applied!</strong> Your team qualifies for a 10% discount because you
+                                                have members from both NRCM and other colleges.
                                             </div>
                                         </div>
                                     </div>
@@ -2153,12 +2189,20 @@
                                         <p class="mb-3"><strong>Scan this QR code to make payment:</strong></p>
                                         <div id="qr-code-container" class="mb-3">
                                             <!-- QR Code will be displayed here -->
-                                            <img src="{% static 'images/payment-qr.png' %}" alt="Payment QR Code" class="img-fluid" style="max-width: 300px; border: 2px solid #fbbf24; border-radius: 10px;" onerror="this.style.display='none'; document.getElementById('qr-placeholder').style.display='block';">
-                                            <div id="qr-placeholder" style="display: none; padding: 40px; background: #1f2937; border: 2px dashed #4b5563; border-radius: 10px;">
+                                            <img src="{% static 'images/payment-qr.jpg' %}" alt="Payment QR Code"
+                                                class="img-fluid"
+                                                style="max-width: 300px; border: 2px solid #fbbf24; border-radius: 10px;"
+                                                onerror="this.style.display='none'; document.getElementById('qr-placeholder').style.display='block';">
+                                            <div id="qr-placeholder"
+                                                style="display: none; padding: 40px; background: #1f2937; border: 2px dashed #4b5563; border-radius: 10px;">
                                                 <i class="fas fa-qrcode fa-3x text-gray-500 mb-3"></i>
-                                                <p class="text-muted">QR Code image not found. Please contact organizers for payment details.</p>
+                                                <p class="text-muted">QR Code image not found. Please contact organizers
+                                                    for payment details.</p>
                                             </div>
                                         </div>
+                                        <p class="text-white mb-2"
+                                            style="font-family: 'Orbitron', sans-serif; letter-spacing: 1px; font-size: 1.1em;">
+                                            UPI ID : 9000995454@icici</p>
                                         <p class="text-muted small">Amount to Pay: ₹<span id="qr-amount">2400</span></p>
                                     </div>
                                 </div>
@@ -2174,7 +2218,9 @@
                                             <li>Complete your registration</li>
                                         </ol>
                                         <div class="alert alert-warning mt-3">
-                                            <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Make sure to pay the exact amount calculated above. Incorrect payments may delay your registration.
+                                            <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Make
+                                            sure to pay the exact amount calculated above. Incorrect payments may delay
+                                            your registration.
                                         </div>
                                     </div>
                                 </div>
@@ -2192,7 +2238,8 @@
                                     {% if form.transaction_id.errors %}
                                     <div class="text-danger small">{{ form.transaction_id.errors.0 }}</div>
                                     {% endif %}
-                                    <small class="text-muted">Enter the transaction ID from your payment receipt. This must be unique and will be verified.</small>
+                                    <small class="text-muted">Enter the transaction ID from your payment receipt. This
+                                        must be unique and will be verified.</small>
                                 </div>
                             </div>
                         </div>
@@ -2208,7 +2255,8 @@
                                     {% if form.payment_screenshot.errors %}
                                     <div class="text-danger small">{{ form.payment_screenshot.errors.0 }}</div>
                                     {% endif %}
-                                    <small class="text-muted">Please upload a screenshot of your payment confirmation for the amount shown above.
+                                    <small class="text-muted">Please upload a screenshot of your payment confirmation
+                                        for the amount shown above.
                                         The Screenshot must contain the transaction id in it.</small>
                                 </div>
                             </div>
@@ -2237,70 +2285,70 @@
 
         // Fee calculation function (moved outside DOMContentLoaded for global access)
         function calculateFee() {
-                const baseFeePerPerson = 600;
-                const discountPercentage = 0.10;
-                
-                // Get team size
-                const teamSizeSelect = document.querySelector('[name="team_size"]');
-                const teamSize = teamSizeSelect ? parseInt(teamSizeSelect.value) || 4 : 4;
-                
-                // Collect all college codes
-                const collegeCodes = new Set();
-                for (let i = 1; i <= teamSize; i++) {
-                    const collegeCodeInput = document.querySelector(`[name="member${i}_college_code"]`);
-                    if (collegeCodeInput && collegeCodeInput.value) {
-                        const code = collegeCodeInput.value.trim().toUpperCase();
-                        if (code) {
-                            collegeCodes.add(code);
-                        }
+            const baseFeePerPerson = 600;
+            const discountPercentage = 0.10;
+
+            // Get team size
+            const teamSizeSelect = document.querySelector('[name="team_size"]');
+            const teamSize = teamSizeSelect ? parseInt(teamSizeSelect.value) || 4 : 4;
+
+            // Collect all college codes
+            const collegeCodes = new Set();
+            for (let i = 1; i <= teamSize; i++) {
+                const collegeCodeInput = document.querySelector(`[name="member${i}_college_code"]`);
+                if (collegeCodeInput && collegeCodeInput.value) {
+                    const code = collegeCodeInput.value.trim().toUpperCase();
+                    if (code) {
+                        collegeCodes.add(code);
                     }
                 }
-                
-                // Check discount eligibility
-                const hasNRCM = collegeCodes.has('NRCM');
-                const hasNonNRCM = Array.from(collegeCodes).some(code => code !== 'NRCM');
-                const discountEligible = hasNRCM && hasNonNRCM && collegeCodes.size > 1;
-                
-                // Calculate fees
-                const totalBaseFee = baseFeePerPerson * teamSize;
-                const discountAmount = discountEligible ? totalBaseFee * discountPercentage : 0;
-                const finalAmount = totalBaseFee - discountAmount;
-                
-                // Update display
-                const displayTeamSize = document.getElementById('display-team-size');
-                const totalBaseFeeEl = document.getElementById('total-base-fee');
-                const discountAmountEl = document.getElementById('discount-amount');
-                const finalAmountEl = document.getElementById('final-amount');
-                const finalAmountNoDiscountEl = document.getElementById('final-amount-no-discount');
-                const discountInfo = document.getElementById('discount-info');
-                const noDiscountInfo = document.getElementById('no-discount-info');
-                const discountMessage = document.getElementById('discount-message');
-                const qrAmount = document.getElementById('qr-amount');
-                
-                if (displayTeamSize) displayTeamSize.textContent = teamSize;
-                if (totalBaseFeeEl) totalBaseFeeEl.textContent = totalBaseFee;
-                if (discountAmountEl) discountAmountEl.textContent = discountAmount;
-                if (finalAmountEl) finalAmountEl.textContent = finalAmount;
-                if (finalAmountNoDiscountEl) finalAmountNoDiscountEl.textContent = finalAmount;
-                if (qrAmount) qrAmount.textContent = finalAmount;
-                
-                // Show/hide discount info
-                if (discountEligible) {
-                    if (discountInfo) discountInfo.classList.remove('d-none');
-                    if (noDiscountInfo) noDiscountInfo.classList.add('d-none');
-                    if (discountMessage) discountMessage.classList.remove('d-none');
-                } else {
-                    if (discountInfo) discountInfo.classList.add('d-none');
-                    if (noDiscountInfo) noDiscountInfo.classList.remove('d-none');
-                    if (discountMessage) discountMessage.classList.add('d-none');
-                }
             }
+
+            // Check discount eligibility
+            const hasNRCM = collegeCodes.has('NRCM');
+            const hasNonNRCM = Array.from(collegeCodes).some(code => code !== 'NRCM');
+            const discountEligible = hasNRCM && hasNonNRCM && collegeCodes.size > 1;
+
+            // Calculate fees
+            const totalBaseFee = baseFeePerPerson * teamSize;
+            const discountAmount = discountEligible ? totalBaseFee * discountPercentage : 0;
+            const finalAmount = totalBaseFee - discountAmount;
+
+            // Update display
+            const displayTeamSize = document.getElementById('display-team-size');
+            const totalBaseFeeEl = document.getElementById('total-base-fee');
+            const discountAmountEl = document.getElementById('discount-amount');
+            const finalAmountEl = document.getElementById('final-amount');
+            const finalAmountNoDiscountEl = document.getElementById('final-amount-no-discount');
+            const discountInfo = document.getElementById('discount-info');
+            const noDiscountInfo = document.getElementById('no-discount-info');
+            const discountMessage = document.getElementById('discount-message');
+            const qrAmount = document.getElementById('qr-amount');
+
+            if (displayTeamSize) displayTeamSize.textContent = teamSize;
+            if (totalBaseFeeEl) totalBaseFeeEl.textContent = totalBaseFee;
+            if (discountAmountEl) discountAmountEl.textContent = discountAmount;
+            if (finalAmountEl) finalAmountEl.textContent = finalAmount;
+            if (finalAmountNoDiscountEl) finalAmountNoDiscountEl.textContent = finalAmount;
+            if (qrAmount) qrAmount.textContent = finalAmount;
+
+            // Show/hide discount info
+            if (discountEligible) {
+                if (discountInfo) discountInfo.classList.remove('d-none');
+                if (noDiscountInfo) noDiscountInfo.classList.add('d-none');
+                if (discountMessage) discountMessage.classList.remove('d-none');
+            } else {
+                if (discountInfo) discountInfo.classList.add('d-none');
+                if (noDiscountInfo) noDiscountInfo.classList.remove('d-none');
+                if (discountMessage) discountMessage.classList.add('d-none');
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', function () {
             // Team size change handler
             const teamSizeSelect = document.querySelector('[name="team_size"]');
             if (teamSizeSelect) {
-                teamSizeSelect.addEventListener('change', function() {
+                teamSizeSelect.addEventListener('change', function () {
                     updateMemberVisibility();
                     // Reset calculate button and hide sections if fee section is visible
                     const feeSection = document.getElementById('fee-section');
@@ -2308,7 +2356,7 @@
                         const calculateBtn = document.getElementById('calculateBtn');
                         const calculateText = document.getElementById('calculateText');
                         const submitButtonContainer = document.getElementById('submit-button-container');
-                        
+
                         if (calculateBtn) {
                             calculateBtn.disabled = false;
                             calculateBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
@@ -2333,40 +2381,40 @@
 
             // Leader checkbox handler
             setupLeaderCheckboxes();
-            
+
             // Remove automatic fee calculation on college code changes
             // Fee will only be calculated when "Calculate Money" button is clicked
-            
+
             // Calculate Money button handler
             const calculateBtn = document.getElementById('calculateBtn');
             const feeSection = document.getElementById('fee-section');
             const qrSection = document.getElementById('qr-section');
             const paymentScreenshotSection = document.getElementById('payment-screenshot-section');
             const transactionIdSection = document.getElementById('transaction-id-section');
-            
+
             if (calculateBtn) {
-                calculateBtn.addEventListener('click', function() {
+                calculateBtn.addEventListener('click', function () {
                     // Validate that required fields are filled
                     const teamSizeSelect = document.querySelector('[name="team_size"]');
                     const teamSize = teamSizeSelect ? parseInt(teamSizeSelect.value) || 4 : 4;
-                    
+
                     let isValid = true;
                     let errorMessage = '';
-                    
+
                     // Check team name
                     const teamName = document.querySelector('[name="team_name"]');
                     if (!teamName || !teamName.value.trim()) {
                         isValid = false;
                         errorMessage = 'Please enter your team name.';
                     }
-                    
+
                     // Check theme
                     const theme = document.querySelector('[name="theme"]');
                     if (!theme || !theme.value) {
                         isValid = false;
                         errorMessage = 'Please select a theme.';
                     }
-                    
+
                     // Check required members (1-4)
                     for (let i = 1; i <= Math.min(teamSize, 4); i++) {
                         const name = document.querySelector(`[name="member${i}_name"]`);
@@ -2374,7 +2422,7 @@
                         const phone = document.querySelector(`[name="member${i}_phone"]`);
                         const roll = document.querySelector(`[name="member${i}_roll"]`);
                         const collegeCode = document.querySelector(`[name="member${i}_college_code"]`);
-                        
+
                         if (!name || !name.value.trim()) {
                             isValid = false;
                             errorMessage = `Please fill in all details for Member ${i}.`;
@@ -2401,7 +2449,7 @@
                             break;
                         }
                     }
-                    
+
                     // Check optional members if team size > 4
                     if (teamSize > 4) {
                         for (let i = 5; i <= teamSize; i++) {
@@ -2410,10 +2458,10 @@
                             const phone = document.querySelector(`[name="member${i}_phone"]`);
                             const roll = document.querySelector(`[name="member${i}_roll"]`);
                             const collegeCode = document.querySelector(`[name="member${i}_college_code"]`);
-                            
+
                             // If any field is filled, all must be filled
                             if (name && name.value.trim()) {
-                                if (!email || !email.value.trim() || !phone || !phone.value.trim() || 
+                                if (!email || !email.value.trim() || !phone || !phone.value.trim() ||
                                     !roll || !roll.value.trim() || !collegeCode || !collegeCode.value.trim()) {
                                     isValid = false;
                                     errorMessage = `Please fill in all details for Member ${i} or leave all fields empty.`;
@@ -2422,15 +2470,15 @@
                             }
                         }
                     }
-                    
+
                     if (!isValid) {
                         alert(errorMessage);
                         return;
                     }
-                    
+
                     // Calculate fee
                     calculateFee();
-                    
+
                     // Show fee, QR, transaction ID, and payment screenshot sections
                     if (feeSection) {
                         feeSection.style.display = 'block';
@@ -2445,13 +2493,13 @@
                     if (paymentScreenshotSection) {
                         paymentScreenshotSection.style.display = 'block';
                     }
-                    
+
                     // Show submit button
                     const submitButtonContainer = document.getElementById('submit-button-container');
                     if (submitButtonContainer) {
                         submitButtonContainer.style.display = 'block';
                     }
-                    
+
                     // Update button text to "Recalculate"
                     const calculateText = document.getElementById('calculateText');
                     if (calculateText) {
@@ -2479,7 +2527,7 @@
             document.addEventListener('gesturestart', function (e) {
                 e.preventDefault();
             }, { passive: false });
-            
+
             // Prevent touch callouts that might cause flickering
             document.addEventListener('touchmove', function (e) {
                 // Allow scrolling but prevent other touch behaviors
