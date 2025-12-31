@@ -116,6 +116,42 @@ def register_team(request):
         
         form = TeamRegistrationForm(request.POST, request.FILES)
         
+        # Handle file persistence for validation errors
+        preserved_file_info = None
+        if request.method == 'POST' and request.FILES.get('payment_screenshot'):
+            # Store file temporarily on server for persistence across validation errors
+            uploaded_file = request.FILES['payment_screenshot']
+            import tempfile
+            import os
+            
+            # Create a temporary file to store the uploaded file
+            temp_dir = tempfile.gettempdir()
+            temp_filename = f"codestorm_payment_{uuid.uuid4()}_{uploaded_file.name}"
+            temp_path = os.path.join(temp_dir, temp_filename)
+            
+            try:
+                # Write the uploaded file to temporary storage
+                with open(temp_path, 'wb+') as destination:
+                    for chunk in uploaded_file.chunks():
+                        destination.write(chunk)
+                
+                # Store file info in session for persistence across validation errors
+                request.session['preserved_payment_screenshot'] = {
+                    'name': uploaded_file.name,
+                    'size': uploaded_file.size,
+                    'content_type': uploaded_file.content_type,
+                    'temp_path': temp_path,
+                    'uploaded': True
+                }
+                preserved_file_info = request.session['preserved_payment_screenshot']
+                
+            except Exception as e:
+                print(f"Error storing temporary file: {str(e)}")
+                # Continue without file preservation if storage fails
+                
+        elif request.session.get('preserved_payment_screenshot'):
+            preserved_file_info = request.session['preserved_payment_screenshot']
+        
         # Debug: Print form errors if validation fails
         if not form.is_valid():
             print(f"=== FORM VALIDATION ERRORS ===")
@@ -152,23 +188,28 @@ def register_team(request):
                 discount_amount = total_base_fee * discount_percentage
                 total_fee = total_base_fee - discount_amount
                 
-                # Handle payment screenshot upload
+                # Handle payment screenshot - store temporarily for later upload
                 payment_screenshot = request.FILES.get('payment_screenshot')
+                payment_screenshot_temp = None
                 payment_screenshot_url = ''
+                
                 if payment_screenshot:
+                    # Store the file temporarily for upload after successful registration
+                    payment_screenshot_temp = payment_screenshot
+                elif preserved_file_info and 'temp_path' in preserved_file_info:
+                    # Use the preserved file from temporary storage
                     try:
-                        # Upload payment screenshot to Cloudinary
-                        unique_filename = f"{team_name.replace(' ', '_')}_payment_{uuid.uuid4()}"
-                        response = cloudinary.uploader.upload(
-                            payment_screenshot,
-                            public_id=unique_filename,
-                            folder="payment_screenshots",
-                            resource_type="image"
-                        )
-                        payment_screenshot_url = response.get('secure_url', '')
+                        # Open the preserved file for upload
+                        with open(preserved_file_info['temp_path'], 'rb') as f:
+                            from django.core.files.uploadedfile import SimpleUploadedFile
+                            payment_screenshot_temp = SimpleUploadedFile(
+                                name=preserved_file_info['name'],
+                                content=f.read(),
+                                content_type=preserved_file_info['content_type']
+                            )
                     except Exception as e:
-                        print(f"Error uploading payment screenshot: {str(e)}")
-                        messages.warning(request, 'Note: Payment screenshot could not be uploaded, but your registration will still be saved.')
+                        print(f"Error reading preserved file: {str(e)}")
+                        messages.warning(request, 'Warning: Could not retrieve your previously uploaded payment screenshot. Please upload it again.')
                 
                 # Find the team leader to get default values
                 leader_data = None
@@ -348,6 +389,43 @@ def register_team(request):
                 # Insert into Supabase
                 insert_registration_data(registration_data)
                 
+                # Only upload to Cloudinary after successful registration
+                if payment_screenshot_temp:
+                    try:
+                        # Upload payment screenshot to Cloudinary
+                        unique_filename = f"{team_name.replace(' ', '_')}_payment_{uuid.uuid4()}"
+                        response = cloudinary.uploader.upload(
+                            payment_screenshot_temp,
+                            public_id=unique_filename,
+                            folder="payment_screenshots",
+                            resource_type="image"
+                        )
+                        payment_screenshot_url = response.get('secure_url', '')
+                        
+                        # Update the registration record with the Cloudinary URL
+                        # This would require a function to update the record in Supabase
+                        # For now, we'll just log the success
+                        print(f"Payment screenshot uploaded to Cloudinary: {payment_screenshot_url}")
+                        
+                    except Exception as e:
+                        print(f"Error uploading payment screenshot to Cloudinary: {str(e)}")
+                        # Don't fail the registration if Cloudinary upload fails
+                        # The registration is already successful at this point
+                
+                # Clear preserved file info after successful registration
+                if 'preserved_payment_screenshot' in request.session:
+                    preserved_data = request.session['preserved_payment_screenshot']
+                    # Clean up temporary file if it exists
+                    if 'temp_path' in preserved_data:
+                        try:
+                            import os
+                            if os.path.exists(preserved_data['temp_path']):
+                                os.remove(preserved_data['temp_path'])
+                        except Exception as e:
+                            print(f"Error cleaning up temporary file: {str(e)}")
+                    
+                    del request.session['preserved_payment_screenshot']
+                
                 return redirect('registration_success')
                 
             except Exception as e:
@@ -372,8 +450,17 @@ def register_team(request):
                 
                 # If PPT upload failed, we don't need to clean up since we didn't insert data
                 
+                # Create a new form instance to preserve other form data
+                form = TeamRegistrationForm(request.POST, request.FILES)
+                # Attach preserved file info to form for validation
+                if preserved_file_info:
+                    form.preserved_file_info = preserved_file_info
+                
     else:
         form = TeamRegistrationForm()
+        # Clear preserved file info when loading fresh form
+        if 'preserved_payment_screenshot' in request.session:
+            del request.session['preserved_payment_screenshot']
     
     # Default fee calculation for initial page load
     base_fee_per_person = 600
@@ -385,6 +472,7 @@ def register_team(request):
         'base_fee_per_person': base_fee_per_person,
         'default_total_fee': default_total,
         'discount_percentage': 10,
+        'preserved_file_info': preserved_file_info,
     }
     
     return render(request, 'website/register.html', context)

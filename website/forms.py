@@ -43,7 +43,7 @@ class TeamRegistrationForm(forms.Form):
     
     # Payment screenshot upload
     payment_screenshot = forms.ImageField(
-        required=True,
+        required=False,  # Will be validated conditionally in clean method
         validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'pdf'])],
         widget=forms.FileInput(attrs={
             'class': 'w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500',
@@ -900,6 +900,17 @@ class TeamRegistrationForm(forms.Form):
             return course_name.upper()
         return course_name
 
+    def clean_payment_screenshot(self):
+        """Custom validation for payment screenshot to handle preserved files"""
+        payment_screenshot = self.cleaned_data.get('payment_screenshot')
+        
+        # If no new file is uploaded, check if we have a preserved file
+        if not payment_screenshot and hasattr(self, 'preserved_file_info'):
+            # Return a dummy value to indicate preserved file exists
+            return 'PRESERVED_FILE_EXISTS'
+        
+        return payment_screenshot
+
     def clean(self):
         cleaned_data = super().clean()
         
@@ -923,6 +934,13 @@ class TeamRegistrationForm(forms.Form):
             team_size = int(team_size_str)
         except (ValueError, TypeError):
             team_size = 4
+        
+        # Validate payment screenshot - either new file or preserved file
+        payment_screenshot = cleaned_data.get('payment_screenshot')
+        has_preserved_file = hasattr(self, 'preserved_file_info')
+        
+        if not payment_screenshot and not has_preserved_file:
+            raise forms.ValidationError('Payment screenshot is required. Please upload a screenshot of your payment confirmation.')
         
         female_count = 0
         
