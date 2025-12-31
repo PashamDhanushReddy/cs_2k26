@@ -2208,6 +2208,13 @@
                                     {% if form.payment_screenshot.errors %}
                                     <div class="text-danger small">{{ form.payment_screenshot.errors.0 }}</div>
                                     {% endif %}
+                                    {% if preserved_file_info %}
+                                    <div class="alert alert-info mt-2">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        <strong>File uploaded:</strong> {{ preserved_file_info.name }} ({{ preserved_file_info.size|filesizeformat }})
+                                        <br><small class="text-muted">This file will be used for your registration. Upload a new file to replace it.</small>
+                                    </div>
+                                    {% endif %}
                                     <small class="text-muted">Please upload a screenshot of your payment confirmation for the amount shown above.
                                         The Screenshot must contain the transaction id in it.</small>
                                 </div>
