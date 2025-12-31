@@ -137,30 +137,8 @@ def dashboard_view(request):
     # Build query
     query = supabase.table('codestorm_registrations').select("*")
     
-    # Apply filters
-    if college_code_filter:
-        query = query.ilike('college_code', f'%{college_code_filter}%')
-    # Note: Team size filter will be applied after data processing since it's calculated dynamically
-    
-    # Apply idea theme filter
-    if idea_theme_filter:
-        query = query.ilike('idea_theme', f'%{idea_theme_filter}%')
-    
-    # Apply selection status filter
-    if selection_status_filter:
-        query = query.eq('selection_status', selection_status_filter)
-    
-    # Apply date filter
-    if date_filter:
-        try:
-            # Parse the date and convert to ISO format for Supabase
-            filter_date = datetime.strptime(date_filter, '%Y-%m-%d')
-            # Filter for the entire day (from 00:00:00 to 23:59:59)
-            start_datetime = filter_date.replace(hour=0, minute=0, second=0)
-            end_datetime = filter_date.replace(hour=23, minute=59, second=59)
-            query = query.gte('registration_date', start_datetime.isoformat()).lte('registration_date', end_datetime.isoformat())
-        except ValueError:
-            pass  # Invalid date format, ignore filter
+    # REMOVED: Database-level filtering to avoid column name mismatch errors
+    # All filters are now applied in Python after fetching data
     
     # Execute query
     response = query.execute()
@@ -196,7 +174,7 @@ def dashboard_view(request):
                 team_size += 1
         
         all_processed.append({
-            'college_code': reg.get('college_code', 'N/A'),
+            'college_code': reg.get('member1_college_code') or reg.get('college_code', 'N/A'),
             'team_size': team_size,
             'idea_theme': reg.get('idea_theme', 'N/A'),
         })
@@ -224,20 +202,36 @@ def dashboard_view(request):
     # Process registrations to generate download links and essential data
     processed_registrations = []
     for reg in registrations:
-        # Use the correct field name: ppt_file_path
-        ppt_path = reg.get('ppt_file_path')
+        # Get standardized values with fallback column names
+        idea_theme = reg.get('idea_theme') or reg.get('theme') or reg.get('Theme') or 'N/A'
+        ppt_path = reg.get('ppt_file_path') or reg.get('payment_proof') or reg.get('proof') or reg.get('payment_screenshot') or ''
         has_ppt = bool(ppt_path)
+        selection_status = reg.get('selection_status', 'pending')
         
-        # Apply PPT filter if specified
+        # Apply filters (Python-side)
         if has_ppt_filter == 'yes' and not has_ppt:
             continue
         if has_ppt_filter == 'no' and has_ppt:
             continue
+            
+        if idea_theme_filter and idea_theme_filter.lower() not in idea_theme.lower():
+            continue
+            
+        if selection_status_filter and selection_status != selection_status_filter:
+            continue
+            
+        if college_code_filter:
+            cc = reg.get('college_code', '') or ''
+            m1cc = reg.get('member1_college_code', '') or ''
+            if college_code_filter.lower() not in cc.lower() and college_code_filter.lower() not in m1cc.lower():
+                continue
         
         # Find team leader
         team_leader_name = None
         team_leader_email = None
         team_leader_phone = None
+        team_leader_college = None
+        team_leader_college_code = None
         
         # Check each member to find the leader
         for i in range(1, 7):
@@ -245,6 +239,8 @@ def dashboard_view(request):
                 team_leader_name = reg.get(f'member{i}_name')
                 team_leader_email = reg.get(f'member{i}_email')
                 team_leader_phone = reg.get(f'member{i}_phone')
+                team_leader_college = reg.get(f'member{i}_college') or reg.get(f'member{i}_college_name')
+                team_leader_college_code = reg.get(f'member{i}_college_code')
                 break
         
         # Count team members (excluding empty ones)
@@ -264,6 +260,13 @@ def dashboard_view(request):
                     'email': member_email,
                     'phone': member_phone,
                     'roll': member_roll,
+                    'gender': reg.get(f'member{i}_gender', 'N/A'),
+                    'year': reg.get(f'member{i}_year', 'N/A'),
+                    'college': reg.get(f'member{i}_college') or reg.get(f'member{i}_college_name', 'N/A'),
+                    'college_code': reg.get(f'member{i}_college_code', 'N/A'),
+                    'course': reg.get(f'member{i}_course', 'N/A'),
+                    'tshirt_size': reg.get(f'member{i}_tshirt_size', 'N/A'),
+                    'food_preference': reg.get(f'member{i}_food_preference', 'N/A'),
                     'is_leader': is_leader
                 })
         
@@ -280,6 +283,15 @@ def dashboard_view(request):
             except (ValueError, AttributeError):
                 registration_date = 'N/A'
         
+        # Apply date filter
+        if date_filter and registration_date != 'N/A':
+            try:
+                filter_date = datetime.strptime(date_filter, '%Y-%m-%d').date()
+                if registration_date.date() != filter_date:
+                    continue
+            except ValueError:
+                pass
+        
         # Create essential admin data structure
         essential_data = {
             'id': reg.get('id'),
@@ -287,15 +299,15 @@ def dashboard_view(request):
             'team_leader_name': team_leader_name or 'N/A',
             'team_leader_email': team_leader_email or 'N/A',
             'team_leader_phone': team_leader_phone or 'N/A',
-            'college_name': reg.get('college', 'N/A'),
-            'college_code': reg.get('college_code', 'N/A'),
+            'college_name': team_leader_college or reg.get('college') or reg.get('college_name', 'N/A'),
+            'college_code': team_leader_college_code or reg.get('college_code', 'N/A'),
             'team_size': team_size,
             'registration_date': registration_date,
             'has_ppt': has_ppt,
             'idea_title': reg.get('idea_title', 'N/A'),
-            'idea_theme': reg.get('idea_theme', 'N/A'),
+            'idea_theme': idea_theme,
             'youtube_link': reg.get('youtube_link', 'N/A'),
-            'ppt_file_path': reg.get('ppt_file_path', ''),  # Add Google Drive link
+            'ppt_file_path': ppt_path,
             'selection_status': reg.get('selection_status', 'pending'),
         }
         
@@ -373,23 +385,8 @@ def export_registrations_view(request):
     # Build query
     query = supabase.table('codestorm_registrations').select("*")
     
-    if college_code_filter:
-        query = query.ilike('college_code', f'%{college_code_filter}%')
-    
-    if idea_theme_filter:
-        query = query.ilike('idea_theme', f'%{idea_theme_filter}%')
-        
-    if selection_status_filter:
-        query = query.eq('selection_status', selection_status_filter)
-        
-    if date_filter:
-        try:
-            filter_date = datetime.strptime(date_filter, '%Y-%m-%d')
-            start_datetime = filter_date.replace(hour=0, minute=0, second=0)
-            end_datetime = filter_date.replace(hour=23, minute=59, second=59)
-            query = query.gte('registration_date', start_datetime.isoformat()).lte('registration_date', end_datetime.isoformat())
-        except ValueError:
-            pass
+    # REMOVED: Database-level filtering to avoid column name mismatch errors
+    # All filters are now applied in Python after fetching data
 
     response = query.execute()
     registrations = response.data
@@ -397,18 +394,47 @@ def export_registrations_view(request):
     # Process data
     processed_data = []
     for reg in registrations:
-        ppt_path = reg.get('ppt_file_path')
+        # Get standardized values with fallback column names
+        idea_theme = reg.get('idea_theme') or reg.get('theme') or reg.get('Theme') or 'N/A'
+        ppt_path = reg.get('ppt_file_path') or reg.get('payment_proof') or reg.get('proof') or reg.get('payment_screenshot') or ''
         has_ppt = bool(ppt_path)
+        selection_status = reg.get('selection_status', 'pending')
         
+        # Apply filters (Python-side)
         if has_ppt_filter == 'yes' and not has_ppt:
             continue
         if has_ppt_filter == 'no' and has_ppt:
             continue
             
+        if idea_theme_filter and idea_theme_filter.lower() not in idea_theme.lower():
+            continue
+            
+        if selection_status_filter and selection_status != selection_status_filter:
+            continue
+            
+        if college_code_filter:
+            cc = reg.get('college_code', '') or ''
+            m1cc = reg.get('member1_college_code', '') or ''
+            if college_code_filter.lower() not in cc.lower() and college_code_filter.lower() not in m1cc.lower():
+                continue
+                
+        # Parse date for filtering
+        reg_date_str = reg.get('registration_date', '')
+        if date_filter and reg_date_str:
+             try:
+                 reg_date_obj = datetime.fromisoformat(reg_date_str.replace('Z', '+00:00')).date()
+                 filter_date = datetime.strptime(date_filter, '%Y-%m-%d').date()
+                 if reg_date_obj != filter_date:
+                     continue
+             except (ValueError, AttributeError):
+                 pass
+            
         # Find leader and collect detailed member information
         team_leader_name = 'N/A'
         team_leader_email = 'N/A'
         team_leader_phone = 'N/A'
+        team_leader_college = 'N/A'
+        team_leader_college_code = 'N/A'
         
         # Calculate team size and members string
         team_size = 0
@@ -429,6 +455,8 @@ def export_registrations_view(request):
                     team_leader_name = name
                     team_leader_email = email
                     team_leader_phone = phone
+                    team_leader_college = reg.get(f'member{i}_college')
+                    team_leader_college_code = reg.get(f'member{i}_college_code')
                     member_str += " [LEADER]"
                 members_list.append(member_str)
                 
@@ -449,15 +477,15 @@ def export_registrations_view(request):
             'Team Leader': team_leader_name,
             'Leader Email': team_leader_email,
             'Leader Phone': team_leader_phone,
-            'College': reg.get('college', 'N/A'),
-            'College Code': reg.get('college_code', 'N/A'),
+            'College': team_leader_college or reg.get('college', 'N/A'),
+            'College Code': team_leader_college_code or reg.get('college_code', 'N/A'),
             'Team Size': team_size,
-            'Selection Status': reg.get('selection_status', 'pending'),
+            'Payment Status': selection_status,
             'Team Members': "; ".join(members_list),
             'Registration Date': reg.get('registration_date', 'N/A'),
-            'Idea Theme': reg.get('idea_theme', 'N/A'),
+            'Theme': idea_theme,
             'Idea Title': reg.get('idea_title', 'N/A'),
-            'YouTube Link': reg.get('youtube_link', 'N/A'),
+            'Payment Proof': ppt_path,
             'Detailed Members': detailed_members,  # Store detailed member info for modal
         })
 
@@ -476,11 +504,11 @@ def export_registrations_view(request):
                 'College': reg['College'],
                 'College Code': reg['College Code'],
                 'Team Size': reg['Team Size'],
-                'Selection Status': reg['Selection Status'],
+                'Payment Status': reg['Payment Status'],
                 'Registration Date': reg['Registration Date'],
-                'Idea Theme': reg['Idea Theme'],
+                'Theme': reg['Theme'],
                 'Idea Title': reg['Idea Title'],
-                'YouTube Link': reg['YouTube Link'],
+                'Payment Proof': reg['Payment Proof'],
             }
             
             # Add individual member details
@@ -533,11 +561,11 @@ def export_registrations_view(request):
             'College': reg['College'],
             'College Code': reg['College Code'],
             'Team Size': reg['Team Size'],
-            'Selection Status': reg['Selection Status'],
+            'Payment Status': reg['Payment Status'],
             'Registration Date': reg['Registration Date'],
-            'Idea Theme': reg['Idea Theme'],
+            'Theme': reg['Theme'],
             'Idea Title': reg['Idea Title'],
-            'YouTube Link': reg['YouTube Link'],
+            'Payment Proof': reg['Payment Proof'],
         }
         
         # Add individual member details

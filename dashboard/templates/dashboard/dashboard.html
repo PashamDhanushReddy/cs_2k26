@@ -110,86 +110,7 @@
         }
         
         /* Dynamic column visibility - progressive enhancement */
-        @media (max-width: 1200px) {
-            table.dataTable thead th:nth-child(9), /* Idea Theme */
-            table.dataTable tbody td:nth-child(9) {
-                display: none;
-            }
-            .mobile-table-header:nth-child(9) {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            table.dataTable thead th:nth-child(7), /* Team Members */
-            table.dataTable tbody td:nth-child(7) {
-                display: none;
-            }
-            .mobile-table-header:nth-child(7) {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            table.dataTable thead th:nth-child(6), /* Registration Date */
-            table.dataTable tbody td:nth-child(6) {
-                display: none;
-            }
-            .mobile-table-header:nth-child(6) {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            table.dataTable thead th:nth-child(5), /* College Code */
-            table.dataTable tbody td:nth-child(5) {
-                display: none;
-            }
-            .mobile-table-header:nth-child(5) {
-                display: none;
-            }
-        }
-        
-        /* Dynamic column visibility */
-        @media (max-width: 1200px) {
-            table.dataTable thead th:nth-child(9), /* Idea Theme */
-            table.dataTable tbody td:nth-child(9) {
-                display: none;
-            }
-            .mobile-table-header:nth-child(9) {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            table.dataTable thead th:nth-child(7), /* Team Members */
-            table.dataTable tbody td:nth-child(7) {
-                display: none;
-            }
-            .mobile-table-header:nth-child(7) {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            table.dataTable thead th:nth-child(6), /* Registration Date */
-            table.dataTable tbody td:nth-child(6) {
-                display: none;
-            }
-            .mobile-table-header:nth-child(6) {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            table.dataTable thead th:nth-child(5), /* College Code */
-            table.dataTable tbody td:nth-child(5) {
-                display: none;
-            }
-            .mobile-table-header:nth-child(5) {
-                display: none;
-            }
-        }
+        /* REMOVED: All columns should be visible as per user request */
         
         /* Force horizontal scrolling on mobile */
         @media (max-width: 768px) {
@@ -610,11 +531,9 @@
                 padding: 0.25rem 0.5rem;
                 font-size: 0.75rem;
             }
-            /* Ensure YouTube and PPT Link columns remain visible on very small screens */
-            .table-responsive th:nth-child(10), /* YouTube Link column */
-            .table-responsive td:nth-child(10),
-            .table-responsive th:nth-child(11), /* PPT Link column */
-            .table-responsive td:nth-child(11) {
+            /* Ensure Payment Proof column remains visible on very small screens */
+            .table-responsive th:nth-child(10), /* Payment Proof column */
+            .table-responsive td:nth-child(10) {
                 display: table-cell !important;
                 visibility: visible !important;
             }
@@ -645,11 +564,9 @@
                 width: 100%;
                 font-size: 0.75rem;
             }
-            /* Ensure YouTube and PPT Link columns remain visible */
-            .table-responsive th:nth-child(10), /* YouTube Link column */
-            .table-responsive td:nth-child(10),
-            .table-responsive th:nth-child(11), /* PPT Link column */
-            .table-responsive td:nth-child(11) {
+            /* Ensure Payment Proof column remains visible */
+            .table-responsive th:nth-child(10), /* Payment Proof column */
+            .table-responsive td:nth-child(10) {
                 display: table-cell !important;
                 visibility: visible !important;
             }
@@ -742,17 +659,17 @@
             display: none !important;
         }
         
-        /* Force YouTube Link and PPT Link columns to always be visible */
+        /* Force Theme and Payment Proof columns to always be visible */
+        table.dataTable>tbody>tr>td:nth-child(9),
+        table.dataTable>tbody>tr>th:nth-child(9),
         table.dataTable>tbody>tr>td:nth-child(10),
-        table.dataTable>tbody>tr>th:nth-child(10),
-        table.dataTable>tbody>tr>td:nth-child(11),
-        table.dataTable>tbody>tr>th:nth-child(11) {
+        table.dataTable>tbody>tr>th:nth-child(10) {
             display: table-cell !important;
         }
         
         /* Ensure table headers remain visible */
-        table.dataTable>thead>tr>th:nth-child(10),
-        table.dataTable>thead>tr>th:nth-child(11) {
+        table.dataTable>thead>tr>th:nth-child(9),
+        table.dataTable>thead>tr>th:nth-child(10) {
             display: table-cell !important;
             visibility: visible !important;
             min-width: 100px !important;
@@ -766,10 +683,10 @@
         }
         
         /* Override DataTables Responsive plugin completely for specific columns */
+        table.dataTable>thead>tr>th:nth-child(9),
+        table.dataTable>tbody>tr>td:nth-child(9),
         table.dataTable>thead>tr>th:nth-child(10),
-        table.dataTable>thead>tr>th:nth-child(11),
-        table.dataTable>tbody>tr>td:nth-child(10),
-        table.dataTable>tbody>tr>td:nth-child(11) {
+        table.dataTable>tbody>tr>td:nth-child(10) {
             display: table-cell !important;
             visibility: visible !important;
             opacity: 1 !important;
@@ -779,8 +696,7 @@
         
         /* Prevent DataTables from collapsing these columns */
         @media screen and (max-width: 768px) {
-            table.dataTable>tbody>tr>td:nth-child(10),
-            table.dataTable>tbody>tr>td:nth-child(11) {
+            table.dataTable>tbody>tr>td:nth-child(10) {
                 display: table-cell !important;
                 visibility: visible !important;
                 position: relative !important;
@@ -946,7 +862,7 @@
                                     </select>
                                 </div>
                                 <div class="col-lg-2 col-md-4 mb-3">
-                                    <label class="form-label fw-semibold">Idea Theme</label>
+                                    <label class="form-label fw-semibold">Theme</label>
                                     <select name="idea_theme" class="form-select">
                                         <option value="">All Themes</option>
                                         {% for theme in idea_themes %}
@@ -957,7 +873,7 @@
                                     </select>
                                 </div>
                                 <div class="col-lg-2 col-md-4 mb-3">
-                                    <label class="form-label fw-semibold">Selection Status</label>
+                                    <label class="form-label fw-semibold">Payment Status</label>
                                     <select name="selection_status" class="form-select">
                                         <option value="">All Statuses</option>
                                         <option value="pending" {% if filters.selection_status == 'pending' %}selected{% endif %}>Pending</option>
@@ -1033,12 +949,11 @@
                                     <th>College</th>
                                     <th>College Code</th>
                                     <th>Team Size</th>
-                                    <th>Selection Status</th>
+                                    <th>Payment Status</th>
                                     <th>Team Members</th>
                                     <th>Registration Date</th>
-                                    <th>Idea Theme</th>
-                                    <th>YouTube Link</th>
-                                    <th>PPT Link</th>
+                                    <th>Theme</th>
+                                    <th>Payment Proof</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1067,7 +982,7 @@
                                         <span class="badge bg-info">{{ reg.team_size }} Members</span>
                                     </td>
                                     <td>
-                                        <div class="mobile-table-header">Selection Status</div>
+                                        <div class="mobile-table-header">Payment Status</div>
                                         <select class="form-select form-select-sm selection-status" data-registration-id="{{ reg.id }}" data-current-status="{{ reg.selection_status|default:'pending' }}">
                                             <option value="pending" {% if reg.selection_status == 'pending' %}selected{% endif %}>Pending</option>
                                             <option value="selected" {% if reg.selection_status == 'selected' %}selected{% endif %}>Selected</option>
@@ -1096,36 +1011,26 @@
                                         <small class="text-muted">{{ reg.registration_date|date:"M d, Y" }}</small>
                                     </td>
                                     <td>
-                                        <div class="mobile-table-header">Idea Theme</div>
-                                        <div class="text-truncate" style="max-width: 200px;" title="{{ reg.idea_theme }}">
+                                        <div class="mobile-table-header">Theme</div>
+                                        <div title="{{ reg.idea_theme }}">
                                             {{ reg.idea_theme|default:"N/A" }}
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="mobile-table-header">YouTube Link</div>
-                                        {% if reg.youtube_link %}
-                                            <a href="{{ reg.youtube_link }}" target="_blank" class="btn btn-sm btn-youtube">
-                                                <i class="fab fa-youtube me-1"></i>Watch Video
-                                            </a>
-                                        {% else %}
-                                            <span class="text-muted">No Video</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        <div class="mobile-table-header">PPT Link</div>
+                                        <div class="mobile-table-header">Payment Proof</div>
                                         {% if reg.ppt_file_path %}
-                                            <a href="{{ reg.ppt_file_path }}" target="_blank" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-file-powerpoint me-1"></i>View PPT
+                                            <a href="{{ reg.download_url|default:reg.ppt_file_path }}" target="_blank" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-eye me-1"></i>View Proof
                                             </a>
                                         {% else %}
-                                            <span class="text-muted">No PPT</span>
+                                            <span class="text-muted">No Proof</span>
                                         {% endif %}
                                     </td>
 
                                 </tr>
                                 {% empty %}
                                 <tr>
-                                    <td colspan="11" class="text-center py-4">
+                                    <td colspan="10" class="text-center py-4">
                                         <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
                                         <h5 class="text-muted">No registrations found</h5>
                                         <p class="text-muted">Try adjusting your filters or check back later.</p>
@@ -1168,10 +1073,12 @@
             table.columns().visible(true);
             
             // Hide columns progressively based on screen width
+            // DISABLED: Showing all columns with horizontal scroll as requested
+            /*
             if (width < 576) {
-                // Very small screens - hide college code and idea theme
+                // Very small screens - hide college code and theme
                 table.column(4).visible(false); // College Code
-                table.column(8).visible(false); // Idea Theme
+                table.column(8).visible(false); // Theme
             }
             if (width < 768) {
                 // Small screens - hide registration date
@@ -1182,18 +1089,20 @@
                 table.column(6).visible(false); // Team Members
             }
             if (width < 1200) {
-                // Large screens - hide idea theme if not already hidden
+                // Large screens - hide theme if not already hidden
                 if (width >= 576) {
-                    table.column(8).visible(false); // Idea Theme
+                    table.column(8).visible(false); // Theme
                 }
             }
+            */
             
             // Always keep essential columns visible
             table.column(0).visible(true); // Team Name
             table.column(1).visible(true); // Team Leader
             table.column(2).visible(true); // College
-            table.column(5).visible(true); // Selection Status
-            table.column(9).visible(true); // YouTube Link
+            table.column(5).visible(true); // Payment Status
+            table.column(8).visible(true); // Theme
+            table.column(9).visible(true); // Payment Proof
             
             // Adjust table width based on visible columns
             adjustTableWidth();
@@ -1230,7 +1139,7 @@
                     emptyTable: "No registrations found. Try adjusting your filters or check back later."
                 },
                 columnDefs: [
-                    { orderable: false, targets: [6, 10] }, // Disable sorting for team members and PPT Link
+                    { orderable: false, targets: [6, 9] }, // Disable sorting for team members and Payment Proof
                     { type: 'num', targets: [4] }, // Team size as number
                     { type: 'date', targets: [7] }, // Registration date
                     // Ensure all columns remain visible (no responsive hiding)
@@ -1276,22 +1185,42 @@
                 
                 let modalContent = '<h6>Team: ' + teamName + '</h6>';
                 modalContent += '<div class="table-responsive">';
-                modalContent += '<table class="table table-sm">';
-                modalContent += '<thead><tr><th>Name</th><th>Roll No</th><th>Email</th><th>Phone</th><th>Role</th></tr></thead>';
+                modalContent += '<table class="table table-sm table-bordered table-striped">';
+                modalContent += '<thead class="table-light"><tr>' + 
+                    '<th>Name</th>' + 
+                    '<th>Roll No</th>' + 
+                    '<th>Gender</th>' + 
+                    '<th>Year</th>' + 
+                    '<th>Course</th>' + 
+                    '<th>College</th>' + 
+                    '<th>College Code</th>' + 
+                    '<th>T-Shirt</th>' + 
+                    '<th>Food</th>' + 
+                    '<th>Email</th>' + 
+                    '<th>Phone</th>' + 
+                    '<th>Role</th>' + 
+                    '</tr></thead>';
                 modalContent += '<tbody>';
                 
                 if (teamMembers && teamMembers.length > 0) {
                     teamMembers.forEach(function(member) {
                         modalContent += '<tr>';
-                        modalContent += '<td>' + (member.name || 'N/A') + '</td>';
+                        modalContent += '<td class="fw-medium">' + (member.name || 'N/A') + '</td>';
                         modalContent += '<td>' + (member.roll || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.gender || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.year || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.course || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.college || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.college_code || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.tshirt_size || 'N/A') + '</td>';
+                        modalContent += '<td>' + (member.food_preference || 'N/A') + '</td>';
                         modalContent += '<td>' + (member.email || 'N/A') + '</td>';
                         modalContent += '<td>' + (member.phone || 'N/A') + '</td>';
-                        modalContent += '<td>' + (member.is_leader ? 'Team Leader' : 'Member') + '</td>';
+                        modalContent += '<td>' + (member.is_leader ? '<span class="badge bg-primary">Leader</span>' : 'Member') + '</td>';
                         modalContent += '</tr>';
                     });
                 } else {
-                    modalContent += '<tr><td colspan="5" class="text-center text-muted">No team members found</td></tr>';
+                    modalContent += '<tr><td colspan="12" class="text-center text-muted">No team members found</td></tr>';
                 }
                 
                 modalContent += '</tbody></table></div>';
@@ -1299,6 +1228,45 @@
                 $('#teamMemberContent').html(modalContent);
                 $('#teamMemberModalLabel').text('Team Members - ' + teamName);
                 $('#teamMemberModal').modal('show');
+            });
+
+            // Payment Proof Modal Functionality
+            $(document).on('click', '.view-proof-btn', function() {
+                const url = $(this).data('url');
+                const teamName = $(this).data('team');
+                
+                // Set modal title
+                $('#paymentProofModalLabel').text('Payment Proof - ' + teamName);
+                
+                // Set download link
+                $('#downloadProofBtn').attr('href', url);
+                
+                // Reset content to loader
+                $('#paymentProofContent').html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>');
+                
+                // Show modal
+                $('#paymentProofModal').modal('show');
+                
+                // Check if it's an image or PDF
+                // For simplicity, we'll try to load it as an image first
+                const img = new Image();
+                img.onload = function() {
+                    $('#paymentProofContent').html('<img src="' + url + '" class="img-fluid" alt="Payment Proof">');
+                };
+                img.onerror = function() {
+                    // If image load fails, it might be a PDF or other file type
+                    // Or it might be a direct download link that doesn't allow embedding
+                    // We'll show an iframe for PDF or a message
+                    $('#paymentProofContent').html(
+                        '<div class="text-center">' +
+                        '<p class="mb-3">Preview might not be available for this file type.</p>' +
+                        '<a href="' + url + '" target="_blank" class="btn btn-outline-primary">' +
+                        '<i class="fas fa-external-link-alt me-1"></i>Open in New Tab' +
+                        '</a>' +
+                        '</div>'
+                    );
+                };
+                img.src = url;
             });
 
             // Auto-submit form on filter change (with debounce)
@@ -1600,7 +1568,7 @@
 
     <!-- Team Member Details Modal -->
     <div class="modal fade" id="teamMemberModal" tabindex="-1" aria-labelledby="teamMemberModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="teamMemberModalLabel">Team Members Details</h5>
@@ -1612,6 +1580,32 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Proof Modal -->
+    <div class="modal fade" id="paymentProofModal" tabindex="-1" aria-labelledby="paymentProofModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="paymentProofModalLabel">Payment Proof</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="paymentProofContent" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+                        <!-- Payment proof content will be loaded here -->
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="downloadProofBtn" href="#" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-download me-1"></i>Download
+                    </a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
