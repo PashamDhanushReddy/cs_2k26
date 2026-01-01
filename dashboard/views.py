@@ -163,7 +163,11 @@ def dashboard_view(request):
     all_response = all_query.execute()
     all_registrations = all_response.data
     
-    # Process all registrations to get unique dropdown values
+    # Initialize counters for t-shirt sizes and food preferences
+    tshirt_counts = {'S': 0, 'M': 0, 'L': 0, 'XL': 0, 'XXL': 0, 'XXXL': 0}
+    food_counts = {'veg': 0, 'nonveg': 0}
+    
+    # Process all registrations to get unique dropdown values and counts
     all_processed = []
     for reg in all_registrations:
         # Count team members (excluding empty ones)
@@ -172,6 +176,17 @@ def dashboard_view(request):
             member_name = reg.get(f'member{i}_name')
             if member_name:
                 team_size += 1
+                # Count t-shirt sizes
+                tshirt_size = reg.get(f'member{i}_tshirt_size', '').upper()
+                if tshirt_size in tshirt_counts:
+                    tshirt_counts[tshirt_size] += 1
+                
+                # Count food preferences
+                food_pref = reg.get(f'member{i}_food_preference', '').lower()
+                if 'veg' in food_pref and 'non' not in food_pref:
+                    food_counts['veg'] += 1
+                elif 'non' in food_pref and 'veg' in food_pref:
+                    food_counts['nonveg'] += 1
         
         all_processed.append({
             'college_code': reg.get('member1_college_code') or reg.get('college_code', 'N/A'),
@@ -354,6 +369,8 @@ def dashboard_view(request):
         'team_sizes': all_team_sizes,
         'idea_themes': all_idea_themes,
         'total_registrations': total_registrations,
+        'tshirt_counts': tshirt_counts,
+        'food_counts': food_counts,
     }
     
     return render(request, 'dashboard/dashboard.html', context)
