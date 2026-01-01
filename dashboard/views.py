@@ -270,6 +270,11 @@ def dashboard_view(request):
             
             if member_name:
                 team_size += 1
+                # Fix: Use correct field name for course (course_name instead of course)
+                course_field = f'member{i}_course_name'
+                course_data = reg.get(course_field, 'N/A')
+                print(f"DEBUG: {course_field} = {course_data}")
+                
                 team_members.append({
                     'name': member_name,
                     'email': member_email,
@@ -277,9 +282,9 @@ def dashboard_view(request):
                     'roll': member_roll,
                     'gender': reg.get(f'member{i}_gender', 'N/A'),
                     'year': reg.get(f'member{i}_year', 'N/A'),
-                    'college': reg.get(f'member{i}_college') or reg.get(f'member{i}_college_name', 'N/A'),
+                    'college': reg.get(f'member{i}_college_name', 'N/A'),
                     'college_code': reg.get(f'member{i}_college_code', 'N/A'),
-                    'course': reg.get(f'member{i}_course', 'N/A'),
+                    'course': course_data,
                     'tshirt_size': reg.get(f'member{i}_tshirt_size', 'N/A'),
                     'food_preference': reg.get(f'member{i}_food_preference', 'N/A'),
                     'is_leader': is_leader

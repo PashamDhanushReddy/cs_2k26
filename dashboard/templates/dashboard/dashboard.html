@@ -1226,6 +1226,9 @@
                 const teamName = $(this).data('team-name');
                 const teamMembers = $(this).data('team-members');
                 
+                // Debug: Log the team members data to console
+                console.log('Team Members Data:', teamMembers);
+                
                 let modalContent = '<h6>Team: ' + teamName + '</h6>';
                 modalContent += '<div class="table-responsive">';
                 modalContent += '<table class="table table-sm table-bordered table-striped">';
@@ -1247,6 +1250,7 @@
                 
                 if (teamMembers && teamMembers.length > 0) {
                     teamMembers.forEach(function(member) {
+                        console.log('Member data:', member);
                         modalContent += '<tr>';
                         modalContent += '<td class="fw-medium">' + (member.name || 'N/A') + '</td>';
                         modalContent += '<td>' + (member.roll || 'N/A') + '</td>';
