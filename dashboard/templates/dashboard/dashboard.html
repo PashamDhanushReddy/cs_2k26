@@ -531,8 +531,9 @@
                 padding: 0.25rem 0.5rem;
                 font-size: 0.75rem;
             }
-            /* Ensure Payment Proof column remains visible on very small screens */
-            .table-responsive th:nth-child(10), /* Payment Proof column */
+            /* Ensure Transaction ID and Payment Proof columns remain visible on very small screens */
+            .table-responsive th:nth-child(10), /* Transaction ID column */
+            .table-responsive th:nth-child(11), /* Payment Proof column */
             .table-responsive td:nth-child(10) {
                 display: table-cell !important;
                 visibility: visible !important;
@@ -565,8 +566,10 @@
                 font-size: 0.75rem;
             }
             /* Ensure Payment Proof column remains visible */
-            .table-responsive th:nth-child(10), /* Payment Proof column */
-            .table-responsive td:nth-child(10) {
+            .table-responsive th:nth-child(10), /* Transaction ID column */
+            .table-responsive th:nth-child(11), /* Payment Proof column */
+            .table-responsive td:nth-child(10),
+            .table-responsive td:nth-child(11) {
                 display: table-cell !important;
                 visibility: visible !important;
             }
@@ -659,17 +662,20 @@
             display: none !important;
         }
         
-        /* Force Theme and Payment Proof columns to always be visible */
+        /* Force Theme, Transaction ID and Payment Proof columns to always be visible */
         table.dataTable>tbody>tr>td:nth-child(9),
         table.dataTable>tbody>tr>th:nth-child(9),
         table.dataTable>tbody>tr>td:nth-child(10),
-        table.dataTable>tbody>tr>th:nth-child(10) {
+        table.dataTable>tbody>tr>th:nth-child(10),
+        table.dataTable>tbody>tr>td:nth-child(11),
+        table.dataTable>tbody>tr>th:nth-child(11) {
             display: table-cell !important;
         }
         
         /* Ensure table headers remain visible */
         table.dataTable>thead>tr>th:nth-child(9),
-        table.dataTable>thead>tr>th:nth-child(10) {
+        table.dataTable>thead>tr>th:nth-child(10),
+        table.dataTable>thead>tr>th:nth-child(11) {
             display: table-cell !important;
             visibility: visible !important;
             min-width: 100px !important;
@@ -686,7 +692,9 @@
         table.dataTable>thead>tr>th:nth-child(9),
         table.dataTable>tbody>tr>td:nth-child(9),
         table.dataTable>thead>tr>th:nth-child(10),
-        table.dataTable>tbody>tr>td:nth-child(10) {
+        table.dataTable>tbody>tr>td:nth-child(10),
+        table.dataTable>thead>tr>th:nth-child(11),
+        table.dataTable>tbody>tr>td:nth-child(11) {
             display: table-cell !important;
             visibility: visible !important;
             opacity: 1 !important;
@@ -996,6 +1004,7 @@
                                     <th>Team Members</th>
                                     <th>Registration Date</th>
                                     <th>Theme</th>
+                                    <th>Transaction ID</th>
                                     <th>Payment Proof</th>
                                 </tr>
                             </thead>
@@ -1060,6 +1069,10 @@
                                         </div>
                                     </td>
                                     <td>
+                                        <div class="mobile-table-header">Transaction ID</div>
+                                        <small class="text-muted">{{ reg.transaction_id|default:"N/A" }}</small>
+                                    </td>
+                                    <td>
                                         <div class="mobile-table-header">Payment Proof</div>
                                         {% if reg.ppt_file_path %}
                                             <a href="{{ reg.download_url|default:reg.ppt_file_path }}" target="_blank" class="btn btn-sm btn-primary">
@@ -1073,7 +1086,7 @@
                                 </tr>
                                 {% empty %}
                                 <tr>
-                                    <td colspan="10" class="text-center py-4">
+                                    <td colspan="11" class="text-center py-4">
                                         <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
                                         <h5 class="text-muted">No registrations found</h5>
                                         <p class="text-muted">Try adjusting your filters or check back later.</p>
@@ -1145,7 +1158,8 @@
             table.column(2).visible(true); // College
             table.column(5).visible(true); // Payment Status
             table.column(8).visible(true); // Theme
-            table.column(9).visible(true); // Payment Proof
+            table.column(9).visible(true); // Transaction ID
+            table.column(10).visible(true); // Payment Proof
             
             // Adjust table width based on visible columns
             adjustTableWidth();
@@ -1182,7 +1196,7 @@
                     emptyTable: "No registrations found. Try adjusting your filters or check back later."
                 },
                 columnDefs: [
-                    { orderable: false, targets: [6, 9] }, // Disable sorting for team members and Payment Proof
+                    { orderable: false, targets: [6, 10] }, // Disable sorting for team members and Payment Proof
                     { type: 'num', targets: [4] }, // Team size as number
                     { type: 'date', targets: [7] }, // Registration date
                     // Ensure all columns remain visible (no responsive hiding)

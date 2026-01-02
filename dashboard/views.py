@@ -329,6 +329,7 @@ def dashboard_view(request):
             'youtube_link': reg.get('youtube_link', 'N/A'),
             'ppt_file_path': ppt_path,
             'selection_status': reg.get('selection_status', 'pending'),
+            'transaction_id': reg.get('transaction_id', 'N/A'),
         }
         
         essential_data['team_members'] = team_members
