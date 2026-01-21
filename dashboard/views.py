@@ -611,3 +611,87 @@ def export_registrations_view(request):
         writer.writerow(row)
         
     return response
+
+@login_required(login_url='login')
+def export_team_data_view(request):
+    """
+    Export team data grouped by college code with transaction IDs.
+    This view executes the SQL query to aggregate team registrations by college.
+    """
+    supabase = get_supabase_client()
+    
+    # Fetch all registrations
+    response = supabase.table('codestorm_registrations').select("*").execute()
+    registrations = response.data
+    
+    # Process data to match the SQL query logic
+    team_data = []
+    for reg in registrations:
+        # Find the leader to get college information
+        college_name = None
+        college_code = None
+        
+        for i in range(1, 7):
+            if reg.get(f'is_leader{i}'):
+                college_name = reg.get(f'member{i}_college_name') or reg.get(f'member{i}_college')
+                college_code = reg.get(f'member{i}_college_code')
+                break
+        
+        # Fallback to first member or general fields if no leader found
+        if not college_code:
+            college_code = reg.get('member1_college_code') or reg.get('college_code', 'N/A')
+        if not college_name:
+            college_name = reg.get('member1_college_name') or reg.get('college_name') or reg.get('college', 'N/A')
+        
+        transaction_id = reg.get('transaction_id', 'N/A')
+        
+        team_data.append({
+            'college_code': college_code,
+            'college_name': college_name,
+            'transaction_id': transaction_id
+        })
+    
+    # Group by college_code
+    from collections import defaultdict
+    college_groups = defaultdict(lambda: {'college_names': set(), 'transaction_ids': [], 'count': 0})
+    
+    for team in team_data:
+        code = team['college_code']
+        college_groups[code]['college_names'].add(team['college_name'])
+        college_groups[code]['transaction_ids'].append(team['transaction_id'])
+        college_groups[code]['count'] += 1
+    
+    # Prepare data for Excel export
+    export_data = []
+    for college_code in sorted(college_groups.keys()):
+        data = college_groups[college_code]
+        export_data.append({
+            'College Code': college_code,
+            'College Names': ' | '.join(sorted(data['college_names'])),
+            'No of Teams Registered': data['count'],
+            'Transaction IDs': ', '.join(data['transaction_ids'])
+        })
+    
+    # Create DataFrame
+    df = pd.DataFrame(export_data)
+    
+    # Create Excel file in memory
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Team Data by College')
+        
+        # Auto-adjust column widths
+        worksheet = writer.sheets['Team Data by College']
+        for column_cells in worksheet.columns:
+            length = max(len(str(cell.value)) for cell in column_cells)
+            worksheet.column_dimensions[column_cells[0].column_letter].width = min(length + 2, 80)
+    
+    output.seek(0)
+    
+    # Return Excel response
+    response = HttpResponse(
+        output.getvalue(),
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="team_data_by_college.xlsx"'
+    return response
